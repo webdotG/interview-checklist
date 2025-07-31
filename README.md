@@ -191,7 +191,7 @@ npx live-server
 
 Сделай форк репозитория  
 Создай ветку для изменений:  
-``git checkout -b feature/new-questions  `
+`git checkout -b feature/new-questions`
 Внеси изменения  
 Создай Pull Request
 
