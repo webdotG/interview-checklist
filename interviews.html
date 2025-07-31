@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50%' y='50%' font-size='75' font-family='Arial, sans-serif' dominant-baseline='middle' text-anchor='middle' fill='%23333'>G \</text><style>text{font-weight:bold;} @media (prefers-color-scheme:dark){text{fill:%23fff}}</style></svg>"
+    />
+    <title>Все интервью</title>
+    <link rel="stylesheet" href="interviews.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="interviews-header">
+        <a href="index.html" class="back-link">← Назад к чек-листу</a>
+        <h1 style="margin: 0; color: #495057">Все интервью</h1>
+        <button id="load-interviews-btn" class="load-btn">
+          Загрузить интервью
+        </button>
+      </div>
+
+      <div id="local-mode-warning" class="hidden"></div>
+      <div id="interviews-container" class="interviews-grid"></div>
+
+      <div id="loading-message" class="loading hidden">
+        <h3>Загружаем интервью...</h3>
+        <p>Подключаемся к Firebase...</p>
+      </div>
+
+      <div id="error-message" class="error-message hidden">
+        <strong>Ошибка загрузки:</strong>
+        <span id="error-text"></span>
+      </div>
+
+      <div id="no-interviews" class="no-interviews hidden">
+        <h3>Интервью не найдены</h3>
+        <p>Пока что нет сохраненных интервью в базе данных.</p>
+        <p><a href="index.html">Перейти к созданию чек-листа</a></p>
+      </div>
+
+      <div id="interviews-container" class="interviews-grid"></div>
+    </div>
+
+    <script type="module">
+      import { InterviewsViewer } from './interviewsViewer.js'
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        const viewer = new InterviewsViewer()
+        await viewer.init()
+      })
+    </script>
+  </body>
+</html>

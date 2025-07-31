@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Чек-лист для собеседования разработчика | Вопросы работодателю | Оценка
+      компании
+    </title>
+    <!-- отображается под заголовком в результатах поиска Google -->
+    <meta
+      name="description"
+      content="Полный интерактивный чек-лист вопросов для разработчика на собеседовании. Узнайте, что спросить у работодателя, чтобы оценить команду, процессы и избежать 'красных флагов'."
+    />
+    <meta
+      name="keywords"
+      content="собеседование разработчика, вопросы работодателю, чек-лист, IT-собеседование, оценка компании, красные флаги, поиск работы, developer interview, interview questions, tech interview"
+    />
+    <!-- для Facebook, LinkedIn, Telegram и т.д. -->
+    <meta
+      property="og:title"
+      content="Чек-лист для собеседования разработчика: Собеседуй работодателя!"
+    />
+    <meta
+      property="og:description"
+      content="Чек-лист с вопросами для разработчика, чтобы задавать их работодателю на собеседовании и делать осознанный выбор."
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://webdotG.github.io/interview-checklist/"
+    />
+    <!--  будет отображаться при репосте в соцсетях -->
+    <meta
+      property="og:image"
+      content="https://webdotG.github.io/interview-checklist/chizzz.png"
+    />
+    <meta property="og:locale" content="ru_RU" />
+    <!-- Twitter Card мета-теги (для X) -->
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <meta
+      name="twitter:title"
+      content="Чек-лист для собеседования разработчика: Собеседуй работодателя!"
+    />
+    <meta
+      name="twitter:description"
+      content="Чек-лист с вопросами для разработчика, чтобы задавать их работодателю на собеседовании и делать осознанный выбор."
+    />
+
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50%' y='50%' font-size='75' font-family='Arial, sans-serif' dominant-baseline='middle' text-anchor='middle' fill='%23333'>G \</text><style>text{font-weight:bold;} @media (prefers-color-scheme:dark){text{fill:%23fff}}</style></svg>"
+    />
+    <title>чеклист собеса</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <div class="header-nav">
+        <h1>Чек-лист собеседования</h1>
+        <a href="interviews.html" class="nav-link">Посмотреть все интервью</a>
+      </div>
+
+      <form id="interview-form" class="company-info">
+        <div class="input-group">
+          <label for="company">Компания:</label>
+          <input type="text" id="company" placeholder="Название компании" />
+        </div>
+
+        <div class="input-group">
+          <label for="position">Должность:</label>
+          <input type="text" id="position" placeholder="Позиция" />
+        </div>
+
+        <div class="input-group">
+          <label for="salary">Зарплатная:</label>
+          <input
+            type="number"
+            id="salary"
+            name="salary"
+            placeholder="Ожидаемая зарплата"
+            min="0"
+            step="1000"
+            aria-describedby="salary-hint"
+            style="
+              -webkit-appearance: none;
+              -moz-appearance: textfield;
+              margin: 0;
+            "
+          />
+        </div>
+      </form>
+
+      <div id="questions-container"></div>
+
+      <button id="submit-btn">Отправить ответы</button>
+      <div id="success-message" class="hidden">Ответы успешно сохранены!</div>
+    </main>
+
+    <script type="module">
+      import { InterviewManager } from './interviewManager.js'
+      import {
+        questionsStructure,
+        generateQuestionId,
+        renderQuestions,
+      } from './scriptQuestions.js'
+      import { warningItems } from './questionsData.js'
+      import { db } from './scriptDB.js'
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        await renderQuestions()
+        await db.init()
+
+        const manager = new InterviewManager()
+        await manager.init()
+        manager.loadFromURL()
+      })
+    </script>
+  </body>
+</html>

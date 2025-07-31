@@ -1,0 +1,387 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, Roboto, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background: linear-gradient(135deg, #8bd7d5 0%, #91ebf5 100%);
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.header-nav {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-nav h1 {
+  color: white;
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 300;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-1px);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+  padding: 2rem;
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 300;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ------------------------------------------------------ информация о компании */
+.company-info {
+  background: #f8f9fa;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #495057;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  letter-spacing: 1.6px;
+}
+
+.input-group input {
+  padding: 12px 16px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  transform: translateY(-1px);
+}
+
+.input-group input::placeholder {
+  color: #adb5bd;
+}
+
+/* ------------------------------------------------------ контейнер вопросов */
+#questions-container {
+  padding: 2rem;
+}
+
+/* ------------------------------------------------------ секции */
+#questions-container > div {
+  margin-bottom: 3rem;
+}
+
+#questions-container h2 {
+  color: #495057;
+  font-size: 2.4rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px solid #667eea;
+  font-weight: 400;
+  text-align: center;
+}
+
+#questions-container h3 {
+  color: #6c757d;
+  font-size: 1.8rem;
+  margin: 1.5rem 0 1rem 0;
+  font-weight: 500;
+  position: relative;
+  padding-left: 1rem;
+  text-align: center;
+}
+
+/* ------------------------------------------------------ вопросы */
+.question {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.question:hover {
+  background: #f1f3f4;
+  border-color: #dee2e6;
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.question label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 500;
+  color: #495057;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.question input[type='checkbox'] {
+  margin-right: 12px;
+  margin-top: 2px;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #667eea;
+  font-size: 1.2rem;
+  letter-spacing: 0.1px;
+}
+
+.question input[type='text'] {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-size: 1rem;
+  line-height: 1.2rem;
+  background: white;
+  transition: all 0.2s ease;
+}
+
+.question input[type='text']:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+}
+
+.question input[type='text']::placeholder {
+  color: #adb5bd;
+  font-style: italic;
+}
+
+/* ------------------------------------------------------ секция предупреждений */
+.warnings-section {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  margin-top: 2rem;
+}
+
+.warnings-section h2 {
+  color: white !important;
+  border-bottom-color: rgba(255, 255, 255, 0.3) !important;
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+}
+
+.warnings-list {
+  list-style: none;
+  padding: 0;
+}
+
+.warnings-list li {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1rem 1.5rem;
+  margin-bottom: 0.8rem;
+  border-radius: 8px;
+  border-left: 4px solid rgba(255, 255, 255, 0.5);
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.warnings-list li:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(4px);
+}
+
+.warnings-list li::before {
+  content: '⚠️';
+  margin-right: 10px;
+  font-size: 1.1em;
+}
+
+/* ------------------------------------------------------ кнопка отправки */
+#submit-btn {
+  background: linear-gradient(135deg, #48ffa3, #20c997);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 2rem;
+  display: block;
+  width: calc(100% - 4rem);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+#submit-btn:hover {
+  background: linear-gradient(135deg, #218838, #1ea085);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+}
+
+#submit-btn:active {
+  transform: translateY(0);
+}
+
+/* ------------------------------------------------------ сообщение об успехе */
+#success-message {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+  padding: 1rem 2rem;
+  margin: 1rem 2rem;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+  opacity: 1;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
+}
+
+.hidden {
+  opacity: 0 !important;
+  transform: translateY(-10px) !important;
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------ адаптивность */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 2rem;
+    padding: 1.5rem;
+  }
+
+  .company-info {
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+  }
+
+  #questions-container {
+    padding: 1.5rem;
+  }
+
+  .question {
+    padding: 1rem;
+  }
+
+  #questions-container h2 {
+    font-size: 1.5rem;
+  }
+
+  #questions-container h3 {
+    font-size: 1.2rem;
+  }
+
+  #submit-btn {
+    margin: 1.5rem;
+    width: calc(100% - 3rem);
+    padding: 1rem;
+  }
+
+  .warnings-section {
+    padding: 1.5rem;
+    margin: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .question label {
+    font-size: 0.9rem;
+  }
+
+  .input-group input,
+  .question input[type='text'] {
+    font-size: 0.9rem;
+  }
+
+  .warnings-list li {
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* ------------------------------------------------------ анимации */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.question {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+/* ------------------------------------------------------ скроллбар */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #5a67d8, #6b46c1);
+}
