@@ -1,3 +1,6 @@
+// Firebase Web Config - Safe for public use
+// These are public identifiers, not secret keys
+
 const firebaseConfig = {
   apiKey: 'AIzaSyAQCgDpHF9u2i6swE0j0lNxiZmRp9j42oE',
   authDomain: 'interview-checklist.firebaseapp.com',
