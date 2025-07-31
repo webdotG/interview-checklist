@@ -203,12 +203,6 @@ git checkout -b feature/new-questions
 
 MIT License - используйте свободно для личных и коммерческих целей.
 
-## Полезные ссылки
-
-- [Firebase Console](https://console.firebase.google.com/)
-- [GitHub Pages](https://pages.github.com/)
-- [JavaScript модули](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)
-
 ## У тебя всё получится!
 
 ## Удачи!
