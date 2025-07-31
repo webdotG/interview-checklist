@@ -7,6 +7,16 @@ body {
   padding: 20px;
 }
 
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* ------------------------------------------------------ шапка интервью */
 .interviews-header {
   display: flex;
   justify-content: space-between;
@@ -15,6 +25,8 @@ body {
   background: #f8f9fa;
   border-bottom: 1px solid #e9ecef;
   border-radius: 8px;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .back-link {
@@ -25,11 +37,21 @@ body {
   border: 2px solid #667eea;
   border-radius: 6px;
   transition: all 0.3s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .back-link:hover {
   background: #667eea;
   color: white;
+}
+
+.interviews-header h1 {
+  margin: 0;
+  color: #495057;
+  font-size: 1.8rem;
+  text-align: center;
+  flex-grow: 1;
 }
 
 .load-btn {
@@ -42,6 +64,8 @@ body {
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .load-btn:hover {
@@ -55,13 +79,15 @@ body {
   transform: none;
 }
 
+/* ------------------------------------------------------ сетка интервью */
 .interviews-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 2rem;
   padding: 2rem;
 }
 
+/* ------------------------------------------------------ карточка интервью */
 .interview-card {
   background: white;
   border: 1px solid #e9ecef;
@@ -86,11 +112,13 @@ body {
   font-size: 1.3rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
+  word-break: break-word;
 }
 
 .interview-position {
   font-size: 1rem;
   opacity: 0.9;
+  word-break: break-word;
 }
 
 .interview-meta {
@@ -100,16 +128,20 @@ body {
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #e9ecef;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .interview-salary {
   font-weight: 600;
   color: #28a745;
+  word-break: break-word;
 }
 
 .interview-date {
   font-size: 0.9rem;
   color: #6c757d;
+  white-space: nowrap;
 }
 
 .interview-content {
@@ -125,6 +157,7 @@ body {
   margin: 1rem 0 0.5rem 0;
   padding-bottom: 0.3rem;
   border-bottom: 2px solid #667eea;
+  word-break: break-word;
 }
 
 .subsection-title {
@@ -132,6 +165,7 @@ body {
   font-weight: 500;
   color: #6c757d;
   margin: 0.8rem 0 0.4rem 0;
+  word-break: break-word;
 }
 
 .question-item {
@@ -144,6 +178,8 @@ body {
   font-size: 0.9rem;
   color: #495057;
   margin-bottom: 0.3rem;
+  word-break: break-word;
+  line-height: 1.4;
 }
 
 .question-checked {
@@ -163,8 +199,11 @@ body {
   padding: 0.3rem 0.6rem;
   border-radius: 4px;
   margin-top: 0.3rem;
+  word-break: break-word;
+  line-height: 1.3;
 }
 
+/* ------------------------------------------------------ состояния загрузки */
 .loading {
   text-align: center;
   padding: 3rem;
@@ -184,12 +223,14 @@ body {
   border-radius: 8px;
   margin: 2rem;
   border: 1px solid #f1aeb5;
+  word-break: break-word;
 }
 
 .hidden {
   display: none;
 }
 
+/* ------------------------------------------------------ предупреждения */
 .warning-banner {
   background: #fff3cd;
   border-left: 5px solid #ffc107;
@@ -202,9 +243,252 @@ body {
 .warning-banner h3 {
   margin-top: 0;
   color: #856404;
+  word-break: break-word;
 }
 
 .warning-banner a {
   color: #0056b3;
   text-decoration: underline;
+  word-break: break-word;
+}
+
+.warning-banner p {
+  word-break: break-word;
+  line-height: 1.5;
+}
+
+/* ------------------------------------------------------ адаптивность */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+
+  .interviews-header {
+    padding: 1.5rem;
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .interviews-header h1 {
+    font-size: 1.5rem;
+    order: 1;
+  }
+
+  .back-link {
+    order: 2;
+    font-size: 0.9rem;
+    padding: 0.6rem 1.2rem;
+  }
+
+  .load-btn {
+    order: 3;
+    font-size: 0.9rem;
+    padding: 0.7rem 1.3rem;
+  }
+
+  .interviews-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+
+  .interview-header {
+    padding: 1.2rem;
+  }
+
+  .interview-company {
+    font-size: 1.2rem;
+  }
+
+  .interview-position {
+    font-size: 0.95rem;
+  }
+
+  .interview-meta {
+    padding: 0.8rem 1.2rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+  }
+
+  .interview-content {
+    padding: 1.2rem;
+    max-height: 300px;
+  }
+
+  .section-title {
+    font-size: 1rem;
+  }
+
+  .subsection-title {
+    font-size: 0.9rem;
+  }
+
+  .question-text {
+    font-size: 0.85rem;
+  }
+
+  .question-note {
+    font-size: 0.75rem;
+  }
+
+  .loading,
+  .no-interviews {
+    padding: 2rem;
+  }
+
+  .error-message,
+  .warning-banner {
+    margin: 1.5rem;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 5px;
+  }
+
+  .interviews-header {
+    padding: 1rem;
+  }
+
+  .interviews-header h1 {
+    font-size: 1.3rem;
+  }
+
+  .back-link {
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .load-btn {
+    font-size: 0.8rem;
+    padding: 0.6rem 1rem;
+  }
+
+  .interviews-grid {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .interview-header {
+    padding: 1rem;
+  }
+
+  .interview-company {
+    font-size: 1.1rem;
+  }
+
+  .interview-position {
+    font-size: 0.9rem;
+  }
+
+  .interview-meta {
+    padding: 0.7rem 1rem;
+  }
+
+  .interview-salary {
+    font-size: 0.9rem;
+  }
+
+  .interview-date {
+    font-size: 0.8rem;
+  }
+
+  .interview-content {
+    padding: 1rem;
+    max-height: 250px;
+  }
+
+  .section-title {
+    font-size: 0.95rem;
+    margin: 0.8rem 0 0.4rem 0;
+  }
+
+  .subsection-title {
+    font-size: 0.85rem;
+    margin: 0.6rem 0 0.3rem 0;
+  }
+
+  .question-item {
+    margin-bottom: 0.6rem;
+    padding: 0.4rem 0;
+  }
+
+  .question-text {
+    font-size: 0.8rem;
+    line-height: 1.3;
+  }
+
+  .question-note {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .loading,
+  .no-interviews {
+    padding: 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .error-message,
+  .warning-banner {
+    margin: 1rem;
+    padding: 0.8rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .interviews-header h1 {
+    font-size: 1.2rem;
+  }
+
+  .back-link {
+    font-size: 0.75rem;
+  }
+
+  .load-btn {
+    font-size: 0.75rem;
+  }
+
+  .interview-company {
+    font-size: 1rem;
+  }
+
+  .interview-position {
+    font-size: 0.85rem;
+  }
+
+  .section-title {
+    font-size: 0.9rem;
+  }
+
+  .subsection-title {
+    font-size: 0.8rem;
+  }
+
+  .question-text {
+    font-size: 0.75rem;
+  }
+}
+
+/* ------------------------------------------------------ скроллбар */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #5a67d8, #6b46c1);
 }

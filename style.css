@@ -19,6 +19,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .header-nav h1 {
@@ -27,6 +29,7 @@ body {
   font-size: 2rem;
   font-weight: 300;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
 }
 
 .nav-link {
@@ -38,6 +41,7 @@ body {
   border-radius: 6px;
   transition: all 0.3s ease;
   font-size: 0.9rem;
+  white-space: nowrap;
 }
 
 .nav-link:hover {
@@ -70,7 +74,7 @@ h1 {
   background: #f8f9fa;
   padding: 2rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
   border-bottom: 1px solid #e9ecef;
 }
@@ -96,6 +100,7 @@ h1 {
   font-size: 1.2rem;
   transition: all 0.3s ease;
   background: white;
+  width: 100%;
 }
 
 .input-group input:focus {
@@ -159,13 +164,14 @@ h1 {
 
 .question label {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   cursor: pointer;
   font-weight: 500;
   color: #495057;
   line-height: 1.5;
   margin-bottom: 1rem;
   font-size: 1.2rem;
+  word-break: break-word;
 }
 
 .question input[type='checkbox'] {
@@ -177,6 +183,7 @@ h1 {
   accent-color: #667eea;
   font-size: 1.2rem;
   letter-spacing: 0.1px;
+  flex-shrink: 0;
 }
 
 .question input[type='text'] {
@@ -231,6 +238,7 @@ h1 {
   font-weight: 500;
   transition: all 0.3s ease;
   position: relative;
+  word-break: break-word;
 }
 
 .warnings-list li:hover {
@@ -298,6 +306,22 @@ h1 {
     padding: 10px;
   }
 
+  .header-nav {
+    padding: 1rem;
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .header-nav h1 {
+    font-size: 1.8rem;
+  }
+
+  .nav-link {
+    font-size: 0.85rem;
+    padding: 0.6rem 1.2rem;
+  }
+
   h1 {
     font-size: 2rem;
     padding: 1.5rem;
@@ -306,6 +330,17 @@ h1 {
   .company-info {
     grid-template-columns: 1fr;
     padding: 1.5rem;
+    gap: 1rem;
+  }
+
+  .input-group label {
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+  }
+
+  .input-group input {
+    font-size: 1rem;
+    padding: 10px 12px;
   }
 
   #questions-container {
@@ -314,6 +349,95 @@ h1 {
 
   .question {
     padding: 1rem;
+  }
+
+  .question label {
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+  }
+
+  #questions-container h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+
+  #questions-container h3 {
+    font-size: 1.4rem;
+    padding-left: 0.5rem;
+    margin: 1rem 0 0.8rem 0;
+  }
+
+  #submit-btn {
+    margin: 1.5rem;
+    width: calc(100% - 3rem);
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
+  .warnings-section {
+    padding: 1.5rem;
+    margin: 1.5rem;
+  }
+
+  .warnings-section h2 {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 5px;
+  }
+
+  .header-nav {
+    padding: 0.8rem;
+  }
+
+  .header-nav h1 {
+    font-size: 1.5rem;
+  }
+
+  .nav-link {
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .company-info {
+    padding: 1rem;
+  }
+
+  .input-group label {
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+  }
+
+  .input-group input {
+    font-size: 0.9rem;
+    padding: 8px 10px;
+  }
+
+  #questions-container {
+    padding: 1rem;
+  }
+
+  .question {
+    padding: 0.8rem;
+  }
+
+  .question label {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .question input[type='checkbox'] {
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+  }
+
+  .question input[type='text'] {
+    font-size: 0.9rem;
+    padding: 8px 10px;
   }
 
   #questions-container h2 {
@@ -325,30 +449,53 @@ h1 {
   }
 
   #submit-btn {
-    margin: 1.5rem;
-    width: calc(100% - 3rem);
-    padding: 1rem;
+    margin: 1rem;
+    width: calc(100% - 2rem);
+    padding: 0.9rem;
+    font-size: 0.9rem;
   }
 
   .warnings-section {
-    padding: 1.5rem;
-    margin: 1.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .question label {
-    font-size: 0.9rem;
-  }
-
-  .input-group input,
-  .question input[type='text'] {
-    font-size: 0.9rem;
+    padding: 1rem;
+    margin: 1rem;
   }
 
   .warnings-list li {
     padding: 0.8rem 1rem;
     font-size: 0.9rem;
+  }
+
+  #success-message {
+    margin: 1rem;
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .header-nav h1 {
+    font-size: 1.3rem;
+  }
+
+  .nav-link {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .input-group label {
+    font-size: 0.9rem;
+  }
+
+  .question label {
+    font-size: 0.85rem;
+  }
+
+  #questions-container h2 {
+    font-size: 1.3rem;
+  }
+
+  #questions-container h3 {
+    font-size: 1.1rem;
   }
 }
 
