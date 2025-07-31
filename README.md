@@ -190,8 +190,12 @@ npx live-server
 ## Хочешь поучаствовать в разработке?
 
 Сделай форк репозитория  
-Создай ветку для изменений:  
-`git checkout -b feature/new-questions`
+Создай ветку для изменений:
+
+```
+git checkout -b feature/new-questions
+```
+
 Внеси изменения  
 Создай Pull Request
 
