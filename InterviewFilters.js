@@ -42,7 +42,7 @@ export class InterviewFilters {
         </div>
 
         <div class="filter-group">
-          <label class="filter-label" for="questions-filter">Сортировка по вопросам:</label>
+          <label class="filter-label" for="questions-filter">По кол-ву ответов:</label>
           <select id="questions-filter" class="filter-select">
             <option value="">Без сортировки</option>
             <option value="questions-desc">От большего к меньшему</option>

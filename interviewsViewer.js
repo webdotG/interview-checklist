@@ -170,26 +170,21 @@ export class InterviewsViewer {
     <div class="offline-warning-banner">
       <h3>Защищенный режим</h3>
       <p><strong>База данных временно недоступна</strong> из-за мер защиты от спама и автоматических атак.</p>
-      
+      <p>Проще говоря слишком много запросов в моменте</p>
       <div class="offline-details">
         <p><strong>Что происходит:</strong></p>
         <ul>
           <li>Firestore автоматически ограничивает доступ при подозрительной активности</li>
           <li>Это нормальная защитная мера Google для предотвращения злоупотреблений</li>
-          <li>Ваши данные в безопасности</li>
         </ul>
         
         <p><strong>Что делать:</strong></p>
         <ul>
           <li>Подождите немного и попробуйте снова</li>
-          <li>Проверьте стабильность интернет-соединения</li>
           <li>Вы все еще можете создавать новые интервью локально</li>
         </ul>
       </div>
       
-      <button onclick="location.reload()" class="retry-btn">
-        Попробовать снова
-      </button>
     </div>
   `
 
@@ -372,7 +367,7 @@ export class InterviewsViewer {
 
   showLoading(show) {
     this.loadBtn.disabled = show
-    this.loadBtn.textContent = show ? 'Загружаем...' : 'Загрузить интервью'
+    this.loadBtn.textContent = show ? 'Загружаю...' : 'Загрузить интервью'
 
     if (show) {
       this.loadingMessage.classList.remove('hidden')
