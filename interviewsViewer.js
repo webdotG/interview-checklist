@@ -135,18 +135,27 @@ export class InterviewsViewer {
       console.log(`Загружено ${this.interviews.length} интервью`)
 
       if (this.interviews.length === 0) {
-        this.showNoInterviews()
+        this.showOfflineWarning()
       } else {
         this.renderInterviews()
 
         if (this.filters) {
           this.filters.setData(this.interviews)
-          this.filters.show()
+          // this.filters.show()
         }
       }
     } catch (error) {
       console.error('Ошибка при загрузке интервью:', error)
-      this.showError(`Ошибка загрузки данных: ${error.message}`)
+      // ПРОВЕРКА, НА ОФЛАЙН РЕЖИМ (ЗАЩИТА НА ПЕРЕГРУЗ В ФАЕРБЭЙС)
+      if (
+        error.code === 'unavailable' ||
+        error.message.includes('offline') ||
+        error.message.includes('backend')
+      ) {
+        this.showOfflineWarning()
+      } else {
+        this.showError(`Ошибка загрузки данных: ${error.message}`)
+      }
     } finally {
       this.showLoading(false)
 
@@ -154,6 +163,38 @@ export class InterviewsViewer {
         this.filters.setLoading(false)
       }
     }
+  }
+  // ДЛЯ ПОКАЗА OFFLINE ПРЕДУПРЕЖДЕНИЯ
+  showOfflineWarning() {
+    const warningHTML = `
+    <div class="offline-warning-banner">
+      <h3>Защищенный режим</h3>
+      <p><strong>База данных временно недоступна</strong> из-за мер защиты от спама и автоматических атак.</p>
+      
+      <div class="offline-details">
+        <p><strong>Что происходит:</strong></p>
+        <ul>
+          <li>Firestore автоматически ограничивает доступ при подозрительной активности</li>
+          <li>Это нормальная защитная мера Google для предотвращения злоупотреблений</li>
+          <li>Ваши данные в безопасности</li>
+        </ul>
+        
+        <p><strong>Что делать:</strong></p>
+        <ul>
+          <li>Подождите немного и попробуйте снова</li>
+          <li>Проверьте стабильность интернет-соединения</li>
+          <li>Вы все еще можете создавать новые интервью локально</li>
+        </ul>
+      </div>
+      
+      <button onclick="location.reload()" class="retry-btn">
+        Попробовать снова
+      </button>
+    </div>
+  `
+
+    // В КОНТЕЙНЕРЕ ДЛЯ ИНТЕРВЬЮ
+    this.interviewsContainer.innerHTML = warningHTML
   }
 
   renderInterviews() {

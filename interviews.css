@@ -492,3 +492,37 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(135deg, #5a67d8, #6b46c1);
 }
+
+/* ----------------------------------------------------------- оффлайн режим */
+.offline-warning-banner {
+  background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+  border: 2px solid #e17055;
+  border-radius: 12px;
+  padding: 24px;
+  margin: 20px 0;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(225, 112, 85, 0.3);
+}
+
+.offline-warning-banner h3 {
+  color: #d63031;
+  margin-bottom: 16px;
+  font-size: 24px;
+}
+
+.offline-details {
+  text-align: left;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 16px;
+  border-radius: 8px;
+  margin: 16px 0;
+}
+
+.offline-details ul {
+  margin: 8px 0 8px 20px;
+}
+
+.offline-details li {
+  margin: 4px 0;
+  color: #2d3436;
+}
