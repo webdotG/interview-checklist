@@ -63,7 +63,7 @@ export class FirebaseService {
       console.log(`Загружено ${interviews.length} интервью`)
       return interviews
     } catch (error) {
-      console.error('Ошибка при загрузке интervью:', error)
+      console.error('Ошибка при загрузке интeрвью:', error)
 
       // проверка на офлайн режим
       if (
