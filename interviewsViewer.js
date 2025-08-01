@@ -136,26 +136,17 @@ export class InterviewsViewer {
 
       if (this.interviews.length === 0) {
         this.showNoInterviews()
-
-        if (this.filters) {
-          this.filters.hide()
-        }
       } else {
+        this.renderInterviews()
+
         if (this.filters) {
           this.filters.setData(this.interviews)
           this.filters.show()
-        } else {
-          // если фильтров нет, рендерим как обычно
-          this.renderInterviews()
         }
       }
     } catch (error) {
       console.error('Ошибка при загрузке интервью:', error)
       this.showError(`Ошибка загрузки данных: ${error.message}`)
-
-      if (this.filters) {
-        this.filters.hide()
-      }
     } finally {
       this.showLoading(false)
 
