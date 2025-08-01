@@ -13,8 +13,9 @@ export class FormValidator {
         errorMessage: 'Используйте только буквы и разрешённые знаки препинания',
       },
       salary: {
-        pattern: /^[0-9\s\-\.]+$/, // Цифры, пробелы, дефисы, точки
-        message: 'Разрешены только цифры, пробелы, дефисы и точки',
+        pattern: /^[0-9]+([0-9\s\-\.])*[0-9]*$/, // Цифры, пробелы, дефисы, точки
+        message:
+          'Разрешены только цифры, пробелы, дефисы и точки. Начните с цифры.',
         errorMessage: 'Используйте только цифры, пробелы, дефисы и точки',
       },
     }
@@ -30,9 +31,7 @@ export class FormValidator {
       return
     }
 
-    const fields = form.querySelectorAll(
-      'input[type="text"], input[type="number"]',
-    )
+    const fields = form.querySelectorAll('input[type="text"]')
 
     fields.forEach((field) => {
       this.setupFieldValidation(field)
@@ -155,9 +154,8 @@ export class FormValidator {
     const form = document.querySelector(formSelector)
     if (!form) return false
 
-    const fields = form.querySelectorAll(
-      'input[type="text"], input[type="number"]',
-    )
+    const fields = form.querySelectorAll('input[type="text"]')
+
     let isFormValid = true
 
     fields.forEach((field) => {
