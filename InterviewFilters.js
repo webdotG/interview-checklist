@@ -19,12 +19,12 @@ export class InterviewFilters {
 
     // создаем HTML структуру фильтров
     this.container.innerHTML = this.createFiltersHTML()
+    console.log('Фильтры созданы:', this.container)
 
     // получаем ссылки на элементы
     this.salaryFilter = this.container.querySelector('#salary-filter')
     this.questionsFilter = this.container.querySelector('#questions-filter')
     this.clearFiltersBtn = this.container.querySelector('#clear-filters-btn')
-    this.toggleFiltersBtn = this.container.querySelector('#toggle-filters-btn')
     this.filtersWrapper = this.container.querySelector('.filters-wrapper')
     this.resultCounter = this.container.querySelector('#results-counter')
   }
@@ -265,9 +265,6 @@ export class InterviewFilters {
     }
     if (this.clearFiltersBtn) {
       this.clearFiltersBtn.removeEventListener('click', this.clearFilters)
-    }
-    if (this.toggleFiltersBtn) {
-      this.toggleFiltersBtn.removeEventListener('click', this.toggleVisibility)
     }
   }
 }

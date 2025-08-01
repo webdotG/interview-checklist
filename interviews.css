@@ -344,7 +344,7 @@ body {
     padding: 1rem;
   }
 }
-
+/* ------------------------------------------------------ мобилки + */
 @media (max-width: 480px) {
   body {
     padding: 5px;
@@ -440,7 +440,7 @@ body {
     font-size: 0.9rem;
   }
 }
-
+/* ------------------------------------------------------ мобилки */
 @media (max-width: 360px) {
   .interviews-header h1 {
     font-size: 1.2rem;
