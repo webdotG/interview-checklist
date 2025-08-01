@@ -19,7 +19,7 @@ export class FirebaseService {
         'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js'
       )
 
-      const firebaseConfig = await import('../firebase-config.js')
+      const firebaseConfig = await import('./firebase-config.js')
       const firebaseApp = initializeApp(firebaseConfig.default)
       this.firestore = getFirestore(firebaseApp)
       this.initialized = true
