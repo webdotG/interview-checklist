@@ -68,9 +68,6 @@ export class InterviewFilters {
     this.salaryFilter.addEventListener('change', () => this.applyFilters())
     this.questionsFilter.addEventListener('change', () => this.applyFilters())
     this.clearFiltersBtn.addEventListener('click', () => this.clearFilters())
-    this.toggleFiltersBtn.addEventListener('click', () =>
-      this.toggleVisibility(),
-    )
   }
 
   // метод для установки данных
