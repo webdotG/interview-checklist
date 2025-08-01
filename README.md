@@ -27,7 +27,7 @@
 
 ### Имя файла при сохранении
 
-```javascipt
+```JavaScript
 
 // Интервью_СуперКомпания_МагВолшебник_100000000000.json
 
@@ -35,6 +35,7 @@ const filename =
   `Интервью_${data.company}_${data.position}_${data.salary}.json`
     .replace(/\s+/g, '_')
     .replace(/[<>:"\/\\|?*]/g, '')
+
 ```
 
 ### СТрктура JSON, сохраняемого Локально и в Firebase :
