@@ -29,7 +29,7 @@
 
 ```javascipt
 
-// Интервью_СуперКомпания_МагВолшебник_100000000.json
+// Интервью_СуперКомпания_МагВолшебник_100000000000.json
 
 const filename =
   `Интервью_${data.company}_${data.position}_${data.salary}.json`
@@ -41,8 +41,8 @@ const filename =
 
 ```json
 {
-  "company": "Супер Дупер Компания",
-  "position": "Маг и Волшебник",
+  "company": "Супер Компания",
+  "position": "Маг Волшебник",
   "salary": "100000000000",
   "timestamp": "2025-07-31T16:45:23.123Z",
   "answers": {
