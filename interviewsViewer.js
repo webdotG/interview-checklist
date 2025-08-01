@@ -3,6 +3,7 @@ export class InterviewsViewer {
     this.interviews = []
     this.firestore = null
     this.firebaseInitialized = false
+    this.filters = null
     this.initElements()
   }
 
@@ -14,6 +15,20 @@ export class InterviewsViewer {
     this.noInterviewsMessage = document.getElementById('no-interviews')
     this.interviewsContainer = document.getElementById('interviews-container')
     this.localModeWarning = document.getElementById('local-mode-warning')
+  }
+
+  // фильтр
+  setFilters(filtersInstance) {
+    this.filters = filtersInstance
+
+    this.filters.onChange((result) => {
+      this.interviews = result.data
+      this.renderInterviews()
+
+      console.log('Фильтры работают:', result.stats)
+    })
+
+    return this
   }
 
   async init() {
@@ -31,15 +46,15 @@ export class InterviewsViewer {
 
   showLocalModeWarning() {
     const warningHTML = `
-      <div class="warning-banner">
-        <h3>Локальный режим</h3>
-        <p>Для сохранения и загрузки интервью из базы данных, пожалуйста, перейдите на 
-        <a href="https://webdotG.github.io/interview-checklist/" target="_blank">
-        GitHub Pages версию
-        </a> этого приложения.</p>
-        <p>В локальном режиме Вы можете только экспортировать результаты собеса в JSON к себе на машину</p>
-      </div>
-    `
+    <div class="warning-banner">
+      <h3>Локальный режим</h3>
+      <p>Для сохранения и загрузки интервью из базы данных, пожалуйста, перейдите на 
+      <a href="https://webdotG.github.io/interview-checklist/" target="_blank">
+      GitHub Pages версию
+      </a> этого приложения.</p>
+      <p>В локальном режиме Вы можете только экспортировать результаты собеса в JSON к себе на машину</p>
+    </div>
+  `
     this.localModeWarning.innerHTML = warningHTML
     this.localModeWarning.classList.remove('hidden')
   }
@@ -75,11 +90,20 @@ export class InterviewsViewer {
     this.hideNoInterviews()
     this.clearInterviews()
 
+    if (this.filters) {
+      this.filters.setLoading(true)
+    }
+
     // инициализируем Firebase (если еще не сделано)
     if (!this.firebaseInitialized) {
       const success = await this.initFirebase()
       if (!success) {
         this.showLoading(false)
+
+        if (this.filters) {
+          this.filters.setLoading(false)
+        }
+
         return
       }
     }
@@ -112,14 +136,32 @@ export class InterviewsViewer {
 
       if (this.interviews.length === 0) {
         this.showNoInterviews()
+
+        if (this.filters) {
+          this.filters.hide()
+        }
       } else {
-        this.renderInterviews()
+        if (this.filters) {
+          this.filters.setData(this.interviews)
+          this.filters.show()
+        } else {
+          // если фильтров нет, рендерим как обычно
+          this.renderInterviews()
+        }
       }
     } catch (error) {
       console.error('Ошибка при загрузке интервью:', error)
       this.showError(`Ошибка загрузки данных: ${error.message}`)
+
+      if (this.filters) {
+        this.filters.hide()
+      }
     } finally {
       this.showLoading(false)
+
+      if (this.filters) {
+        this.filters.setLoading(false)
+      }
     }
   }
 
@@ -138,32 +180,37 @@ export class InterviewsViewer {
 
     // форматирование даты
     const date = this.formatDate(interview.timestamp)
+    const answeredQuestions = this.countAnsweredQuestions(interview)
 
     card.innerHTML = `
-      <div class="interview-header">
-        <div class="interview-company">${this.escapeHtml(
-          interview.company || 'Без названия',
-        )}</div>
-        <div class="interview-position">${this.escapeHtml(
-          interview.position || 'Без должности',
-        )}</div>
+    <div class="interview-header">
+      <div class="interview-company">${this.escapeHtml(
+        interview.company || 'Без названия',
+      )}</div>
+      <div class="interview-position">${this.escapeHtml(
+        interview.position || 'Без должности',
+      )}</div>
+    </div>
+    
+    <div class="interview-meta">
+      <div class="interview-salary">
+        ${
+          interview.salary
+            ? this.formatSalary(interview.salary)
+            : 'Зарплата не указана'
+        }
       </div>
-      
-      <div class="interview-meta">
-        <div class="interview-salary">
-          ${
-            interview.salary
-              ? this.formatSalary(interview.salary)
-              : 'Зарплата не указана'
-          }
-        </div>
-        <div class="interview-date">${date}</div>
-      </div>
-      
-      <div class="interview-content">
-        ${this.renderAnswers(interview.answers)}
-      </div>
-    `
+      <div class="interview-date">${date}</div>
+    </div>
+    
+    <div class="interview-stats">
+      Отвечено вопросов: <strong>${answeredQuestions}</strong>
+    </div>
+  
+    <div class="interview-content">
+      ${this.renderAnswers(interview.answers)}
+    </div>
+  `
 
     return card
   }
@@ -196,19 +243,19 @@ export class InterviewsViewer {
               ([questionText, questionData]) => {
                 if (questionData && questionData.checked) {
                   html += `
-                  <div class="question-item">
-                    <div class="question-text question-checked">
-                      ${this.escapeHtml(questionText)}
-                    </div>
-                    ${
-                      questionData.note
-                        ? `<div class="question-note">${this.escapeHtml(
-                            questionData.note,
-                          )}</div>`
-                        : ''
-                    }
+                <div class="question-item">
+                  <div class="question-text question-checked">
+                    ${this.escapeHtml(questionText)}
                   </div>
-                `
+                  ${
+                    questionData.note
+                      ? `<div class="question-note">${this.escapeHtml(
+                          questionData.note,
+                        )}</div>`
+                      : ''
+                  }
+                </div>
+              `
                 }
               },
             )
@@ -218,6 +265,27 @@ export class InterviewsViewer {
     })
 
     return html || '<p>Нет отмеченных вопросов</p>'
+  }
+
+  countAnsweredQuestions(interview) {
+    let count = 0
+    if (!interview.answers) return 0
+
+    Object.values(interview.answers).forEach((subsections) => {
+      if (subsections && typeof subsections === 'object') {
+        Object.values(subsections).forEach((questions) => {
+          if (questions && typeof questions === 'object') {
+            Object.values(questions).forEach((questionData) => {
+              if (questionData && questionData.checked) {
+                count++
+              }
+            })
+          }
+        })
+      }
+    })
+
+    return count
   }
 
   formatDate(timestamp) {

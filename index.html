@@ -74,7 +74,7 @@
         </div>
 
         <div class="input-group">
-          <label for="salary">Зарплатная:</label>
+          <label for="salary">Зарплата:</label>
           <input
             type="number"
             id="salary"
@@ -105,16 +105,21 @@
         generateQuestionId,
         renderQuestions,
       } from './scriptQuestions.js'
-      import { warningItems } from './questionsData.js'
+      import { questionUtils } from './questionUtils.js'
+      import { warningItems, questionsData } from './questionsData.js'
       import { db } from './scriptDB.js'
 
       document.addEventListener('DOMContentLoaded', async () => {
+        questionUtils.addCounterToHeader(questionsData)
         await renderQuestions()
         await db.init()
 
         const manager = new InterviewManager()
         await manager.init()
         manager.loadFromURL()
+
+        const stats = questionUtils.getDetailedStats(questionsData)
+        console.log(stats)
       })
     </script>
   </body>

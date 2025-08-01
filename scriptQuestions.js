@@ -42,7 +42,7 @@ export function renderQuestions() {
             <input type="checkbox" id="check-${questionId}">
             ${question}
           </label>
-          <input type="text" id="input-${questionId}" placeholder="Ответ подробнее">
+          <input type="text" id="input-${questionId}" placeholder="Комментарий ... ">
         `
 
         subsectionEl.appendChild(questionEl)

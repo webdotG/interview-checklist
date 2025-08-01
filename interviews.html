@@ -8,7 +8,8 @@
       href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50%' y='50%' font-size='75' font-family='Arial, sans-serif' dominant-baseline='middle' text-anchor='middle' fill='%23333'>G \</text><style>text{font-weight:bold;} @media (prefers-color-scheme:dark){text{fill:%23fff}}</style></svg>"
     />
     <title>Все интервью</title>
-    <link rel="stylesheet" href="interviews.css" />
+    <link rel="stylesheet" href="./interviews.css" />
+    <link rel="stylesheet" href="./filters.css" />
   </head>
   <body>
     <div class="container">
@@ -19,7 +20,7 @@
           Загрузить интервью
         </button>
       </div>
-
+      <div id="filters-container" class="filters-container hidden"></div>
       <div id="local-mode-warning" class="hidden"></div>
       <div id="interviews-container" class="interviews-grid"></div>
 
@@ -44,9 +45,13 @@
 
     <script type="module">
       import { InterviewsViewer } from './interviewsViewer.js'
+      import { InterviewFilters } from './InterviewFilters.js'
 
       document.addEventListener('DOMContentLoaded', async () => {
         const viewer = new InterviewsViewer()
+        const filters = new InterviewFilters('#filters-container')
+
+        viewer.setFilters(filters)
         await viewer.init()
       })
     </script>

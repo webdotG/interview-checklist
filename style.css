@@ -50,6 +50,22 @@ body {
   transform: translateY(-1px);
 }
 
+/* ------------------------------------------------------ счетчик вопросов */
+.questions-counter {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  font-weight: 400;
+  text-align: center;
+  margin-top: 0.5rem;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.questions-counter:hover {
+  color: rgba(255, 255, 255, 1);
+  transform: translateY(-1px);
+}
+/* ------------------------------------------------------ мэйн */
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -322,6 +338,12 @@ h1 {
     padding: 0.6rem 1.2rem;
   }
 
+  .questions-counter {
+    font-size: 0.8rem;
+    margin-top: 0.8rem;
+    letter-spacing: 0.3px;
+  }
+
   h1 {
     font-size: 2rem;
     padding: 1.5rem;
@@ -402,6 +424,12 @@ h1 {
     padding: 0.5rem 1rem;
   }
 
+  .questions-counter {
+    font-size: 0.75rem;
+    margin-top: 1rem;
+    letter-spacing: 0.2px;
+  }
+
   .company-info {
     padding: 1rem;
   }
@@ -480,6 +508,11 @@ h1 {
   .nav-link {
     font-size: 0.75rem;
     padding: 0.4rem 0.8rem;
+  }
+
+  .questions-counter {
+    font-size: 0.7rem;
+    margin-top: 1rem;
   }
 
   .input-group label {
