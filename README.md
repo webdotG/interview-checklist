@@ -142,29 +142,12 @@ export const questionsData = {
 
 ## Техническая часть
 
-### Структура проекта
-
-```
-interview-checklist/
-├── index.html
-├── style.css
-├── interviews.html
-├── interviews.css
-├── questionsData.js
-├── scriptQuestions.js
-├── interviewManager.js
-├── interviewsViewer.js
-├── scriptDB.js
-├── firebase-config.js
-└── README.md
-```
-
 ## Как запустить локально
 
 Склонируй репозиторий:
 
 ```bash
-git clone [git@github.com:webdotG/interview-checklist.git]
+git clone https://github.com/webdotG/interview-checklist.git
 cd interview-checklist
 ```
 
