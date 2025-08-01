@@ -1,5 +1,5 @@
 import { questionUtils } from './questionUtils.js'
-import questionsData from './questionsData.js'
+import { questionsData } from './questionsData.js'
 
 export class InterviewFilters {
   constructor(containerSelector = '#filters-container') {
