@@ -98,9 +98,9 @@ body {
 }
 
 .interview-stats {
-  padding-left: 1rem;
-  font-size: 1.2rem;
-  line-height: 1.2rem;
+  padding: 1rem;
+  font-size: 1.1rem;
+  line-height: 1.3rem;
   font-weight: 400;
 }
 
@@ -212,6 +212,9 @@ body {
 
 /* ------------------------------------------------------ состояния загрузки */
 .loading {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   text-align: center;
   padding: 3rem;
   color: #6c757d;
