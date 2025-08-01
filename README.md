@@ -160,17 +160,17 @@ git clone https://github.com/webdotG/interview-checklist.git
 cd interview-checklist
 ```
 
-Открой index.html через веб-сервер:
+- Открой index.html через веб-сервер:
 
-Или через VS Code Live Server
+- Или через VS Code Live Server
 
-Или через Python:
+- Или через Python:
 
 ```bash
 python -m http.server 8000
 ```
 
-Или через Node.js:
+- Или через Node.js:
 
 ```
 npx live-server
@@ -188,7 +188,7 @@ npx live-server
 - Сделай форк репозитория
 - Создай ветку для изменений:
 
-```
+```git
 git checkout -b feature/new-questions
 ```
 
