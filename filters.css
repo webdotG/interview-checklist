@@ -9,10 +9,6 @@
   transition: all 0.3s ease;
 }
 
-/* .filters-container.hidden {
-  display: none;
-} */
-
 .filters-wrapper {
   display: flex;
   gap: 20px;

@@ -39,7 +39,7 @@ export const questionUtils = {
   getQuestionsCountText(questionsData) {
     const count = this.countQuestions(questionsData)
     const word = this.getQuestionWord(count)
-    return `В наличии ${count} ${word}`
+    return `В списке ${count} ${word}`
   },
 
   addCounterToHeader(questionsData) {
