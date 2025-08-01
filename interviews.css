@@ -212,9 +212,6 @@ body {
 
 /* ------------------------------------------------------ состояния загрузки */
 .loading {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
   text-align: center;
   padding: 3rem;
   color: #6c757d;
