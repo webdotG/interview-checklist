@@ -97,6 +97,13 @@ body {
   transition: all 0.3s ease;
 }
 
+.interview-stats {
+  padding-left: 1rem;
+  font-size: 1.2rem;
+  line-height: 1.2rem;
+  font-weight: 400;
+}
+
 .interview-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
