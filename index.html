@@ -100,6 +100,7 @@
 
     <script type="module">
       import { InterviewManager } from './interviewManager.js'
+      import { FormValidator } from './FormValidator.js'
       import {
         questionsStructure,
         generateQuestionId,
@@ -110,8 +111,20 @@
       import { db } from './scriptDB.js'
 
       document.addEventListener('DOMContentLoaded', async () => {
+        const formValidator = new FormValidator()
+        formValidator.init('#interview-form')
+        function handleFormSubmit() {
+          const result = formValidator.getFormData()
+          if (result.valid) {
+            console.log('Данные валидны:', result.data)
+          } else {
+            console.log('Форма содержит ошибки')
+          }
+        }
+
         questionUtils.addCounterToHeader(questionsData)
         await renderQuestions()
+
         await db.init()
 
         const manager = new InterviewManager()

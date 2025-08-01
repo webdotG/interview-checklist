@@ -1,9 +1,13 @@
+import { questionUtils } from './questionUtils.js'
+import questionsData from './questionsData.js'
+
 export class InterviewsViewer {
   constructor() {
     this.interviews = []
     this.firestore = null
     this.firebaseInitialized = false
     this.filters = null
+    this.totalQuestions = questionUtils.countQuestions(questionsData)
     this.initElements()
   }
 
@@ -187,7 +191,6 @@ export class InterviewsViewer {
       
     </div>
   `
-
     // В КОНТЕЙНЕРЕ ДЛЯ ИНТЕРВЬЮ
     this.interviewsContainer.innerHTML = warningHTML
   }
@@ -201,6 +204,10 @@ export class InterviewsViewer {
     })
   }
 
+  countTotalQuestions() {
+    return this.totalQuestions
+  }
+
   createInterviewCard(interview, index) {
     const card = document.createElement('div')
     card.className = 'interview-card'
@@ -208,6 +215,7 @@ export class InterviewsViewer {
     // форматирование даты
     const date = this.formatDate(interview.timestamp)
     const answeredQuestions = this.countAnsweredQuestions(interview)
+    const totalQuestions = this.countTotalQuestions()
 
     card.innerHTML = `
     <div class="interview-header">
@@ -231,7 +239,10 @@ export class InterviewsViewer {
     </div>
     
     <div class="interview-stats">
-      Отвечено вопросов: <strong>${answeredQuestions}</strong>
+      Отвечено ${questionUtils.getQuestionWord(answeredQuestions)}: 
+        <strong>
+          ${answeredQuestions} из ${totalQuestions}
+        </strong>
     </div>
   
     <div class="interview-content">

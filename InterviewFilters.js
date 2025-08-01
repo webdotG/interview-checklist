@@ -1,4 +1,5 @@
-// InterviewFilters.js - Класс для фильтрации и сортировки интервью
+import { questionUtils } from './questionUtils.js'
+import questionsData from './questionsData.js'
 
 export class InterviewFilters {
   constructor(containerSelector = '#filters-container') {
@@ -6,6 +7,7 @@ export class InterviewFilters {
     this.originalData = []
     this.filteredData = []
     this.onFilterChange = null
+    this.totalQuestions = questionUtils.countQuestions(questionsData)
 
     this.initElements()
     this.bindEvents()
@@ -17,11 +19,11 @@ export class InterviewFilters {
       return
     }
 
-    // создаем HTML структуру фильтров
+    // HTML структуру фильтров
     this.container.innerHTML = this.createFiltersHTML()
     console.log('Фильтры созданы:', this.container)
 
-    // получаем ссылки на элементы
+    // ссылки на элементы
     this.salaryFilter = this.container.querySelector('#salary-filter')
     this.questionsFilter = this.container.querySelector('#questions-filter')
     this.clearFiltersBtn = this.container.querySelector('#clear-filters-btn')
