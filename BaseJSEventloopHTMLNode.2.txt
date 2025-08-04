@@ -1,4 +1,4 @@
-Глава 2: Общая схема работы Event Loop
+2. Общая схема работы Event Loop
 
 Описание высокоуровневой архитектуры Event Loop: 
 Call Stack, Web/Node.js APIs и очереди
@@ -239,7 +239,7 @@ setTimeout(() => {
 }, 0);
 
 Promise.resolve().then(() => {
-  console.log('Promise Resolved'); // 4. Микрозадача (Promise)
+  console.log('Promise Resolved'); /Глава 3: Execution Contexts и Call Stack/ 4. Микрозадача (Promise)
 });
 
 process.nextTick(() => {

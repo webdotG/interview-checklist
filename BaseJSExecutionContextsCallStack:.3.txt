@@ -1,0 +1,138 @@
+3. Execution Contexts и Call Stack
+
+Для того чтобы по-настоящему понять, как JS выполняет код, необходимо разобраться что такое:
+-1. Контекст Выполнения (Execution Context), 
+-2. Стек Вызова (Call Stack). 
+Эти механизмы являются основой синхронного выполнения JavaScript и определяют, как код обрабатывается, как управляются переменные и функции, и как контролируется поток выполнения.
+
+-1. Контекст Выполнения (Execution Context) (https://tc39.es/ecma262/#sec-execution-contexts)
+Это абстрактная структура, создаваемая движком JS при каждом запуске скрипта или вызове функции. 
+Каждый контекст хранит информацию, необходимую для обработки текущего блока кода: 
+- окружения переменных, 
+- область видимости, 
+- связку this и проч.
+
+JS использует Call Stack, чтобы управлять контекстами выполнения: 
+Когда вызывается новая функция, её контекст помещается в стек, а по завершении - удаляется.
+
+-1.1 Ключевые компоненты Execution Context
+Каждый контекст выполнения ассоциирован со следующими ключевыми компонентами:
+(!ECMA - The LexicalEnvironment and VariableEnvironment components of an execution context are always Environment Records.)
+
+-1.1.1 Variable Environment (Окружение переменных)  (https://tc39.es/ecma262/#sec-environment-records)
+Это место, где хранятся объявления var-переменных и function-деклараций во время фазы создания контекста выполнения. 
+Именно здесь происходит концептуальный "подъем" (hoisting) (https://developer.mozilla.org/en-US/docs/Glossary/Hoisting) объявлений переменных (с var) и функций, что позволяет обращаться к ним до их фактического объявления в коде.
+
+-1.1.2 Lexical Environment (Лексическое окружение) (https://tc39.es/ecma262/#sec-environment-records)
+Это спецификационный тип, используемый для определения связи идентификаторов (переменных и функций) с конкретными значениями на основе лексической вложенности JS кода. 
+У каждого лексического окружения есть поле [[OuterEnv]], которое является либо null, либо ссылкой на внешнее лексическое 
+окружение, моделируя таким образом логическую вложенность областей видимости.
+Это позволяет функциям "помнить" свою область видимости, в которой они были определены, даже если они вызываются из другого места (концепция замыканий - closures (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures)). 
+Lexical Environment также содержит декларации let (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let), const (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const), class.
+
+ -1.1.3 ThisBinding (Привязка this)  (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this)
+Определяет значение ключевого слова this для текущего контекста выполнения. 
+Его значение зависит от способа вызова функции 
+-- как метод объекта, 
+-- как обычная функция, 
+-- с использованием call/apply/bind, 
+-- в стрелочной функции.
+
+-1.1.4 Поиск идентификаторов
+Поиск идентификаторов происходит по цепочке лексических окружений через ссылки [[OuterEnv]]:
+-- Сначала поиск в текущем Lexical Environment
+-- Если не найден, поиск продолжается по [[OuterEnv]] ссылке
+-- И так до глобального окружения или null
+
+Примечание: 
+Эта цепочка поиска часто называется "Scope (https://developer.mozilla.org/en-US/docs/Glossary/Scope) Chain" в литературе, но в официальной спецификации ECMA это не отдельный компонент, а результат следования по [[OuterEnv]] ссылкам.
+
+-1.2 Жизненный цикл Execution Contexts
+(создание, выполнение, удаление)
+Когда JS код начинает выполняться, он проходит через две основные фазы в рамках каждого контекста выполнения:
+
+-1.2.1 Фаза создания (Creation Phase) 
+Этот этап официально называется Declaration Binding Instantiation в ECMA.
+Он описывает, как движок JS подготавливает контекст выполнения перед запуском кода.
+- В глобальном контексте - GlobalDeclarationInstantiation  (https://tc39.es/ecma262/#sec-globaldeclarationinstantiation)
+- В контексте функции - functiondeclarationinstantiation  (https://tc39.es/ecma262/#sec-functiondeclarationinstantiation)
+На этом этапе создается новый контекст выполнения. 
+Движок JS парсит код, выделяет память для переменных и функций:
+-- var-переменные инициализируются значением undefined в Variable Environment
+-- Объявления функций полностью сохраняются в Variable Environment
+-- let/const/class декларации создаются в Lexical Environment, 
+но остаются неинициализированными (Temporal Dead Zone ⇩ !)
+-- Определяется значение this для данного контекста
+-- Устанавливаются ссылки [[OuterEnv]] для создания цепочки областей видимости
+Это объясняет поведение "подъема" (hoisting), когда var-переменные и функции доступны до их фактического объявления в коде.
+
+(!⇩Temporal Dead Zone (TDZ)⇩)
+// Это период между входом в область видимости let/const 
+// и моментом их инициализации, 
+// когда обращение к переменной вызывает ReferenceError.
+
+// ReferenceError: Cannot access 'x' before initialization
+console.log(x); 
+// TDZ заканчивается здесь
+let x = 10; 
+
+-1.2.2 Фаза выполнения (Execution Phase)
+После фазы создания код выполняется построчно в компоненте кода, 
+который часто называют "потоком выполнения" (Thread of Execution):
+-- Значения переменных обновляются по мере выполнения присваиваний и других операций
+-- let/const переменные инициализируются при достижении их декларации
+
+-1.3 Работа с контекстами
+// Объявление в глобальном контексте
+let globalVar = 'I am global'; 
+
+function outerFunction() {
+  // Объявление в контексте outerFunction
+  let outerVar = 'I am outer'; 
+
+  function innerFunction() {
+    // Объявление в контексте innerFunction
+    let innerVar = 'I am inner'; 
+    console.log(globalVar, outerVar, innerVar);
+  }
+
+  // Вызов innerFunction
+  innerFunction(); 
+}
+
+// Вызов outerFunction
+outerFunction();
+Пошаговое выполнение:
+
+-1.3.1 Начало выполнения скрипта:
+Создается Global Execution Context (ECMAScript §8.3). 
+Он помещается на дно Call Stack. В его Variable Environment регистрируется outerFunction, в Lexical Environment регистрируется globalVar.
+
+-1.3.2 Вызов outerFunction():
+Создается новый контекст выполнения для outerFunction. 
+Он помещается на вершину Call Stack. 
+В его Lexical Environment регистрируется outerVar, устанавливается [[OuterEnv]] ссылка на глобальное окружение.
+
+-1.3.3 Вызов innerFunction()
+Создается новый контекст выполнения для innerFunction. 
+Он помещается на вершину Call Stack. 
+В его Lexical Environment регистрируется innerVar, [[OuterEnv]] указывает на окружение outerFunction.
+
+-1.3.4 Выполнение console.log() в innerFunction:
+--1.3.4.1 Движок ищет innerVar в текущем Lexical Environment innerFunction - находит локально
+--1.3.4.2 Ищет outerVar - не находит локально, поднимается по [[OuterEnv]] к окружению outerFunction - находит
+--1.3.4.4 Ищет globalVar - продолжает подниматься по [[OuterEnv]] к глобальному окружению - находи
+--1.3.4.4 Выводит значения
+
+-1.3.5 Завершение innerFunction():
+Контекст выполнения innerFunction снимается с Call Stack и удаляется. 
+Управление возвращается к outerFunction.
+
+-1.3.6 Завершение outerFunction():
+Контекст выполнения outerFunction снимается с Call Stack и удаляется. 
+Управление возвращается к Global Contex
+
+-1.3.7 Завершение Global Context:
+Когда весь код завершен, глобальный контекст выполнения также удаляется, и Call Stack становится пустым.
+
+#JS
