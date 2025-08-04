@@ -67,6 +67,7 @@ Lexical Environment также содержит декларации let (https:
 Это объясняет поведение "подъема" (hoisting), когда var-переменные и функции доступны до их фактического объявления в коде.
 
 (!⇩Temporal Dead Zone (TDZ)⇩)
+(https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#temporal_dead_zone_tdz)
 // Это период между входом в область видимости let/const 
 // и моментом их инициализации, 
 // когда обращение к переменной вызывает ReferenceError.
@@ -105,7 +106,7 @@ outerFunction();
 Пошаговое выполнение:
 
 -1.3.1 Начало выполнения скрипта:
-Создается Global Execution Context (ECMAScript §8.3). 
+Создается Global Execution Context 
 Он помещается на дно Call Stack. В его Variable Environment регистрируется outerFunction, в Lexical Environment регистрируется globalVar.
 
 -1.3.2 Вызов outerFunction():
