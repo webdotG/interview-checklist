@@ -3,9 +3,8 @@
 
 Новый Firefox
 mkdir ~/docker-firefox && cd ~/docker-firefox
-
  
-Dckerfile
+nano Dckerfile
 
 FROM debian:bookworm-slim
 ENV DEBIAN_FRONTEND=noninteractive
