@@ -2,12 +2,11 @@
 (и безопасно)
 
 Новый Firefox
- ```
- mkdir ~/docker-firefox && cd ~/docker-firefox
- ```
+mkdir ~/docker-firefox && cd ~/docker-firefox
+
  
 Dckerfile
-```
+
 FROM debian:bookworm-slim
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -43,13 +42,12 @@ CMD ["firefox", \
      "--safe-mode", \
      "--disable-plugins", \
      "--disable-extensions"]
-```
+
 Билд
-```
 docker build -t firefox-secure .
-```
+
 Cкрипт launch-firefox.sh
-```
+
 #!/bin/bash
 # Скрипт для безопасного запуска Firefox в Docker-контейнере
 
