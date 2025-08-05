@@ -108,19 +108,16 @@ docker run --rm -it \
   firefox --no-remote --private-window --safe-mode --disable-plugins --disable-extensions
 
 echo "Firefox-контейнер завершен."
-```
+
 Исполить
-```
 chmod +x launch-firefox.sh
-```
+
 Создать изолированную сеть
-```
 docker network create --driver bridge --internal isolated_net
-```
+
 Запустить скрипт
-```
 ./launch-firefox.sh
-```
+
 
 Вот что произойдёт, когда вы закроете окно:
 - Браузер завершит свою работу.
