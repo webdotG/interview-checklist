@@ -1,0 +1,146 @@
+Прогулка по кроличьим норам без страха
+(и безопасно)
+
+Новый Firefox
+ ```
+ mkdir ~/docker-firefox && cd ~/docker-firefox
+ ```
+ 
+Dckerfile
+```
+FROM debian:bookworm-slim
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Установка Firefox и зависимостей
+RUN apt update && \
+    apt install -y \
+    firefox-esr \
+    dbus-x11 \
+    --no-install-recommends && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Создание непривилегированного пользователя с минимальными правами
+RUN useradd -m -u 1000 -g users -s /bin/bash ffuser && \
+    # Создаем необходимые директории
+    mkdir -p /home/ffuser/.mozilla && \
+    mkdir -p /home/ffuser/.cache && \
+    # Устанавливаем владельца
+    chown -R ffuser:users /home/ffuser
+
+# Переключаемся на непривилегированного пользователя
+USER ffuser
+WORKDIR /home/ffuser
+
+# Настройка Firefox с максимальной безопасностью
+ENV MOZ_DISABLE_CONTENT_SANDBOX=0
+ENV MOZ_FORCE_DISABLE_E10S=0
+
+# Команда запуска с безопасными параметрами
+CMD ["firefox", \
+     "--no-remote", \
+     "--private-window", \
+     "--safe-mode", \
+     "--disable-plugins", \
+     "--disable-extensions"]
+```
+Билд
+```
+docker build -t firefox-secure .
+```
+Cкрипт launch-firefox.sh
+```
+#!/bin/bash
+# Скрипт для безопасного запуска Firefox в Docker-контейнере
+
+# Проверяем, что DISPLAY установлен
+if [ -z "$DISPLAY" ]; then
+    echo "Ошибка: Переменная окружения DISPLAY не установлена. Для запуска GUI-приложений в Linux необходимо её задать."
+    echo "Попробуйте выполнить: export DISPLAY=:0"
+    exit 1
+fi
+
+echo "Запуск изолированного Firefox-контейнера. Закройте его, когда закончите."
+
+# Запускаем Docker-контейнер с максимальной изоляцией
+# Параметр --rm автоматически удалит контейнер после завершения
+docker run --rm -it \
+  --name firefox_secure_$(date +%s) \
+  \
+  # Привязываем контейнер к изолированной сети.
+  # Этот шаг критичен для предотвращения доступа к вашей локальной сети.
+  --network isolated_net \
+  \
+  # Ограничения ресурсов для предотвращения DoS-атак на хост
+  --memory 2g \
+  --memory-swap 2g \
+  --cpus 1 \
+  --pids-limit 100 \
+  \
+  # Отключаем IPC, чтобы процессы в контейнере не могли общаться между собой.
+  --ipc none \
+  \
+  # Отключаем PID namespace. Это предотвратит просмотр процессов хоста изнутри контейнера.
+  --pid host \
+  \
+  # Временные файловые системы. Это гарантирует, что данные не сохранятся после завершения.
+  --tmpfs /tmp:rw,nosuid,nodev,noexec,size=500m \
+  --tmpfs /var/tmp:rw,nosuid,nodev,noexec,size=100m \
+  --tmpfs /home/ffuser:rw,nosuid,nodev,size=1g \
+  \
+  # Отключаем привилегии и понижаем возможности контейнера
+  --cap-drop=ALL \
+  --security-opt no-new-privileges \
+  --security-opt seccomp=unconfined \
+  --read-only \
+  \
+  # Настройка отображения графического интерфейса
+  -e DISPLAY=$DISPLAY \
+  -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
+  \
+  # Переменная HOME нужна, чтобы Firefox знал, где хранить профиль (в нашем случае, во временном хранилище --tmpfs).
+  -e HOME=/home/ffuser \
+  \
+  # Указываем, какой образ использовать
+  firefox-secure \
+  
+  # Команда для запуска Firefox с безопасными флагами
+  firefox --no-remote --private-window --safe-mode --disable-plugins --disable-extensions
+
+echo "Firefox-контейнер завершен."
+```
+Исполить
+```
+chmod +x launch-firefox.sh
+```
+Создать изолированную сеть
+```
+docker network create --driver bridge --internal isolated_net
+```
+Запустить скрипт
+```
+./launch-firefox.sh
+```
+
+Вот что произойдёт, когда вы закроете окно:
+- Браузер завершит свою работу.
+- Скрипт, который вы запустили (./launch-firefox.sh), увидит, что браузер закрылся.
+- В вашем скрипте есть команда --rm. Она говорит Docker'у: "Когда контейнер закончит работу, удали его полностью".
+- В итоге, контейнер, который вы использовали, исчезнет, а вместе с ним — все временные файлы, загрузки и история, которые были внутри него. Никаких следов на вашем компьютере не останется. Это и есть главная цель безопасности.
+
+Чтобы в следующий раз воспользоваться браузером, вам нужно выполнить всего одну команду:
+```
+./launch-firefox.sh
+```
+
+Игого
+- Первый раз:
+-- Создали изолированную сеть: docker network create ...
+-- Собрали Docker-образ: docker build ...
+-- Создали скрипт launch-firefox.sh.
+-- Запустили скрипт: ./launch-firefox.sh
+-Все последующие разы:
+-- Чтобы запустить браузер, просто набирайте: ./launch-firefox.sh
+-- Чтобы закрыть, просто закройте окно браузера.
+
+И всё!
