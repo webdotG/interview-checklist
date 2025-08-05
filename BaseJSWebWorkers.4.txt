@@ -1,0 +1,140 @@
+4. Web Workers (https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API): Или путь к Параллелизму
+(WHATWG (https://html.spec.whatwg.org/multipage/workers.html))
+
+Принципы работы Web Workers 
+(Dedicated, Shared, Service Workers)
+
+Web Workers предоставляют механизм для выполнения JavaScript кода в фоновых потоках, изолированных от основного потока выполнения веб-приложения. 
+Это позволяет выполнять сильно ресурсоемкие вычисления (и не только), не блокируя пользовательский интерфейс и сохраняя отзывчивость приложения.
+
+Ключевым аспектом является то, что Web Workers — это не часть самого языка JavaScript, а функция, предоставляемая средой выполнения. 
+Они позволяют достичь истинного (аминь) параллелизма, поскольку каждый воркер запускается в отдельном потоке, со своим собственным Event Loop.  
+
+-4.1 Есть несколько типов Web Workers:
+
+-4.1.1 Dedicated Workers (https://developer.mozilla.org/en-US/docs/Web/API/Worker) (WHATWG (https://html.spec.whatwg.org/multipage/workers.html#dedicated-workers-and-the-worker-interface))
+Создаются через new Worker().
+Используются одним скриптом и доступны только из того скрипта, который их создал. 
+Отлично для фоновых вычислений
+Являются наиболее распространенным типом воркеров.  
+
+-4.1.2 Shared Workers (https://developer.mozilla.org/en-US/docs/Web/API/SharedWorker) (WHATWG (https://html.spec.whatwg.org/multipage/workers.html#shared-workers-and-the-sharedworker-interface))
+Доступны из разных контекстов (окон, воркеров), но только если same-origin.
+Могут быть доступны нескольким скриптам, работающим в разных окнах, iframe-ах или даже других воркерах, при условии, что они находятся в одном домене. 
+Коммуникация с ними происходит через явный порт.  
+
+-4.1.3 Service Workers (https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) (WHATWG (https://w3c.github.io/ServiceWorker/#serviceworker))
+Работают как прокси, управляют кэшем (Cache API), перехватывают запросы (fetch).
+Их задача – оффлайн-работа и фоновые задачи.
+(Если открыть сейчас в браузере, то будет удивление сколько их висит сейчас в "работе")
+
+-4.1.4 Worklet Agents (https://developer.mozilla.org/en-US/docs/Web/API/Worklet) (WHATWG (https://html.spec.whatwg.org/multipage/worklets.html))
+Это специализированные агенты, содержащие WorkletGlobalScope. 
+Используются для специфических задач (аудио, графика).
+Например, AudioWorklet позволяет запускать пользовательские аудиопроцессоры. 
+
+-4.2 Механизмы коммуникации: 
+(postMessage, Structured Clone, Transferable Objects)
+
+Связь между Web Workers и основным потоком осуществляется через модель событий с использованием метода postMessage(). 
+
+-4.2.1 postMessage() (WHATWG (https://html.spec.whatwg.org/multipage/workers.html#dom-worker-postmessage))
+Это основной способ обмена данными между потоками.
+Как работает:
+// Основной поток
+const worker = new Worker('worker.js');
+worker.postMessage({ data: 'Hello' });
+
+// worker.js
+self.onmessage = (e) => {
+  console.log(e.data); // { data: 'Hello' }
+};
+
+Данные могут быть отправлены двумя основными способами:  
+(как данные копируются - WHATWG (https://html.spec.whatwg.org/multipage/structured-data.html#structuredserialize))
+
+-4.2.2 Structured Clone (https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm) (Структурированное клонирование): 
+При использовании этого метода создается независимая копия объекта для нового потока. 
+Это означает, что переменные не являются "общими" в традиционном смысле, и изменения в одной копии не влияют на другую. 
+Это обеспечивает изоляцию, но может быть неэффективным для больших объемов данных из-за накладных расходов на копирование
+Что клонируется:
+--4.2.2.1 Все примитивы, Array, Object, Map, Set, Date, RegExp, ArrayBuffer, Blob и проч.
+--4.2.2.2 Не клонируется: Функции, DOM-узлы, прототипы.
+
+-4.2.3 Transferable Objects (Передаваемые объекты) (WHATWG (https://html.spec.whatwg.org/multipage/structured-data.html#transferable-objects))
+Этот механизм позволяет передавать владение базовым ресурсом (например, блоком памяти) от одного контекста к другому без копирования. 
+После передачи исходный объект в отправляющем потоке становится непригодным для использования, так как ресурс "перемещается" в принимающий поток. 
+Это значительно повышает эффективность для больших объемов бинарных данных, поскольку исключает дорогостоящие операции копирования. 
+Пример:
+const buffer = new ArrayBuffer(1024);
+// Передача владения
+worker.postMessage(buffer, [buffer]); 
+
+// Теперь `buffer` в основном потоке пуст!
+
+4.3 Ключевые ограничения Web Workers
+
+Несмотря на мощные возможности, Web Workers имеют важные ограничения:
+
+-4.3.1 Нет доступа к DOM 
+Воркеры не могут напрямую обращаться к:
+-- window (Global Scope)  (WHATWG (https://html.spec.whatwg.org/multipage/workers.html#the-workerglobalscope-common-interface))
+-- document
+-- localStorage/sessionStorage (Storage API) (WHATWG (https://html.spec.whatwg.org/multipage/webstorage.html)) 
+-- Браузерным API типа navigator.geolocation
+Причина: DOM не потокобезопасен.
+Обход: 
+Использовать postMessage() для коммуникации с основным потоком.
+
+-4.3.2 Изолированный контекст (WHATWG (https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope))
+-- Код выполняется в WorkerGlobalScope, а не в Window.
+(self вместо window).
+
+-4.3.3 Доступные API (MDN (https://developer.mozilla.org/en-US/docs/Web/API/WorkerGlobalScope)) 
+-- fetch(), XMLHttpRequest
+-- setTimeout/setInterval
+-- IndexedDB (w3c (https://w3c.github.io/IndexedDB/)) 
+-- WebSocket (WHATWG (https://websockets.spec.whatwg.org/))  
+Некоторые API, такие как WebAssembly, также доступны внутри воркеров.
+
+-4.3.4 Политика Same-Origin
+-- Скрипт воркера должен быть из того же источника (origin), что и основной скрипт.
+-- Исключение: CORS с правильными заголовками, но даже в этом случае некоторые API (SharedArrayBuffer) могут быть заблокированы
+
+-4.3.5 Управление жизненным циклом
+Явное завершение через:
+-- worker.terminate() (из основного потока) (MDN (https://developer.mozilla.org/en-US/docs/Web/API/Worker/terminate)) 
+-- self.close() (из воркера)
+После завершения воркера (через terminate() или close()), все его ресурсы освобождаются, и повторно использовать его нельзя.
+
+-4.4 SharedArrayBuffer и Atomics (MDN (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer)) 
+
+-4.4.1 SharedArrayBuffer (SAB) (ECMA (https://tc39.es/ecma262/#sec-sharedarraybuffer-objects)) 
+Это: Общий блок памяти между потоками.
+
+Отличие от ArrayBuffer:
+Feature     |ArrayBuffer   |SharedArrayBuffer
+Передача|Transferable  |Не transferable
+Доступ      |Один поток   |Множество потоков
+
+-4.4.2 Atomics (ECMA (https://tc39.es/ecma262/#sec-atomics-object)) 
+Гарантируют атомарность операций:
+// Атомарное сложение
+Atomics.add(sharedArray, index, value); 
+// Безопасное чтение
+const value = Atomics.load(sharedArray, index); 
+Методы:
+-- load()/store()
+-- add()/sub()
+-- wait()/notify() (для синхронизации)
+Требует заголовков (Объяснение (https://web.dev/articles/cross-origin-isolation-guide)) 
+Cross-Origin-Opener-Policy: same-origin
+Cross-Origin-Embedder-Policy: require-corp
+
+- 4.5 Эволюция параллелизма в JavaScript
+-- Однопоточная модель 
+(Event Loop)
+-- Web Workers 
+(Параллелизм через изоляцию)
+-- SharedArrayBuffer + Atomics
+(Истинная разделяемая память)
