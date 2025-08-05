@@ -1,0 +1,99 @@
+Не проверенные проекты тоже на чиле
+
+mkdir docker-node-safe
+cd docker-node-safe
+
+Dockerfile
+nano Dockerfile
+
+# Используем официальный образ Node.js
+FROM node:lts-bookworm-slim
+
+# Создаём непривилегированного пользователя
+RUN useradd -m -u 1000 -s /bin/bash nodeuser && \
+    mkdir -p /home/nodeuser/app && \
+    chown -R nodeuser:nodeuser /home/nodeuser
+
+# Переключаемся на этого пользователя
+USER nodeuser
+WORKDIR /home/nodeuser/app
+
+# Команда для запуска. Запустим shell для интерактивной работы.
+CMD ["/bin/bash"]
+
+Билд
+docker build -t node-safe .
+
+Скрипт
+nano ~/run-project-safely.sh
+
+
+#!/bin/bash
+
+# Создаём изолированную сеть, если она ещё не существует
+# Это нужно для того, чтобы скрипт не мог обращаться к вашей локальной сети
+docker network create --driver bridge --internal isolated_net 2>/dev/null || true
+
+# Проверяем, что указан путь к папке с проектом
+if [ -z "$1" ]; then
+    echo "Ошибка: Не указан путь к папке с проектом."
+    echo "Использование: ./run-project-safely.sh <путь_к_папке_проекта>"
+    exit 1
+fi
+
+# Проверяем, что папка с проектом существует
+if [ ! -d "$1" ]; then
+    echo "Ошибка: Папка '$1' не найдена."
+    exit 1
+fi
+
+# Очищаем путь, чтобы он был абсолютным и без лишних слэшей
+PROJECT_PATH=$(realpath "$1")
+CONTAINER_WORK_DIR="/home/nodeuser/app"
+
+echo "Запуск проекта из папки '$PROJECT_PATH' в изолированном контейнере..."
+
+docker run --rm -it \
+  --network isolated_net \
+  --memory 1g \
+  --cpus 1 \
+  --pids-limit 100 \
+  --ipc none \
+  --pid host \
+  --cap-drop=ALL \
+  --security-opt no-new-privileges \
+  --security-opt seccomp=unconfined \
+  \
+  # Смонтировать всю папку с проектом в контейнер.
+  # Флаг :ro означает "только для чтения", чтобы скрипт не мог менять файлы на хосте.
+  -v "$PROJECT_PATH:$CONTAINER_WORK_DIR:ro" \
+  \
+  # Устанавливаем рабочую директорию в контейнере
+  -w "$CONTAINER_WORK_DIR" \
+  \
+  node-safe \
+  /bin/bash
+
+Исполить
+chmod +x ~/run-project-safely.sh
+
+Запустить скрипт, указав путь к папке с проектом
+~/run-project-safely.sh ~/Desktop/suspicious-project
+
+Вы попадёте в командную строку контейнера. 
+Вы увидите что-то вроде этого:
+nodeuser@<id_контейнера>:/home/nodeuser/app$
+
+Запустите ваш проект вручную из командной строки контейнера.
+Например, чтобы запустить файл index.js, просто наберите:
+node index.js
+
+Если у вас проект с зависимостями (package.json), 
+сначала установите их:
+npm install
+
+А затем запустите проект, как обычно:
+npm start
+
+Чтобы выйти из контейнера:
+exit
