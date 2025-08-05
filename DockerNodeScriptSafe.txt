@@ -6,8 +6,6 @@ mkdir docker-node-safe
 cd docker-node-safe
 nano Dockerfile
 
-Код
-
 # Используем официальный образ Node.js
 FROM node:lts-bookworm-slim
 
@@ -24,49 +22,10 @@ WORKDIR /home/nodeuser/app
 # Будем запускать её вручную через скрипт-обёртку
 CMD ["/bin/bash"]
 
-Да, конечно. Это очень хорошая и правильная идея — запускать непроверенные скрипты в максимально изолированной среде. Пример, который вы привели, отлично показывает, почему это так важно. Там используется динамическое создание функции (new (Function.constructor)) и передача ей доступа к require, что даёт скрипту полный контроль над вашей системой.
-
-Мы можем создать новую, полностью изолированную среду на основе Docker специально для запуска Node.js скриптов. Эта среда будет даже безопаснее, чем предыдущая для Firefox, потому что для неё не нужен графический интерфейс и доступ к X11.
-
-Шаг 1: Создание Dockerfile для Node.js
-
-Сначала создайте новую папку, например, docker-node-safe. В ней создайте файл с названием Dockerfile.
-Bash
-
-mkdir docker-node-safe
-cd docker-node-safe
-nano Dockerfile
-
-Вставьте в него следующий код:
-Dockerfile
-
-# Используем официальный образ Node.js
-FROM node:lts-bookworm-slim
-
-# Создаём непривилегированного пользователя
-RUN useradd -m -u 1000 -s /bin/bash nodeuser && \
-    mkdir -p /home/nodeuser/app && \
-    chown -R nodeuser:nodeuser /home/nodeuser
-
-# Переключаемся на этого пользователя
-USER nodeuser
-WORKDIR /home/nodeuser/app
-
-# Команда для запуска скриптов
-# Будем запускать её вручную через скрипт-обёртку
-CMD ["/bin/bash"]
-
-Объяснение:
-- FROM node:lts-bookworm-slim: Мы берём официальный и лёгкий образ Node.js на базе Debian.
-- USER nodeuser: Как и в случае с Firefox, мы создаём и переключаемся на непривилегированного пользователя. Это предотвращает запуск кода от имени root.
-- WORKDIR /home/nodeuser/app: Мы устанавливаем рабочую директорию, куда будем помещать наш скрипт.
-- CMD ["/bin/bash"]: Вместо того чтобы сразу запускать скрипт, мы просто открываем командную строку (shell). Это позволит нам вручную копировать и запускать любой скрипт, который мы захотим.
 
 скрипта-обёртки для запуска "run-script-safely.sh"
-
 nano run-script-safely.sh
 
-Код
 
 #!/bin/bash
 
@@ -110,39 +69,11 @@ docker run --rm -it \
 
 echo "Контейнер завершен."
 
-Объяснение:
-- docker network create ...: Мы используем ту же самую изолированную сеть, что и для Firefox. Это гарантирует, что скрипт не сможет общаться с вашей локальной сетью.
-- --memory 512m --cpus 0.5: Ограничиваем ресурсы, чтобы потенциально вредоносный скрипт не мог использовать все ресурсы вашего компьютера.
-- --read-only: Контейнер запускается в режиме только для чтения, чтобы скрипт не мог ничего сохранить.
-- -v "$1:/home/nodeuser/app/script.js:ro": Это ключевой момент. Мы монтируем ваш скрипт ($1 — это первый аргумент, который вы передадите) в контейнер по пути /home/nodeuser/app/script.js. Флаг :ro означает "только для чтения" (read-only), поэтому скрипт не сможет изменить свой собственный файл.
-
 Билд
 docker build -t node-safe .
 
 Исполняем
 chmod +x run-script-safely.sh
 
-Создать изолированную сеть (если ещё не создана)
-docker network create --driver bridge --internal isolated_net
-
-
-Создайте тестовый скрипт: 
-Для примера, создайте файл test.js в любой папке на вашем компьютере.
-
-// test.js
-console.log("Hello from a safe container!");
-
-// Попытка получить доступ к системным переменным (не сработает)
-console.log("Trying to get hostname:", require('os').hostname());
-
-// Попытка записать файл (не сработает, так как контейнер --read-only)
-try {
-  require('fs').writeFileSync('/home/nodeuser/app/test.txt', 'This should fail.');
-} catch (e) {
-  console.error("File write failed as expected:", e.message);
-}
-
-Запустите скрипт: 
-Теперь вы можете безопасно запустить ваш тестовый скрипт, указав путь к нему.
-
-./run-script-safely.sh /путь/к/вашей/папке/test.js
+Запустить скрипт указав путь к нему.
+./run-script-safely.sh /путь/к/вашей/папке/SOMESCRIPT.js

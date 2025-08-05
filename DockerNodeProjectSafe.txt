@@ -2,8 +2,6 @@
 
 mkdir docker-node-safe
 cd docker-node-safe
-
-Dockerfile
 nano Dockerfile
 
 # Используем официальный образ Node.js
