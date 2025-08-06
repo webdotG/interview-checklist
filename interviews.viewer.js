@@ -1,13 +1,19 @@
 import { questionUtils } from './questions.stats.js'
 import { questionsData } from './questions.data.js'
 
+import {
+  collection,
+  getDocs,
+  orderBy,
+  query,
+} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js'
+
 export class InterviewsViewer {
   constructor() {
     this.interviews = []
     this.filters = null
     this.totalQuestions = questionUtils.countQuestions(questionsData)
 
-    // UI элементы
     this.loadingElement = document.getElementById('loading-message')
     this.errorElement = document.getElementById('error-message')
     this.errorText = document.getElementById('error-text')
@@ -16,7 +22,6 @@ export class InterviewsViewer {
     this.loadButton = document.getElementById('load-interviews-btn')
     this.localWarning = document.getElementById('local-mode-warning')
 
-    // Зависимости устанавливаются через setDependencies
     this.authService = null
     this.notificationService = null
     this.firestore = null
@@ -69,11 +74,7 @@ export class InterviewsViewer {
 
   async loadInterviews() {
     try {
-      // Импортируем Firebase функции динамически
-      const { collection, getDocs, orderBy, query } = await import(
-        'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js'
-      )
-
+      // Используем уже импортированные Firebase функции
       const interviewsRef = collection(this.firestore, 'interviews')
       const q = query(interviewsRef, orderBy('timestamp', 'desc'))
       const querySnapshot = await getDocs(q)
