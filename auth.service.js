@@ -6,7 +6,6 @@ import { auth } from './db.service.js'
 
 export class AuthService {
   constructor() {
-    this.auth = auth
     this.provider = new GithubAuthProvider()
   }
 
@@ -18,7 +17,7 @@ export class AuthService {
   async signInWithGitHub() {
     try {
       // Используем импортированный экземпляр auth
-      const result = await signInWithPopup(this.auth, this.provider)
+      const result = await signInWithPopup(auth, this.provider)
       const user = result.user
 
       console.log('Пользователь успешно вошел через GitHub:', user)
