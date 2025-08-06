@@ -1,12 +1,6 @@
 import { questionUtils } from './questions.stats.js'
 import { questionsData } from './questions.data.js'
-
-import {
-  collection,
-  getDocs,
-  orderBy,
-  query,
-} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js'
+import { db } from './db.js'
 
 export class InterviewsViewer {
   constructor() {
@@ -14,6 +8,7 @@ export class InterviewsViewer {
     this.filters = null
     this.totalQuestions = questionUtils.countQuestions(questionsData)
 
+    // UI элементы
     this.loadingElement = document.getElementById('loading-message')
     this.errorElement = document.getElementById('error-message')
     this.errorText = document.getElementById('error-text')
@@ -22,14 +17,10 @@ export class InterviewsViewer {
     this.loadButton = document.getElementById('load-interviews-btn')
     this.localWarning = document.getElementById('local-mode-warning')
 
-    this.authService = null
-    this.notificationService = null
-    this.firestore = null
-    this.isGitHubPages = false
-
     this.setupEventListeners()
   }
 
+  // Фильтр
   setFilters(filtersInstance) {
     this.filters = filtersInstance
     this.filters.onChange((result) => {
@@ -40,32 +31,19 @@ export class InterviewsViewer {
     return this
   }
 
-  setDependencies({
-    authService,
-    notificationService,
-    firestore,
-    isGitHubPages,
-  }) {
-    this.authService = authService
-    this.notificationService = notificationService
-    this.firestore = firestore
-    this.isGitHubPages = isGitHubPages
-  }
-
   async init() {
     try {
       this.showLoading()
 
-      if (!this.isGitHubPages) {
+      // Инициализируем db
+      await db.init()
+
+      if (!this.isGitHubPages()) {
         this.showLocalMode()
         return
       }
 
-      if (this.isGitHubPages && this.firestore) {
-        await this.loadInterviews()
-      } else {
-        this.showError('Ошибка подключения к Firebase')
-      }
+      await this.loadInterviews()
     } catch (error) {
       console.error('Ошибка инициализации viewer:', error)
       this.showError('Ошибка подключения к базе данных')
@@ -73,36 +51,24 @@ export class InterviewsViewer {
   }
 
   async loadInterviews() {
+    this.showLoading()
+    this.resetUI()
+
     try {
-      // Используем уже импортированные Firebase функции
-      const interviewsRef = collection(this.firestore, 'interviews')
-      const q = query(interviewsRef, orderBy('timestamp', 'desc'))
-      const querySnapshot = await getDocs(q)
-
-      if (querySnapshot.empty) {
-        this.showNoInterviews()
-        return
-      }
-
-      this.interviews = []
-      querySnapshot.forEach((doc) => {
-        this.interviews.push({ id: doc.id, ...doc.data() })
-      })
+      this.interviews = await db.loadInterviews()
 
       console.log(`Загружено ${this.interviews.length} интервью`)
-      this.renderInterviews()
-      this.setupFilters()
-      this.hideLoading()
 
-      if (this.notificationService) {
-        this.notificationService.show(
-          `Загружено ${this.interviews.length} интервью`,
-          'success',
-        )
+      if (this.interviews.length === 0) {
+        this.showNoInterviews()
+      } else {
+        this.renderInterviews()
+        this.setupFilters()
       }
     } catch (error) {
-      console.error('Ошибка загрузки интервью:', error)
-      this.showError('Не удалось загрузить интервью из базы данных')
+      this.handleLoadError(error)
+    } finally {
+      this.hideLoading()
     }
   }
 
@@ -111,12 +77,6 @@ export class InterviewsViewer {
       .map((interview) => this.createInterviewCard(interview))
       .join('')
     this.containerElement.innerHTML = html
-  }
-
-  setupFilters() {
-    if (this.filters) {
-      this.filters.setData(this.interviews)
-    }
   }
 
   createInterviewCard(interview) {
@@ -169,9 +129,7 @@ export class InterviewsViewer {
 
     // Глобальные функции для интерфейса
     window.viewInterview = (id) => {
-      if (this.notificationService) {
-        this.notificationService.show('Функция просмотра в разработке', 'info')
-      }
+      console.log('Просмотр интервью:', id)
     }
 
     window.downloadInterview = (id) => {
@@ -201,24 +159,39 @@ export class InterviewsViewer {
       a.click()
       document.body.removeChild(a)
       URL.revokeObjectURL(url)
-
-      if (this.notificationService) {
-        this.notificationService.show('Интервью скачано!', 'success')
-      }
     } catch (error) {
       console.error('Ошибка скачивания:', error)
-      if (this.notificationService) {
-        this.notificationService.show('Ошибка при скачивании', 'error')
-      }
     }
   }
 
+  setupFilters() {
+    if (this.filters) {
+      this.filters.setData(this.interviews)
+    }
+  }
+
+  resetUI() {
+    this.hideError()
+    this.hideNoInterviews()
+    this.clearInterviews()
+  }
+
+  handleLoadError(error) {
+    console.error('Ошибка при загрузке интервью:', error)
+
+    if (error.message === 'OFFLINE_MODE') {
+      this.showLocalMode()
+    } else {
+      this.showError(error.message)
+    }
+  }
+
+  // UI методы
   showLoading() {
     this.loadingElement?.classList.remove('hidden')
     this.errorElement?.classList.add('hidden')
     this.noInterviewsElement?.classList.add('hidden')
     this.localWarning?.classList.add('hidden')
-    if (this.containerElement) this.containerElement.innerHTML = ''
   }
 
   hideLoading() {
@@ -231,9 +204,17 @@ export class InterviewsViewer {
     this.errorElement?.classList.remove('hidden')
   }
 
+  hideError() {
+    this.errorElement?.classList.add('hidden')
+  }
+
   showNoInterviews() {
     this.hideLoading()
     this.noInterviewsElement?.classList.remove('hidden')
+  }
+
+  hideNoInterviews() {
+    this.noInterviewsElement?.classList.add('hidden')
   }
 
   showLocalMode() {
@@ -248,16 +229,20 @@ export class InterviewsViewer {
     }
   }
 
+  clearInterviews() {
+    if (this.containerElement) this.containerElement.innerHTML = ''
+  }
+
+  isGitHubPages() {
+    return window.location.hostname.includes('github.io')
+  }
+
   // Методы форматирования данных
   countAnsweredQuestions(interview) {
     if (!interview.answers) return 0
     return Object.keys(interview.answers).filter((key) => {
       const answer = interview.answers[key]
-      // Проверяем, что answer является строкой перед вызовом .trim()
-      // А также считаем непустыми другие типы, если они существуют
-      return (
-        answer && (typeof answer === 'string' ? answer.trim() !== '' : true)
-      )
+      return answer && answer.trim() !== ''
     }).length
   }
 
