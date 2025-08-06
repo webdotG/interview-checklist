@@ -253,7 +253,11 @@ export class InterviewsViewer {
     if (!interview.answers) return 0
     return Object.keys(interview.answers).filter((key) => {
       const answer = interview.answers[key]
-      return answer && answer.trim() !== ''
+      // Проверяем, что answer является строкой перед вызовом .trim()
+      // А также считаем непустыми другие типы, если они существуют
+      return (
+        answer && (typeof answer === 'string' ? answer.trim() !== '' : true)
+      )
     }).length
   }
 
