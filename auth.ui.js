@@ -80,19 +80,21 @@ export class AuthUI {
     if (this.loginButton) this.loginButton.style.display = 'none'
     if (this.logoutButton) this.logoutButton.style.display = 'block'
     if (this.authWarning) this.authWarning.classList.add('hidden')
+
     if (this.userInfo.parentNode) this.userInfo.remove()
 
     this.userInfo.innerHTML = `
-      <div class="user-info">
-        <span>Вы вошли как: ${user.displayName || user.email}</span>
-        <button id="logout-btn" class="btn btn--small">Выйти</button>
-      </div>
-    `
-    if (this.loginButton && this.loginButton.parentNode) {
-      this.loginButton.parentNode.appendChild(this.userInfo)
+    <div class="user-info" style="margin-top: 10px;">
+      <span>✓ Вы вошли как: <strong>${
+        user.displayName || user.email
+      }</strong></span>
+    </div>
+  `
+
+    if (this.logoutButton && this.logoutButton.parentNode) {
+      this.logoutButton.parentNode.appendChild(this.userInfo)
     }
   }
-
   showUnauthorizedState() {
     if (this.loginButton) this.loginButton.style.display = 'block'
     if (this.logoutButton) this.logoutButton.style.display = 'none'
