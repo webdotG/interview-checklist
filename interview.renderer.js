@@ -1,4 +1,4 @@
-import { InterviewFormatter } from './interviewFormatter.js'
+import { InterviewFormatter } from './interview.formatter.js'
 import { questionUtils } from './questions.stats.js'
 
 export class InterviewRenderer {
