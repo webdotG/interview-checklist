@@ -10,7 +10,6 @@ import { questionsData } from './questions.data.js'
 
 export async function initializeApp() {
   try {
-    // Ждём, пока Firebase полностью инициализируется.
     const { auth } = await db.init()
 
     const authService = new AuthService(auth)
