@@ -18,8 +18,8 @@ const firebaseConfig = {
   appId: '1:1038665174709:web:4920e8a7edd6a9c2c938fc',
 }
 
-// Экспортируем экземпляры сервисов, чтобы их можно было использовать в других файлах
-export let firestore
+// экземпляры сервисов, переиспользовать
+
 export let auth
 
 let firebaseInitialized = false
@@ -33,7 +33,7 @@ export const db = {
   async init() {
     if (firebaseInitialized) {
       console.log('Firebase уже инициализирован')
-      return auth
+      return { auth } //firestore
     }
 
     // Проверка на GitHub Pages для инициализации Firebase
@@ -57,16 +57,9 @@ export const db = {
       )
       firebaseInitialized = false
     }
-    return auth
+    return { firestore, auth }
   },
 
-  /**
-   * Сохраняет данные интервью в Firestore и локально.
-   * @param {string} company
-   * @param {string} position
-   * @param {string} salary
-   * @param {object} answers
-   */
   async saveInterview(company, position, salary, answers) {
     try {
       const interviewData = {
@@ -117,10 +110,6 @@ export const db = {
     }
   },
 
-  /**
-   * Сохраняет данные интервью в виде JSON-файла.
-   * @param {object} data
-   */
   saveToJson(data) {
     try {
       const filename =

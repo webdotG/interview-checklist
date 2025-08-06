@@ -9,7 +9,7 @@ export class AuthService {
     this.provider = new GithubAuthProvider()
   }
 
-  // Оставил его пустым, чтобы не было ошибок, не помнб пока вдруг где-то в коде его вызывают
+  // Оставил его пустым, чтобы не было ошибок, не помнб пока где в коде его вызывают
   async initializeAuth() {
     console.log('Используем уже инициализированный Firebase Auth')
   }

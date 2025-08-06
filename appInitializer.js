@@ -1,3 +1,4 @@
+import { db } from './db.service.js'
 import { AuthService } from './auth.service.js'
 import { AuthUI } from './auth.ui.js'
 import { NotificationService } from './notification.service.js'
@@ -6,11 +7,11 @@ import { FormValidator } from './form.validator.js'
 import { renderQuestions } from './questions.renderer.js'
 import { questionUtils } from './questions.stats.js'
 import { questionsData } from './questions.data.js'
-import { db } from './db.service.js'
 
 export async function initializeApp() {
   try {
-    const authService = new AuthService()
+    const { auth } = await db.init() // firestore
+    const authService = new AuthService(auth)
     await authService.initializeAuth()
 
     const manager = new InterviewManager()
