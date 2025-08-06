@@ -10,9 +10,10 @@ import { questionsData } from './questions.data.js'
 
 export async function initializeApp() {
   try {
-    const { auth, firestore } = await db.init()
+    // Ждём, пока Firebase полностью инициализируется.
+    const { auth } = await db.init()
+
     const authService = new AuthService(auth)
-    await authService.initializeAuth()
 
     const manager = new InterviewManager()
     await manager.init()
@@ -21,7 +22,7 @@ export async function initializeApp() {
     const notificationService = new NotificationService()
     const isGitHubPages = window.location.hostname.includes('github.io')
 
-    // ВСЕ зависимости в AuthUI
+    // Передаём все зависимости в AuthUI
     const authUI = new AuthUI(
       authService,
       notificationService,
@@ -34,7 +35,6 @@ export async function initializeApp() {
 
     questionUtils.addCounterToHeader(questionsData)
     await renderQuestions()
-    await db.init()
 
     const stats = questionUtils.getDetailedStats(questionsData)
     console.log('Interview stats:', stats)
