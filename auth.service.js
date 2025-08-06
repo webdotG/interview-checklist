@@ -2,22 +2,17 @@ import {
   signInWithPopup,
   GithubAuthProvider,
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js'
-import { auth } from './db.service.js'
 
 export class AuthService {
-  constructor() {
+  constructor(auth) {
+    this.auth = auth
     this.provider = new GithubAuthProvider()
-  }
-
-  // Оставил его пустым, чтобы не было ошибок, не помнб пока где в коде его вызывают
-  async initializeAuth() {
-    console.log('Используем уже инициализированный Firebase Auth')
   }
 
   async signInWithGitHub() {
     try {
-      // Используем импортированный экземпляр auth
-      const result = await signInWithPopup(auth, this.provider)
+      // Используем объект auth, переданный в конструктор
+      const result = await signInWithPopup(this.auth, this.provider)
       const user = result.user
 
       console.log('Пользователь успешно вошел через GitHub:', user)
