@@ -18,8 +18,7 @@ const firebaseConfig = {
   appId: '1:1038665174709:web:4920e8a7edd6a9c2c938fc',
 }
 
-// экземпляры сервисов, переиспользовать
-
+export let firestore
 export let auth
 
 let firebaseInitialized = false
@@ -27,13 +26,10 @@ let firebaseInitialized = false
 const notificationService = new NotificationService()
 
 export const db = {
-  /**
-   * Инициализирует Firebase. Вызывается только один раз.
-   */
   async init() {
     if (firebaseInitialized) {
       console.log('Firebase уже инициализирован')
-      return { auth } //firestore
+      return { firestore, auth }
     }
 
     // Проверка на GitHub Pages для инициализации Firebase

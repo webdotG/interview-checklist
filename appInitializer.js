@@ -10,7 +10,7 @@ import { questionsData } from './questions.data.js'
 
 export async function initializeApp() {
   try {
-    const { auth } = await db.init() // firestore
+    const { auth, firestore } = await db.init()
     const authService = new AuthService(auth)
     await authService.initializeAuth()
 
