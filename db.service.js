@@ -5,6 +5,8 @@ import {
   collection,
   addDoc,
   serverTimestamp,
+  orderBy,
+  serverTimestamp,
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js'
 import { NotificationService } from './notification.service.js'
 
@@ -57,6 +59,28 @@ export const db = {
       firebaseInitialized = false
     }
     return { firestore, auth }
+  },
+
+  async loadInterviews() {
+    if (!firebaseInitialized || !firestore) {
+      throw new Error('OFFLINE_MODE')
+    }
+
+    try {
+      const interviewsRef = collection(firestore, 'interviews')
+      const q = query(interviewsRef, orderBy('timestamp', 'desc'))
+      const querySnapshot = await getDocs(q)
+
+      const interviews = []
+      querySnapshot.forEach((doc) => {
+        interviews.push({ id: doc.id, ...doc.data() })
+      })
+
+      return interviews
+    } catch (error) {
+      console.error('Ошибка загрузки из Firebase:', error)
+      throw new Error('Не удалось загрузить интервью из базы данных')
+    }
   },
 
   async saveInterview(company, position, salary, answers) {
