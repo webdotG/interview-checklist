@@ -612,3 +612,80 @@ input.invalid {
 input.invalid:focus {
   outline: none;
 }
+
+/* ---------------------------------------------------------- уведомления  */
+
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 24px;
+  border-radius: 6px;
+  color: white;
+  font-weight: 500;
+  z-index: 1000;
+  transform: translateX(400px);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.notification--show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.notification--hide {
+  transform: translateX(400px);
+  opacity: 0;
+}
+
+.notification--success {
+  background: #10b981;
+}
+.notification--error {
+  background: #ef4444;
+}
+.notification--warning {
+  background: #f59e0b;
+}
+.notification--info {
+  background: #3b82f6;
+}
+
+.auth-warning--highlighted {
+  animation: pulse 0.5s ease-in-out 3;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  background: #f3f4f6;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.btn--small {
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
+.error {
+  border-color: #ef4444 !important;
+  background-color: #fef2f2;
+}
+
+.error:focus {
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+}

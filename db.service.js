@@ -36,7 +36,8 @@ export const db = {
       console.log('Running in local mode, Firebase not initialized')
       firebaseInitialized = false
     }
-    return true
+    // return true
+    return auth
   },
 
   async saveInterview(company, position, salary, answers) {
@@ -47,10 +48,12 @@ export const db = {
         salary,
         answers,
         timestamp: new Date().toISOString(),
+        // userId, если он есть
+        userId: auth.currentUser ? auth.currentUser.uid : null,
       }
 
       // сохранить в Firebase только если он инициализирован
-      if (firebaseInitialized) {
+      if (firebaseInitialized && auth.currentUser) {
         try {
           const { collection, addDoc, serverTimestamp } = await import(
             'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js'
@@ -70,15 +73,15 @@ export const db = {
           )
           console.log('Saved to Firebase with ID:', docRef.id)
 
-          // показываем пользователю успешное сохранение
-          this.showSaveSuccess('Интервью сохранено в общую базу!')
+          // показываем успешное сохранение
+          this.showSaveSuccess('Интервью сохранено в общую базу и локально!')
         } catch (firebaseError) {
           console.warn(
-            'Failed to save to Firebase, saving locally only',
+            'Не удалось сохранить в общую базу. Сохраняю локально.',
             firebaseError,
           )
           this.showSaveError(
-            'Не удалось сохранить в общую базу, сохраняю локально',
+            'Сохраняю только локально. Войдите, чтобы сохранить в базу.',
           )
         }
       }
@@ -145,7 +148,7 @@ export const db = {
 
     document.body.appendChild(notification)
 
-    // удаляем через 3 секунды
+    // удаление через 3 секунды
     setTimeout(() => {
       if (notification.parentNode) {
         notification.parentNode.removeChild(notification)

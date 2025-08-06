@@ -60,6 +60,15 @@
       <div class="header-nav">
         <h1>Чек-лист собеседования</h1>
         <a href="interviews.html" class="nav-link">Посмотреть все интервью</a>
+        <button id="github-login-btn">Войти через GitHub</button>
+        <button id="github-logout-btn">Выйти из GitHub</button>
+        <div id="auth-warning" class="hidden">
+          <p>
+            Чтобы ваши ответы сохранились в общей базе и стали доступны другим
+            пользователям, пожалуйста,
+            <a href="#" id="auth-link">войдите через GitHub</a>.
+          </p>
+        </div>
       </div>
 
       <form id="interview-form" class="company-info">
@@ -98,41 +107,9 @@
     </main>
 
     <script type="module">
-      import { InterviewManager } from './interviewManager.js'
-      import { FormValidator } from './formValidator.js'
-      import {
-        questionsStructure,
-        generateQuestionId,
-        renderQuestions,
-      } from './scriptQuestions.js'
-      import { questionUtils } from './questionUtils.js'
-      import { warningItems, questionsData } from './questionsData.js'
-      import { db } from './scriptDB.js'
+      import { initializeApp } from './appInitializer.js'
 
-      document.addEventListener('DOMContentLoaded', async () => {
-        const formValidator = new FormValidator()
-        formValidator.init('#interview-form')
-        function handleFormSubmit() {
-          const result = formValidator.getFormData()
-          if (result.valid) {
-            console.log('Данные валидны:', result.data)
-          } else {
-            console.log('Форма содержит ошибки')
-          }
-        }
-
-        questionUtils.addCounterToHeader(questionsData)
-        await renderQuestions()
-
-        await db.init()
-
-        const manager = new InterviewManager()
-        await manager.init()
-        manager.loadFromURL()
-
-        const stats = questionUtils.getDetailedStats(questionsData)
-        console.log(stats)
-      })
+      document.addEventListener('DOMContentLoaded', initializeApp)
     </script>
   </body>
 </html>

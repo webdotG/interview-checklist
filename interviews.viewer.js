@@ -1,9 +1,9 @@
-import { questionUtils } from './questionUtils.js'
-import { questionsData } from './questionsData.js'
+import { questionUtils } from './questions.stats.js'
+import { questionsData } from './questions.data.js'
 import { FirebaseService } from './FirebaseService.js'
 import { InterviewFormatter } from './interviewFormatter.js'
 import { InterviewRenderer } from './interviewRenderer.js'
-import { UIManager } from './UIManager.js'
+import { UIManager } from './ui.manager.js'
 
 export class InterviewsViewer {
   constructor() {

@@ -1,5 +1,5 @@
-import { questionUtils } from './questionUtils.js'
-import { questionsData } from './questionsData.js'
+import { questionUtils } from './questions.stats.js'
+import { questionsData } from './questions.data.js'
 
 export class InterviewFilters {
   constructor(containerSelector = '#filters-container') {
@@ -19,7 +19,7 @@ export class InterviewFilters {
       return
     }
 
-    // HTML структуру фильтров
+    // HTML структура фильтров
     this.container.innerHTML = this.createFiltersHTML()
     console.log('Фильтры созданы:', this.container)
 

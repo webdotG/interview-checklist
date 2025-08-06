@@ -1,4 +1,4 @@
-import { questionsData, warningItems } from './questionsData.js'
+import { questionsData, warningItems } from './questions.data.js'
 
 export const questionsStructure = Object.entries(questionsData).map(
   ([sectionTitle, subsections]) => ({

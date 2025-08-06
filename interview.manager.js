@@ -1,5 +1,5 @@
-import { db } from './scriptDB.js'
-import { questionsStructure, generateQuestionId } from './scriptQuestions.js'
+import { db } from './db.service.js'
+import { questionsStructure, generateQuestionId } from './questions.renderer.js'
 
 export class InterviewManager {
   constructor() {
@@ -128,8 +128,6 @@ export class InterviewManager {
         })
       })
     })
-
-    this.submitBtn.addEventListener('click', () => this.saveToDatabase())
   }
 
   async saveToDatabase() {

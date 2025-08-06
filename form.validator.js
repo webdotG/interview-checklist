@@ -1,5 +1,5 @@
 export class FormValidator {
-  constructor() {
+  constructor(requiredFields = []) {
     this.validators = {
       company: {
         pattern: /^.+$/, // Любые символы, не пустое
@@ -19,8 +19,8 @@ export class FormValidator {
         errorMessage: 'Используйте только цифры, пробелы, дефисы и точки',
       },
     }
-
     this.activeFields = new Set()
+    this.requiredFields = new Set(requiredFields)
   }
 
   // валидации для формы
@@ -95,7 +95,17 @@ export class FormValidator {
     if (!validator) return true
 
     // пустое поле всегда валидно
-    if (value === '' && fieldName !== 'company') {
+    if (this.requiredFields.has(fieldName) && value === '') {
+      this.setFieldState(
+        field,
+        'invalid',
+        'Это поле обязательно для заполнения.',
+      )
+      return false
+    }
+
+    // если поле не обязательное и пустое, оно валидно
+    if (value === '') {
       this.setFieldState(field, 'normal')
       return true
     }
@@ -155,13 +165,22 @@ export class FormValidator {
     if (!form) return false
 
     const fields = form.querySelectorAll('input[type="text"]')
-
     let isFormValid = true
 
     fields.forEach((field) => {
-      const isFieldValid = this.validateField(field)
-      if (!isFieldValid) {
+      // Добавим проверку на обязательность
+      if (this.requiredFields.has(field.id) && !field.value.trim()) {
+        this.setFieldState(
+          field,
+          'invalid',
+          'Это поле обязательно для заполнения.',
+        )
         isFormValid = false
+      } else {
+        const isFieldValid = this.validateField(field)
+        if (!isFieldValid) {
+          isFormValid = false
+        }
       }
     })
 
