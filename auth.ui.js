@@ -15,15 +15,29 @@ export class AuthUI {
   }
 
   async handleLogin() {
-    const user = await this.authService.signInWithGitHub()
-    if (user) {
+    try {
+      this.notificationService.show('Выполняется вход...', 'info')
+      const user = await this.authService.signInWithGitHub()
+
+      if (user) {
+        this.notificationService.show(
+          `Добро пожаловать, ${user.displayName || user.email}!`,
+          'success',
+        )
+        this.updateUI()
+      }
+    } catch (error) {
       this.notificationService.show(
-        `Добро пожаловать, ${user.displayName || user.email}!`,
-        'success',
+        'Ошибка при входе. Попробуйте снова.',
+        'error',
       )
-    } else {
-      this.notificationService.show('Ошибка входа через GitHub', 'error')
+      console.error('Login error:', error)
     }
+  }
+
+  async handleLogout() {
+    await this.authService.signOut()
+    this.notificationService.show('Вы вышли из аккаунта.', 'info')
     this.updateUI()
   }
 
@@ -104,30 +118,6 @@ export class AuthUI {
     }
   }
 
-  async handleLogin() {
-    try {
-      this.notifications.show('Выполняется вход...', 'info')
-      const user = await this.authService.signInWithGitHub()
-
-      if (user) {
-        this.notifications.show(
-          `Добро пожаловать, ${user.displayName || user.email}!`,
-          'success',
-        )
-        this.updateUI()
-      }
-    } catch (error) {
-      this.notifications.show('Ошибка при входе. Попробуйте снова.', 'error')
-      console.error('Login error:', error)
-    }
-  }
-
-  async handleLogout() {
-    await this.authService.signOut()
-    this.notifications.show('Вы вышли из аккаунта.', 'info')
-    this.updateUI()
-  }
-
   async handleSubmit(e) {
     const currentUser = this.authService.getCurrentUser()
     const isLocalSaveAllowed = !this.isGitHubPages || currentUser
@@ -136,7 +126,7 @@ export class AuthUI {
     const isFormValid = formValidator.validateForm()
 
     if (!isFormValid) {
-      this.notifications.show(
+      this.notificationService.show(
         'Пожалуйста, заполните обязательные поля.',
         'error',
       )
@@ -144,11 +134,11 @@ export class AuthUI {
     }
 
     if (isLocalSaveAllowed) {
-      this.notifications.show('Сохраняем ответы...', 'info')
+      this.notificationService.show('Сохраняем ответы...', 'info')
       await this.manager.saveToDatabase()
       return true
     } else {
-      this.notifications.show(
+      this.notificationService.show(
         'Для сохранения необходимо войти через GitHub',
         'warning',
       )

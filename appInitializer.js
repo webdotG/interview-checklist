@@ -1,4 +1,4 @@
-import { AuthService } from './FirebaseAuthService.js'
+import { AuthService } from './auth.service.js'
 import { AuthUI } from './auth.ui.js'
 import { NotificationService } from './notification.service.js'
 import { InterviewManager } from './interview.manager.js'
