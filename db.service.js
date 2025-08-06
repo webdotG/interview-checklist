@@ -8,7 +8,7 @@ import {
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js'
 import { NotificationService } from './notification.service.js'
 
-// Настройки Firebase
+// Единый объект настроек Firebase для всего приложения
 const firebaseConfig = {
   apiKey: 'AIzaSyAQCgDpHF9u2i6swE0j0lNxiZmRp9j42oE',
   authDomain: 'interview-checklist.firebaseapp.com',
@@ -18,18 +18,28 @@ const firebaseConfig = {
   appId: '1:1038665174709:web:4920e8a7edd6a9c2c938fc',
 }
 
-let firebaseInitialized = false
-let firebaseApp
+// Экспортируем экземпляры сервисов, чтобы их можно было использовать в других файлах
 export let firestore
 export let auth
+
+let firebaseInitialized = false
 
 const notificationService = new NotificationService()
 
 export const db = {
+  /**
+   * Инициализирует Firebase. Вызывается только один раз.
+   */
   async init() {
+    if (firebaseInitialized) {
+      console.log('Firebase уже инициализирован')
+      return auth
+    }
+
+    // Проверка на GitHub Pages для инициализации Firebase
     if (window.location.hostname.includes('github.io')) {
       try {
-        firebaseApp = initializeApp(firebaseConfig)
+        const firebaseApp = initializeApp(firebaseConfig)
         firestore = getFirestore(firebaseApp)
         auth = getAuth(firebaseApp)
         firebaseInitialized = true
@@ -50,6 +60,13 @@ export const db = {
     return auth
   },
 
+  /**
+   * Сохраняет данные интервью в Firestore и локально.
+   * @param {string} company
+   * @param {string} position
+   * @param {string} salary
+   * @param {object} answers
+   */
   async saveInterview(company, position, salary, answers) {
     try {
       const interviewData = {
@@ -58,10 +75,10 @@ export const db = {
         salary,
         answers,
         timestamp: new Date().toISOString(),
-        userId: auth && auth.currentUser ? auth.currentUser.uid : null,
+        userId: auth?.currentUser?.uid || null,
       }
 
-      if (firebaseInitialized && auth && auth.currentUser) {
+      if (firebaseInitialized && auth?.currentUser) {
         try {
           const dataToSave = {
             ...interviewData,
@@ -100,6 +117,10 @@ export const db = {
     }
   },
 
+  /**
+   * Сохраняет данные интервью в виде JSON-файла.
+   * @param {object} data
+   */
   saveToJson(data) {
     try {
       const filename =
