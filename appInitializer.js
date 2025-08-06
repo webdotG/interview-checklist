@@ -67,6 +67,7 @@ export async function initializeInterviewsPage() {
       notificationService,
       firestore,
       isGitHubPages,
+      db,
     })
 
     await viewer.init()
