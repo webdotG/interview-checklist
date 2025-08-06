@@ -11,6 +11,10 @@ export class AuthService {
 
   async signInWithGitHub() {
     try {
+      if (this.auth?.currentUser) {
+        console.log('Пользователь уже авторизован')
+        return this.auth.currentUser
+      }
       // Используем объект auth, переданный в конструктор
       const result = await signInWithPopup(this.auth, this.provider)
       const user = result.user

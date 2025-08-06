@@ -13,11 +13,17 @@ export class AuthUI {
     this.authWarning = document.getElementById('auth-warning')
     this.submitButton = document.getElementById('submit-btn')
     this.userInfo = document.createElement('div')
-    this.setupEventListeners()
+    // this.setupEventListeners()
+    this.isLoggingIn = false
   }
 
   async handleLogin() {
     try {
+      if (this.isLoggingIn) {
+        console.log('Вход уже выполняется, игнорируем повторный вызов')
+        return
+      }
+
       this.notificationService.show('Выполняется вход...', 'info')
       const user = await this.authService.signInWithGitHub()
 

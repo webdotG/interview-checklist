@@ -29,6 +29,9 @@ export const db = {
   async init() {
     if (firebaseInitialized) {
       console.log('Firebase уже инициализирован')
+      if (auth?.currentUser) {
+        console.log('Пользователь уже авторизован:', auth.currentUser.email)
+      }
       return { firestore, auth }
     }
 
