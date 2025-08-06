@@ -7,6 +7,7 @@ import { FormValidator } from './form.validator.js'
 import { renderQuestions } from './questions.renderer.js'
 import { questionUtils } from './questions.stats.js'
 import { questionsData } from './questions.data.js'
+import { InterviewsViewer } from './interviews.viewer.js'
 
 export async function initializeApp() {
   try {
@@ -47,5 +48,44 @@ export async function initializeApp() {
     console.error('Ошибка инициализации приложения:', error)
     const notificationService = new NotificationService()
     notificationService.show('Ошибка загрузки приложения', 'error', 5000)
+  }
+}
+
+export async function initializeInterviewsPage() {
+  try {
+    const { auth, firestore } = await db.init()
+    const authService = new AuthService(auth)
+    const notificationService = new NotificationService()
+    const isGitHubPages = window.location.hostname.includes('github.io')
+
+    // viewer для интервью
+    const viewer = new InterviewsViewer()
+
+    // зависимости
+    viewer.setDependencies({
+      authService,
+      notificationService,
+      firestore,
+      isGitHubPages,
+    })
+
+    await viewer.init()
+
+    notificationService.show('Страница интервью загружена', 'success', 2000)
+  } catch (error) {
+    console.error('Ошибка инициализации страницы интервью:', error)
+    const notificationService = new NotificationService()
+    notificationService.show('Ошибка загрузки страницы интервью', 'error', 5000)
+  }
+}
+
+//  какую страницу инициализировать
+export async function initializeCurrentPage() {
+  const currentPage = window.location.pathname
+
+  if (currentPage.includes('interviews.html')) {
+    await initializeInterviewsPage()
+  } else {
+    await initializeApp()
   }
 }

@@ -88,15 +88,10 @@
     </div>
 
     <script type="module">
-      import { InterviewsViewer } from './interviews.viewer.js'
-      import { InterviewFilters } from './interview.filters.js'
+      import { initializeCurrentPage } from './appInitializer.js'
 
       document.addEventListener('DOMContentLoaded', async () => {
-        const viewer = new InterviewsViewer()
-        const filters = new InterviewFilters('#filters-container')
-
-        viewer.setFilters(filters)
-        await viewer.init()
+        await initializeCurrentPage()
       })
     </script>
   </body>

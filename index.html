@@ -106,9 +106,11 @@
     </main>
 
     <script type="module">
-      import { initializeApp } from './appInitializer.js'
+      import { initializeCurrentPage } from './appInitializer.js'
 
-      document.addEventListener('DOMContentLoaded', initializeApp)
+      document.addEventListener('DOMContentLoaded', async () => {
+        await initializeCurrentPage()
+      })
     </script>
   </body>
 </html>
