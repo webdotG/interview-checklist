@@ -65,6 +65,8 @@ export class AuthService {
 
   // Вход через popup (рекомендуется для десктопа)
   async signInWithGitHub() {
+    console.log('Firebase config:', this.auth.app.options)
+    console.log('Current domain:', window.location.hostname)
     try {
       const result = await signInWithPopup(this.auth, this.provider)
       const credential = GithubAuthProvider.credentialFromResult(result)
