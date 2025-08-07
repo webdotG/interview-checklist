@@ -1,109 +1,130 @@
 <!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>
-      Чек-лист для собеседования разработчика | Вопросы работодателю | Оценка
-      компании
-    </title>
-    <!-- отображается под заголовком в результатах поиска Google -->
-    <meta
-      name="description"
-      content="Полный интерактивный чек-лист вопросов для разработчика на собеседовании. Узнайте, что спросить у работодателя, чтобы оценить команду, процессы и избежать 'красных флагов'."
-    />
-    <meta
-      name="keywords"
-      content="собеседование разработчика, вопросы работодателю, чек-лист, IT-собеседование, оценка компании, красные флаги, поиск работы, developer interview, interview questions, tech interview"
-    />
-    <!-- для Facebook, LinkedIn, Telegram и т.д. -->
-    <meta
-      property="og:title"
-      content="Чек-лист для собеседования разработчика: Собеседуй работодателя!"
-    />
-    <meta
-      property="og:description"
-      content="Чек-лист с вопросами для разработчика, чтобы задавать их работодателю на собеседовании и делать осознанный выбор."
-    />
-    <meta property="og:type" content="website" />
-    <meta
-      property="og:url"
-      content="https://webdotG.github.io/interview-checklist/"
-    />
-    <!--  будет отображаться при репосте в соцсетях -->
-    <meta
-      property="og:image"
-      content="https://webdotG.github.io/interview-checklist/KirillGrant.png"
-    />
-    <meta property="og:locale" content="ru_RU" />
-    <!-- Twitter Card мета-теги (для X) -->
-    <meta name="twitter:card" content="summary_large_image" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>
+    Чек-лист для собеседования разработчика | Вопросы работодателю | Оценка
+    компании
+  </title>
+  <!-- отображается под заголовком в результатах поиска Google -->
+  <meta
+    name="description"
+    content="Полный интерактивный чек-лист вопросов для разработчика на собеседовании. Узнайте, что спросить у работодателя, чтобы оценить команду, процессы и избежать 'красных флагов'."
+  />
+  <meta
+    name="keywords"
+    content="собеседование разработчика, вопросы работодателю, чек-лист, IT-собеседование, оценка компании, красные флаги, поиск работы, developer interview, interview questions, tech interview"
+  />
+  <!-- для Facebook, LinkedIn, Telegram и т.д. -->
+  <meta
+    property="og:title"
+    content="Чек-лист для собеседования разработчика: Собеседуй работодателя!"
+  />
+  <meta
+    property="og:description"
+    content="Чек-лист с вопросами для разработчика, чтобы задавать их работодателю на собеседовании и делать осознанный выбор."
+  />
+  <meta property="og:type" content="website" />
+  <meta
+    property="og:url"
+    content="https://webdotG.github.io/interview-checklist/"
+  />
+  <!--  будет отображаться при репосте в соцсетях -->
+  <meta
+    property="og:image"
+    content="https://webdotG.github.io/interview-checklist/KirillGrant.png"
+  />
+  <meta property="og:locale" content="ru_RU" />
+  <!-- Twitter Card мета-теги (для X) -->
+  <meta name="twitter:card" content="summary_large_image" />
 
-    <meta
-      name="twitter:title"
-      content="Чек-лист для собеседования разработчика: Собеседуй работодателя!"
-    />
-    <meta
-      name="twitter:description"
-      content="Чек-лист с вопросами для разработчика, чтобы задавать их работодателю на собеседовании и делать осознанный выбор."
-    />
-    <link
-      rel="icon"
-      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50%' y='50%' font-size='75' font-family='Arial, sans-serif' dominant-baseline='middle' text-anchor='middle' fill='%23333'>G \</text><style>text{font-weight:bold;} @media (prefers-color-scheme:dark){text{fill:%23fff}}</style></svg>"
-    />
-    <title>Все интервью</title>
-    <link rel="stylesheet" href="./interviews.css" />
-    <link rel="stylesheet" href="./filters.css" />
-  </head>
-  <body>
-    <div class="container">
-      <div class="interviews-header">
-        <a href="index.html" class="back-link">← Назад к чек-листу</a>
-        <h1 style="margin: 0; color: #495057">Все интервью</h1>
+  <meta
+    name="twitter:title"
+    content="Чек-лист для собеседования разработчика: Собеседуй работодателя!"
+  />
+  <meta
+    name="twitter:description"
+    content="Чек-лист с вопросами для разработчика, чтобы задавать их работодателю на собеседовании и делать осознанный выбор."
+  />
+  <link
+    rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50%' y='50%' font-size='75' font-family='Arial, sans-serif' dominant-baseline='middle' text-anchor='middle' fill='%23333'>G \</text><style>text{font-weight:bold;} @media (prefers-color-scheme:dark){text{fill:%23fff}}</style></svg>"
+  />
+  <title>Все интервью</title>
+  <link rel="stylesheet" href="./interviews.css" />
+  <link rel="stylesheet" href="./interview.renderer.css" />
+  <link rel="stylesheet" href="./interviews.viewer.css" />
+  <link rel="stylesheet" href="./filters.css" />
+  <link rel="stylesheet" href="./ui.manager.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="interviews-header">
+      <a href="index.html" class="back-link">← Назад к чек-листу</a>
+      <h1 style="margin: 0; color: #495057">Все интервью</h1>
 
-        <div id="auth-container">
-          <div id="auth-warning" class="hidden">
-            <p>
-              Чтобы ваши ответы сохранились в общей базе, пожалуйста,
-              залогиньтесь через GitHub
-            </p>
-            <button id="github-login-btn">Войти через GitHub</button>
-          </div>
-          <button id="github-logout-btn" class="hidden">Выйти из GitHub</button>
+      <div id="auth-container">
+        <div id="auth-warning" class="hidden">
+          <p>
+            Чтобы ваши ответы сохранились в общей базе, пожалуйста,
+            залогиньтесь через GitHub
+          </p>
+          <button id="github-login-btn">Войти через GitHub</button>
         </div>
-
-        <button id="load-interviews-btn" class="load-btn">
-          Загрузить интервью
-        </button>
-      </div>
-      <div id="filters-container" class="filters-container hidden"></div>
-      <div id="local-mode-warning" class="hidden"></div>
-
-      <div id="loading-message" class="loading hidden">
-        <h3>Загружаю интервью...</h3>
-        <p>Подключаюсь к Firebase...</p>
+        <button id="github-logout-btn" class="hidden">Выйти из GitHub</button>
       </div>
 
-      <div id="error-message" class="error-message hidden">
-        <strong>Ошибка загрузки:</strong>
-        <span id="error-text"></span>
-      </div>
+      <button id="load-interviews-btn" class="load-btn">
+        Загрузить интервью
+      </button>
+    </div>
+    <div id="filters-container" class="filters-container hidden"></div>
+    <div id="local-mode-warning" class="hidden"></div>
 
-      <div id="no-interviews" class="no-interviews hidden">
-        <h3>Интервью не найдены</h3>
-        <p>Пока что нет сохраненных интервью в базе данных.</p>
-        <p><a href="index.html">Перейти к созданию чек-листа</a></p>
-      </div>
-
-      <div id="interviews-container" class="interviews-grid"></div>
+    <div id="loading-message" class="loading hidden">
+      <h3>Загружаю интервью...</h3>
+      <p>Подключаюсь к Firebase...</p>
     </div>
 
-    <script type="module">
-      import { initializeCurrentPage } from './appInitializer.js'
+    <div id="error-message" class="error-message hidden">
+      <strong>Ошибка загрузки:</strong>
+      <span id="error-text"></span>
+    </div>
 
-      document.addEventListener('DOMContentLoaded', async () => {
-        await initializeCurrentPage()
-      })
-    </script>
-  </body>
+    <div id="no-interviews" class="no-interviews hidden">
+      <h3>Интервью не найдены</h3>
+      <p>Пока что нет сохраненных интервью в базе данных.</p>
+      <p><a href="index.html">Перейти к созданию чек-листа</a></p>
+    </div>
+
+    <div id="interviews-container" class="interviews-grid"></div>
+    </div>
+  </div>
+
+
+      <div id="modal-backdrop" class="modal-backdrop hidden">
+      <div id="interview-modal" class="modal-content">
+      <div class="modal-header">
+      <h3 id="modal-company"></h3>
+      <button id="modal-close-btn" class="modal-close-btn">
+      &times;
+      </button>
+      </div>
+      <div id="modal-body" class="modal-body"></div>
+      <div class="modal-footer">
+      <button id="modal-download-btn" class="btn btn--secondary">
+      Скачать JSON
+      </button>
+      </div>
+      </div>
+      
+  <script type="module">
+    import { initializeCurrentPage } from './appInitializer.js'
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initializeCurrentPage()
+    })
+  </script>
+</body>
 </html>

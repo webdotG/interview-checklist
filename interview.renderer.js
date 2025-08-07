@@ -42,6 +42,19 @@ export class InterviewRenderer {
       <div class="interview-content">
         ${this.renderAnswers(interview.answers)}
       </div>
+
+      <div class="interview-actions">
+        <button data-action="view" data-id="${
+          interview.id
+        }" class="btn btn--small">
+          Просмотреть
+        </button>
+        <button data-action="download" data-id="${
+          interview.id
+        }" class="btn btn--small btn--secondary">
+          Скачать
+        </button>
+      </div>
     `
 
     return card

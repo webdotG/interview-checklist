@@ -21,7 +21,6 @@ export class InterviewFilters {
 
     // HTML структура фильтров
     this.container.innerHTML = this.createFiltersHTML()
-    console.log('Фильтры созданы:', this.container)
 
     // ссылки на элементы
     this.salaryFilter = this.container.querySelector('#salary-filter')

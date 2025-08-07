@@ -1,0 +1,86 @@
+/* ------------------------------------------------------ Состояния загрузки, ошибок и пустых данных */
+.loading {
+  text-align: center;
+  padding: 3rem;
+  color: #6c757d;
+}
+
+.no-interviews {
+  text-align: center;
+  padding: 3rem;
+  color: #6c757d;
+}
+
+.error-message {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 2rem;
+  border: 1px solid #f1aeb5;
+  word-break: break-word;
+}
+
+.hidden {
+  display: none;
+}
+
+/* ------------------------------------------------------ Предупреждения (локальный и оффлайн режимы) */
+.warning-banner {
+  background: #fff3cd;
+  border-left: 5px solid #ffc107;
+  padding: 1.5rem;
+  margin: 2rem;
+  border-radius: 4px;
+  color: #856404;
+}
+
+.warning-banner h3 {
+  margin-top: 0;
+  color: #856404;
+  word-break: break-word;
+}
+
+.warning-banner a {
+  color: #0056b3;
+  text-decoration: underline;
+  word-break: break-word;
+}
+
+.warning-banner p {
+  word-break: break-word;
+  line-height: 1.5;
+}
+
+.offline-warning-banner {
+  background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+  border: 2px solid #e17055;
+  border-radius: 12px;
+  padding: 24px;
+  margin: 20px 0;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(225, 112, 85, 0.3);
+}
+
+.offline-warning-banner h3 {
+  color: #d63031;
+  margin-bottom: 16px;
+  font-size: 24px;
+}
+
+.offline-details {
+  text-align: left;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 16px;
+  border-radius: 8px;
+  margin: 16px 0;
+}
+
+.offline-details ul {
+  margin: 8px 0 8px 20px;
+}
+
+.offline-details li {
+  margin: 4px 0;
+  color: #2d3436;
+}
