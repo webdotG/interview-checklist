@@ -14,7 +14,8 @@ export class AuthUI {
     this.submitButton = document.getElementById('submit-btn')
     this.userInfo = document.createElement('div')
     this.isLoggingIn = false
-    // колбэк для AuthUI
+
+    // колбэк для AuthUI.
     this.authService.setOnAuthStateChangedCallback((user) => {
       this.updateUI(user)
     })
@@ -35,7 +36,7 @@ export class AuthUI {
           `Добро пожаловать, ${user.displayName || user.email}!`,
           'success',
         )
-        this.updateUI()
+        // колбэк (setOnAuthStateChangedCallback) сделает всё сам
       }
     } catch (error) {
       this.notificationService.show(
@@ -49,23 +50,21 @@ export class AuthUI {
   async handleLogout() {
     await this.authService.signOut()
     this.notificationService.show('Вы вышли из аккаунта.', 'info')
-    this.updateUI()
+    // колбэк сделает всё сам после signOut
   }
 
-  updateUI() {
-    // const currentUser = this.authService.getCurrentUser()
+  updateUI(user) {
     const currentUser = user
-    
-      if (this.isGitHubPages) {
-        if (currentUser) {
-          this.showAuthorizedState(currentUser)
-        } else {
-          this.showUnauthorizedState()
-        }
+
+    if (this.isGitHubPages) {
+      if (currentUser) {
+        this.showAuthorizedState(currentUser)
       } else {
-        this.showLocalMode()
-        if (this.authContainer) this.authContainer.classList.add('hidden')
+        this.showUnauthorizedState()
       }
+    } else {
+      this.showLocalMode()
+      if (this.authContainer) this.authContainer.classList.add('hidden')
     }
   }
 
