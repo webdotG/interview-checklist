@@ -60,11 +60,23 @@ export class AuthUI {
       if (currentUser) {
         this.showAuthorizedState(currentUser)
       } else {
-        this.showUnauthorizedState()
+        this.showLoginButton()
       }
     } else {
       this.showLocalMode()
       if (this.authContainer) this.authContainer.classList.add('hidden')
+    }
+  }
+
+  showLoginButton() {
+    if (this.authWarning) {
+      this.authWarning.classList.remove('hidden')
+    }
+    if (this.logoutButton) {
+      this.logoutButton.classList.add('hidden')
+    }
+    if (this.userInfo.parentNode) {
+      this.userInfo.remove()
     }
   }
 
@@ -86,7 +98,7 @@ export class AuthUI {
     if (this.userInfo.parentNode) this.userInfo.remove()
     this.userInfo.innerHTML = `
       <div class="user-info">
-        <span>✓ Вы вошли как: <strong>${
+        <span>✓ Привет: <strong>${
           user.displayName || user.email
         }</strong></span>
       </div>
