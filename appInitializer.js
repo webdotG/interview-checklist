@@ -17,8 +17,15 @@ export async function initializeApp() {
     const { auth } = await db.init()
     const authService = new AuthService(auth)
 
-    // 💡 ИСПРАВЛЕНИЕ: Обработка результата редиректа при загрузке
-    await authService.handleRedirectResult()
+    // 💡 ОТЛАДКА: Проверяем результат редиректа
+    const user = await authService.handleRedirectResult()
+    if (user) {
+      console.log('Пользователь авторизован после редиректа:', user)
+    } else {
+      console.log(
+        'Редирект не дал результата, возможно пользователь отменил вход',
+      )
+    }
 
     const manager = new InterviewManager()
     await manager.init()
@@ -40,10 +47,15 @@ export async function initializeApp() {
 
     authUI.setupEventListeners()
 
-    authService.setOnAuthStateChangedCallback((user) => {
-      authUI.updateUI(user)
-      if (user) {
-        const displayName = authService.getUserDisplayName(user)
+    authService.setOnAuthStateChangedCallback((currentUser) => {
+      // 💡 ОТЛАДКА: Проверяем, что происходит в колбэке
+      console.log(
+        'onAuthStateChanged сработал, текущий пользователь:',
+        currentUser,
+      )
+      authUI.updateUI(currentUser)
+      if (currentUser) {
+        const displayName = authService.getUserDisplayName(currentUser)
         notificationService.show(
           `Добро пожаловать, ${displayName}!`,
           'success',
@@ -68,8 +80,15 @@ export async function initializeInterviewsPage() {
     const filters = new InterviewFilters()
     const viewer = new InterviewsViewer()
 
-    // 💡 ИСПРАВЛЕНИЕ: Обработка результата редиректа при загрузке
-    await authService.handleRedirectResult()
+    // 💡 ОТЛАДКА: Проверяем результат редиректа
+    const user = await authService.handleRedirectResult()
+    if (user) {
+      console.log('Пользователь авторизован после редиректа:', user)
+    } else {
+      console.log(
+        'Редирект не дал результата, возможно пользователь отменил вход',
+      )
+    }
 
     const authUI = new AuthUI(
       authService,
@@ -79,10 +98,15 @@ export async function initializeInterviewsPage() {
     )
     authUI.setupEventListeners()
 
-    authService.setOnAuthStateChangedCallback((user) => {
-      authUI.updateUI(user)
-      if (user) {
-        const displayName = authService.getUserDisplayName(user)
+    authService.setOnAuthStateChangedCallback((currentUser) => {
+      // 💡 ОТЛАДКА: Проверяем, что происходит в колбэке
+      console.log(
+        'onAuthStateChanged сработал, текущий пользователь:',
+        currentUser,
+      )
+      authUI.updateUI(currentUser)
+      if (currentUser) {
+        const displayName = authService.getUserDisplayName(currentUser)
         notificationService.show(
           `Авторизован как ${displayName}`,
           'success',
