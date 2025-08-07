@@ -5,8 +5,9 @@ import {
   collection,
   addDoc,
   serverTimestamp,
+  query,
   orderBy,
-  serverTimestamp,
+  getDocs,
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js'
 import { NotificationService } from './notification.service.js'
 
