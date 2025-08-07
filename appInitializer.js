@@ -22,13 +22,13 @@ export async function initializeApp() {
       redirect_uri: 'https://webdotg.github.io/interview-checklist/',
     })
     // Проверяем, возвращаемся ли мы после redirect авторизации
-    if (authService.isReturningFromRedirect()) {
-      console.log('Обрабатываем возврат после redirect авторизации...')
-      // Флаг будет очищен автоматически после обработки getRedirectResult в initAuth
-      setTimeout(() => {
-        authService.clearRedirectFlag()
-      }, 2000)
-    }
+    // if (authService.isReturningFromRedirect()) {
+    //   console.log('Обрабатываем возврат после redirect авторизации...')
+    //   // Флаг будет очищен автоматически после обработки getRedirectResult в initAuth
+    //   setTimeout(() => {
+    //     authService.clearRedirectFlag()
+    //   }, 2000)
+    // }
 
     const manager = new InterviewManager()
     await manager.init()
@@ -82,12 +82,12 @@ export async function initializeInterviewsPage() {
     const authService = new AuthService(auth)
 
     // Проверяем redirect на странице интервью
-    if (authService.isReturningFromRedirect()) {
-      console.log('Обрабатываем возврат после redirect на странице интервью...')
-      setTimeout(() => {
-        authService.clearRedirectFlag()
-      }, 2000)
-    }
+    // if (authService.isReturningFromRedirect()) {
+    //   console.log('Обрабатываем возврат после redirect на странице интервью...')
+    //   setTimeout(() => {
+    //     authService.clearRedirectFlag()
+    //   }, 2000)
+    // }
 
     const notificationService = new NotificationService()
     const filters = new InterviewFilters()

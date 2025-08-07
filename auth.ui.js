@@ -47,14 +47,6 @@ export class AuthUI {
     }
   }
 
-  async handleLogout() {
-    await this.authService.signOut()
-    // колбэк сделает всё сам после signOut
-    this.notificationService.show('Вы вышли из аккаунта.', 'info')
-    // для правильного отоброжения после Logout
-    this.showLoginButton()
-  }
-
   updateUI(user) {
     const currentUser = user
 
@@ -70,7 +62,20 @@ export class AuthUI {
     }
   }
 
+  async handleLogout() {
+    await this.authService.signOut()
+    // колбэк сделает всё сам после signOut
+    this.notificationService.show('Вы вышли из аккаунта.', 'info')
+    // для правильного отоброжения после Logout
+    // this.showLoginButton()
+    this.showUnauthorizedState()
+  }
+
   showLoginButton() {
+    // 💡 ТЕСТ Явно показываем кнопку входа
+    if (this.loginButton) {
+      this.loginButton.classList.remove('hidden')
+    }
     if (this.authWarning) {
       this.authWarning.classList.remove('hidden')
       this.authWarning.classList.add('auth-warning--visible')
