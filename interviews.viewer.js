@@ -35,13 +35,7 @@ export class InterviewsViewer {
   async init() {
     try {
       this.showLoading()
-      await db.init()
-
-      if (!this.isGitHubPages()) {
-        this.showLocalMode()
-        return
-      }
-
+      await this.dependencies.db.init()
       await this.loadInterviews()
     } catch (error) {
       console.error('Ошибка инициализации viewer:', error)
