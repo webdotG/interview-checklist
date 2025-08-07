@@ -14,6 +14,10 @@ export class AuthUI {
     this.submitButton = document.getElementById('submit-btn')
     this.userInfo = document.createElement('div')
     this.isLoggingIn = false
+    // колбэк для AuthUI
+    this.authService.setOnAuthStateChangedCallback((user) => {
+      this.updateUI(user)
+    })
   }
 
   async handleLogin() {
@@ -49,12 +53,19 @@ export class AuthUI {
   }
 
   updateUI() {
-    const currentUser = this.authService.getCurrentUser()
-
-    if (currentUser) {
-      this.showAuthorizedState(currentUser)
-    } else {
-      this.showUnauthorizedState()
+    // const currentUser = this.authService.getCurrentUser()
+    const currentUser = user
+    
+      if (this.isGitHubPages) {
+        if (currentUser) {
+          this.showAuthorizedState(currentUser)
+        } else {
+          this.showUnauthorizedState()
+        }
+      } else {
+        this.showLocalMode()
+        if (this.authContainer) this.authContainer.classList.add('hidden')
+      }
     }
   }
 

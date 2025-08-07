@@ -57,19 +57,23 @@ export async function initializeInterviewsPage() {
     const { auth, firestore } = await db.init()
     const authService = new AuthService(auth)
     const notificationService = new NotificationService()
-    const isGitHubPages = window.location.hostname.includes('github.io')
+    // const isGitHubPages = window.location.hostname.includes('github.io')
     const filters = new InterviewFilters()
     const viewer = new InterviewsViewer()
+    const manager = new InterviewManager()
+    await manager.init()
+    manager.loadFromURL()
 
     // AuthUI
     const authUI = new AuthUI(
       authService,
       notificationService,
-      viewer, // viewer вместо manager
+      // viewer, // viewer вместо manager
+      manager,
       isGitHubPages,
     )
     authUI.setupEventListeners()
-    authUI.updateUI()
+    // authUI.updateUI()
 
     // зависимости для viewer
     viewer.setDependencies({

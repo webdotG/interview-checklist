@@ -12,12 +12,16 @@ export class AuthService {
   constructor(auth) {
     this.auth = auth
     this.provider = new GithubAuthProvider()
+    // для хранения колбэка AUTH
+    this.onAuthStateChangedCallback = () => {}
 
     // установка постоянства сессии в localStorage.
     setPersistence(this.auth, browserLocalPersistence)
       .then(() => {
         // подписка на изменения статуса авторизации.
         onAuthStateChanged(this.auth, (user) => {
+          // колбэк здесь AUTH
+          this.onAuthStateChangedCallback(user)
           if (user) {
             console.log(
               'Пользователь авторизован:',
@@ -31,6 +35,11 @@ export class AuthService {
       .catch((error) => {
         console.error('Ошибка установки постоянства сессии:', error)
       })
+  }
+
+  // метод для установки колбэка AUTH
+  setOnAuthStateChangedCallback(callback) {
+    this.onAuthStateChangedCallback = callback
   }
 
   async signInWithGitHub() {
