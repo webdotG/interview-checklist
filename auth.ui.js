@@ -6,7 +6,7 @@ export class AuthUI {
     this.notificationService = notificationService
     this.manager = manager
     this.isGitHubPages = isGitHubPages
-
+    this.authContainer = document.getElementById('auth-container')
     this.loginButton = document.getElementById('github-login-btn')
     this.logoutButton = document.getElementById('github-logout-btn')
     this.authLink = document.getElementById('auth-link')
@@ -55,51 +55,46 @@ export class AuthUI {
     if (this.isGitHubPages) {
       if (currentUser) {
         this.showAuthorizedState(currentUser)
-        this.loginButton.style.display = 'none'
-        if (this.authWarning) this.authWarning.classList.add('hidden')
       } else {
         this.showUnauthorizedState()
-        this.loginButton.style.display = 'block'
-        if (this.authWarning) this.authWarning.classList.remove('hidden')
       }
     } else {
       this.showLocalMode()
-      this.loginButton.style.display = 'none'
-      if (this.authWarning) this.authWarning.classList.add('hidden')
     }
   }
 
   showLocalMode() {
-    if (this.loginButton) this.loginButton.style.display = 'none'
-    if (this.logoutButton) this.logoutButton.style.display = 'none'
+    if (this.authContainer) {
+      this.authContainer.classList.add('hidden')
+    }
+    //  на всякий случай
+    if (this.loginButton) this.loginButton.classList.add('hidden')
+    if (this.logoutButton) this.logoutButton.classList.add('hidden')
     if (this.authWarning) this.authWarning.classList.add('hidden')
     if (this.userInfo.parentNode) this.userInfo.remove()
   }
 
   showAuthorizedState(user) {
-    if (this.loginButton) this.loginButton.style.display = 'none'
-    if (this.logoutButton) this.logoutButton.style.display = 'block'
     if (this.authWarning) this.authWarning.classList.add('hidden')
-
+    if (this.loginButton) this.loginButton.classList.add('hidden')
+    if (this.logoutButton) this.logoutButton.classList.remove('hidden')
     if (this.userInfo.parentNode) this.userInfo.remove()
-
     this.userInfo.innerHTML = `
-    <div class="user-info" style="margin-top: 10px;">
-      <span>✓ Вы вошли как: <strong>${
-        user.displayName || user.email
-      }</strong></span>
-    </div>
-  `
-
-    if (this.logoutButton && this.logoutButton.parentNode) {
-      this.logoutButton.parentNode.appendChild(this.userInfo)
+      <div class="user-info">
+        <span>✓ Вы вошли как: <strong>${
+          user.displayName || user.email
+        }</strong></span>
+      </div>
+    `
+    if (this.authContainer) {
+      this.authContainer.prepend(this.userInfo)
     }
   }
   showUnauthorizedState() {
-    if (this.loginButton) this.loginButton.style.display = 'block'
-    if (this.logoutButton) this.logoutButton.style.display = 'none'
-    if (this.authWarning) this.authWarning.classList.remove('hidden')
+    if (this.logoutButton) this.logoutButton.classList.add('hidden')
     if (this.userInfo.parentNode) this.userInfo.remove()
+    if (this.authWarning) this.authWarning.classList.remove('hidden')
+    if (this.loginButton) this.loginButton.classList.remove('hidden')
   }
 
   setupEventListeners() {
