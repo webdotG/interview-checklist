@@ -16,6 +16,27 @@ export const questionUtils = {
     return totalCount
   },
 
+  // для подсчета отвеченных вопросов
+  countAnsweredQuestions(interview) {
+    let count = 0
+    if (!interview.answers) return 0
+
+    Object.values(interview.answers).forEach((subsections) => {
+      if (subsections && typeof subsections === 'object') {
+        Object.values(subsections).forEach((questions) => {
+          if (questions && typeof questions === 'object') {
+            Object.values(questions).forEach((questionData) => {
+              if (questionData && questionData.checked) {
+                count++
+              }
+            })
+          }
+        })
+      }
+    })
+    return count
+  },
+
   // правильное окончание для слова "вопрос"
   getQuestionWord(count) {
     const lastDigit = count % 10

@@ -92,7 +92,7 @@ export class InterviewsViewer {
 
   createInterviewCard(interview) {
     const date = this.formatDate(interview.createdAt || interview.timestamp)
-    const answeredCount = this.countAnsweredQuestions(interview)
+    const answeredCount = questionUtils.countAnsweredQuestions(interview)
     const formattedSalary = this.formatSalary(interview.salary)
 
     return `
