@@ -14,7 +14,12 @@ export class AuthService {
     this.provider = new GithubAuthProvider()
     // для хранения колбэка AUTH
     this.onAuthStateChangedCallback = () => {}
-
+    // явный указ домена для редиректа
+    // чтобы Firebase знал куда перенаправлять юзера после авторизации с GitHub
+    // если этого не сделать он будет использовать домен firebaseapp.com, что вызовет ошибку 404
+    this.provider.setCustomParameters({
+      redirect_uri: 'https://webdotg.github.io/interview-checklist/',
+    })
     // установка постоянства сессии в localStorage.
     setPersistence(this.auth, browserLocalPersistence)
       .then(() => {
@@ -49,6 +54,7 @@ export class AuthService {
       const user = result.user
       return user
     } catch (error) {
+      console.error('Подробности ошибки логина с GitHub:', error.message)
       console.error('Ошибка входа через GitHub:', error)
       return null
     }
