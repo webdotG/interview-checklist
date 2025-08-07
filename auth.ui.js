@@ -49,8 +49,10 @@ export class AuthUI {
 
   async handleLogout() {
     await this.authService.signOut()
-    this.notificationService.show('Вы вышли из аккаунта.', 'info')
     // колбэк сделает всё сам после signOut
+    this.notificationService.show('Вы вышли из аккаунта.', 'info')
+    // для правильного отоброжения после Logout
+    this.showLoginButton()
   }
 
   updateUI(user) {
