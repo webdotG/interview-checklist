@@ -35,12 +35,15 @@
   padding: 0.5rem 1rem;
   border-radius: 8px;
   border: 1px solid #ffeeba;
-  /* display: flex;
-  flex-direction: column; */
   align-items: center;
   gap: 1rem;
   /* animation: pulse-border 3s infinite ease-out; */
   flex-grow: 1;
+}
+
+.auth-warning--visible {
+  display: flex;
+  flex-direction: column;
 }
 
 #auth-warning p {

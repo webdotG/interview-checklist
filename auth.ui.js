@@ -73,6 +73,7 @@ export class AuthUI {
   showLoginButton() {
     if (this.authWarning) {
       this.authWarning.classList.remove('hidden')
+      this.authWarning.classList.add('auth-warning--visible')
     }
     if (this.logoutButton) {
       this.logoutButton.classList.add('hidden')
@@ -94,7 +95,10 @@ export class AuthUI {
   }
 
   showAuthorizedState(user) {
-    if (this.authWarning) this.authWarning.classList.add('hidden')
+    if (this.authWarning) {
+      this.authWarning.classList.add('hidden')
+      this.authWarning.classList.remove('auth-warning--visible')
+    }
     if (this.loginButton) this.loginButton.classList.add('hidden')
     if (this.logoutButton) this.logoutButton.classList.remove('hidden')
     if (this.userInfo.parentNode) this.userInfo.remove()
