@@ -16,12 +16,15 @@ export async function initializeApp() {
   try {
     const { auth } = await db.init()
     const authService = new AuthService(auth)
+
+    // 💡 ИСПРАВЛЕНИЕ: Обработка результата редиректа при загрузке
+    await authService.handleRedirectResult()
+
     const manager = new InterviewManager()
     await manager.init()
     manager.loadFromURL()
 
     const notificationService = new NotificationService()
-
     const authUI = new AuthUI(
       authService,
       notificationService,
@@ -64,6 +67,9 @@ export async function initializeInterviewsPage() {
     const notificationService = new NotificationService()
     const filters = new InterviewFilters()
     const viewer = new InterviewsViewer()
+
+    // 💡 ИСПРАВЛЕНИЕ: Обработка результата редиректа при загрузке
+    await authService.handleRedirectResult()
 
     const authUI = new AuthUI(
       authService,
