@@ -97,11 +97,14 @@ export const db = {
 
       if (firebaseInitialized && auth?.currentUser) {
         try {
+          const userDisplayName =
+            auth.currentUser.displayName || auth.currentUser.email
           const dataToSave = {
             ...interviewData,
             timestamp: serverTimestamp(),
             userAgent: navigator.userAgent.substring(0, 100),
             createdAt: new Date().toISOString(),
+            userName: userDisplayName,
           }
 
           const docRef = await addDoc(
