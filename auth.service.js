@@ -47,7 +47,6 @@ export class AuthService {
       // Firebase сам проверит наличие сессии лишняя проверка не нужна.
       const result = await signInWithPopup(this.auth, this.provider)
       const user = result.user
-      console.log('Пользователь успешно вошел через GitHub:', user)
       return user
     } catch (error) {
       console.error('Ошибка входа через GitHub:', error)
