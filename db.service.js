@@ -11,10 +11,17 @@ import {
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js'
 import { NotificationService } from './notification.service.js'
 
+// 💡 ИСПРАВЛЕНИЕ: Автоматически определяем authDomain
+// Это устраняет потенциальную проблему несоответствия доменов между GitHub Pages и Firebase Hosting.
+const isGitHubPages = window.location.hostname.includes('github.io')
+const authDomain = isGitHubPages
+  ? window.location.hostname
+  : 'interview-checklist.firebaseapp.com'
+
 // Единый объект настроек Firebase для всего приложения
 const firebaseConfig = {
   apiKey: 'AIzaSyAQCgDpHF9u2i6swE0j0lNxiZmRp9j42oE',
-  authDomain: 'interview-checklist.firebaseapp.com',
+  authDomain: authDomain, // Используем динамически определенный домен
   projectId: 'interview-checklist',
   storageBucket: 'interview-checklist.appspot.com',
   messagingSenderId: '1038665174709',
@@ -39,7 +46,7 @@ export const db = {
     }
 
     try {
-      //нициализация Firebase происходит всегда,
+      // Инициализация Firebase происходит всегда
       const firebaseApp = initializeApp(firebaseConfig)
       firestore = getFirestore(firebaseApp)
       auth = getAuth(firebaseApp)

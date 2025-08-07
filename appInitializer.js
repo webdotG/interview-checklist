@@ -16,7 +16,11 @@ export async function initializeApp() {
   try {
     const { auth } = await db.init()
     const authService = new AuthService(auth)
-
+    // 💡 ЭТО КРИТИЧЕСКИ ВАЖНЫЙ ШАГ
+    // ТЕСТ
+    authService.provider.setCustomParameters({
+      redirect_uri: 'https://webdotg.github.io/interview-checklist/',
+    })
     // Проверяем, возвращаемся ли мы после redirect авторизации
     if (authService.isReturningFromRedirect()) {
       console.log('Обрабатываем возврат после redirect авторизации...')
