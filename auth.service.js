@@ -1,6 +1,8 @@
 import {
   getAuth,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   GithubAuthProvider,
   signOut,
   onAuthStateChanged,
@@ -12,51 +14,85 @@ export class AuthService {
   constructor(auth) {
     this.auth = auth
     this.provider = new GithubAuthProvider()
-    // для хранения колбэка AUTH
+
+    // Колбэк для изменений состояния авторизации
     this.onAuthStateChangedCallback = () => {}
-    // явный указ домена для редиректа
-    // чтобы Firebase знал куда перенаправлять юзера после авторизации с GitHub
-    // если этого не сделать он будет использовать домен firebaseapp.com, что вызовет ошибку 404
-    this.provider.setCustomParameters({
-      redirect_uri: 'https://webdotg.github.io/interview-checklist/',
-    })
-    // установка постоянства сессии в localStorage.
-    setPersistence(this.auth, browserLocalPersistence)
-      .then(() => {
-        // подписка на изменения статуса авторизации.
-        onAuthStateChanged(this.auth, (user) => {
-          // колбэк здесь AUTH
-          this.onAuthStateChangedCallback(user)
-          if (user) {
-            console.log(
-              'Пользователь авторизован:',
-              user.displayName || user.email,
-            )
-          } else {
-            console.log('Пользователь не авторизован.')
-          }
-        })
-      })
-      .catch((error) => {
-        console.error('Ошибка установки постоянства сессии:', error)
-      })
+
+    // Добавляем scope если нужен доступ к репозиториям (опционально)
+    // this.provider.addScope('repo')
+
+    // УБИРАЕМ redirect_uri - Firebase сам управляет редиректами!
+    // Вместо этого можно добавить другие GitHub параметры если нужно:
+    // this.provider.setCustomParameters({
+    //   'allow_signup': 'true'
+    // })
+
+    this.initAuth()
   }
 
-  // метод для установки колбэка AUTH
+  async initAuth() {
+    try {
+      // Установка постоянства сессии
+      await setPersistence(this.auth, browserLocalPersistence)
+
+      // Проверяем результат редиректа (если использовался signInWithRedirect)
+      const result = await getRedirectResult(this.auth)
+      if (result) {
+        console.log('Пользователь вошел через редирект:', result.user)
+      }
+
+      // Подписка на изменения статуса авторизации
+      onAuthStateChanged(this.auth, (user) => {
+        this.onAuthStateChangedCallback(user)
+        if (user) {
+          console.log(
+            'Пользователь авторизован:',
+            user.displayName || user.email,
+          )
+        } else {
+          console.log('Пользователь не авторизован.')
+        }
+      })
+    } catch (error) {
+      console.error('Ошибка инициализации авторизации:', error)
+    }
+  }
+
+  // Метод для установки колбэка
   setOnAuthStateChangedCallback(callback) {
     this.onAuthStateChangedCallback = callback
   }
 
+  // Вход через popup (рекомендуется для десктопа)
   async signInWithGitHub() {
     try {
-      // Firebase сам проверит наличие сессии лишняя проверка не нужна.
       const result = await signInWithPopup(this.auth, this.provider)
+      const credential = GithubAuthProvider.credentialFromResult(result)
+      const token = credential?.accessToken // GitHub access token если нужен
       const user = result.user
+
+      console.log('Успешный вход через GitHub:', user.displayName || user.email)
       return user
     } catch (error) {
-      console.error('Подробности ошибки логина с GitHub:', error.message)
-      console.error('Ошибка входа через GitHub:', error)
+      console.error('Ошибка входа через GitHub (popup):', error)
+
+      // Обработка специфичных ошибок
+      if (error.code === 'auth/popup-blocked') {
+        console.log('Попап заблокирован браузером, попробуйте редирект')
+        return this.signInWithGitHubRedirect()
+      }
+
       return null
+    }
+  }
+
+  // Альтернативный метод через редирект (для мобильных устройств)
+  async signInWithGitHubRedirect() {
+    try {
+      await signInWithRedirect(this.auth, this.provider)
+      // После редиректа результат будет получен в initAuth() через getRedirectResult()
+    } catch (error) {
+      console.error('Ошибка входа через GitHub (redirect):', error)
     }
   }
 
@@ -72,7 +108,6 @@ export class AuthService {
   }
 
   getCurrentUser() {
-    // Firebase всегда будет возвращать текущего пользователя setPersistence и onAuthStateChanged.
     return this.auth ? this.auth.currentUser : null
   }
 }
