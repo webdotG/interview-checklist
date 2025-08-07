@@ -10,10 +10,11 @@ import { questionsData } from './questions.data.js'
 import { InterviewsViewer } from './interviews.viewer.js'
 import { InterviewFilters } from './interview.filters.js'
 
+const isGitHubPages = window.location.hostname.includes('github.io')
+
 export async function initializeApp() {
   try {
     const { auth } = await db.init()
-
     const authService = new AuthService(auth)
 
     const manager = new InterviewManager()
@@ -21,9 +22,8 @@ export async function initializeApp() {
     manager.loadFromURL()
 
     const notificationService = new NotificationService()
-    const isGitHubPages = window.location.hostname.includes('github.io')
 
-    // Передаём все зависимости в AuthUI
+    // AuthUI для главной страницы
     const authUI = new AuthUI(
       authService,
       notificationService,
@@ -42,7 +42,7 @@ export async function initializeApp() {
 
     // AuthUI устанавливает все обработчики
     authUI.setupEventListeners()
-    authUI.updateUI()
+    // UI обновляется через onAuthStateChanged
 
     notificationService.show('Приложение загружено', 'success', 2000)
   } catch (error) {
@@ -57,23 +57,19 @@ export async function initializeInterviewsPage() {
     const { auth, firestore } = await db.init()
     const authService = new AuthService(auth)
     const notificationService = new NotificationService()
-    // const isGitHubPages = window.location.hostname.includes('github.io')
     const filters = new InterviewFilters()
     const viewer = new InterviewsViewer()
-    const manager = new InterviewManager()
-    await manager.init()
-    manager.loadFromURL()
+    // InterviewManager здесь не нужен.
 
-    // AuthUI
+    // AuthUI для страницы интервью
     const authUI = new AuthUI(
       authService,
       notificationService,
-      // viewer, // viewer вместо manager
-      manager,
+      null, // manager не используется на этой странице
       isGitHubPages,
     )
     authUI.setupEventListeners()
-    // authUI.updateUI()
+    // UI обновляется через onAuthStateChanged
 
     // зависимости для viewer
     viewer.setDependencies({
@@ -96,7 +92,7 @@ export async function initializeInterviewsPage() {
   }
 }
 
-//  какую страницу инициализировать
+// какую страницу инициализировать
 export async function initializeCurrentPage() {
   const currentPage = window.location.pathname
 
