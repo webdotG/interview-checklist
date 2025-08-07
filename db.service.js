@@ -38,27 +38,26 @@ export const db = {
       return { firestore, auth }
     }
 
-    // Проверка на GitHub Pages для инициализации Firebase
-    if (window.location.hostname.includes('github.io')) {
-      try {
-        const firebaseApp = initializeApp(firebaseConfig)
-        firestore = getFirestore(firebaseApp)
-        auth = getAuth(firebaseApp)
-        firebaseInitialized = true
-        console.log('Firebase успешно инициализирован для GitHub Pages')
-      } catch (error) {
-        console.warn(
-          'Ошибка инициализации Firebase, приложение работает в локальном режиме:',
-          error,
-        )
-        firebaseInitialized = false
-      }
-    } else {
-      console.log(
-        'Приложение работает в локальном режиме, Firebase не инициализирован',
+    try {
+      //нициализация Firebase происходит всегда,
+      const firebaseApp = initializeApp(firebaseConfig)
+      firestore = getFirestore(firebaseApp)
+      auth = getAuth(firebaseApp)
+      firebaseInitialized = true
+      console.log('Firebase успешно инициализирован')
+    } catch (error) {
+      console.warn(
+        'Ошибка инициализации Firebase, приложение работает в локальном режиме:',
+        error,
       )
       firebaseInitialized = false
     }
+    if (!firebaseInitialized) {
+      console.log(
+        'Приложение работает в локальном режиме, Firebase не инициализирован',
+      )
+    }
+
     return { firestore, auth }
   },
 

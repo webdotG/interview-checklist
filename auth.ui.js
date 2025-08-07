@@ -13,7 +13,6 @@ export class AuthUI {
     this.authWarning = document.getElementById('auth-warning')
     this.submitButton = document.getElementById('submit-btn')
     this.userInfo = document.createElement('div')
-    // this.setupEventListeners()
     this.isLoggingIn = false
   }
 
@@ -52,14 +51,10 @@ export class AuthUI {
   updateUI() {
     const currentUser = this.authService.getCurrentUser()
 
-    if (this.isGitHubPages) {
-      if (currentUser) {
-        this.showAuthorizedState(currentUser)
-      } else {
-        this.showUnauthorizedState()
-      }
+    if (currentUser) {
+      this.showAuthorizedState(currentUser)
     } else {
-      this.showLocalMode()
+      this.showUnauthorizedState()
     }
   }
 
