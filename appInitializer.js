@@ -17,6 +17,15 @@ export async function initializeApp() {
     const { auth } = await db.init()
     const authService = new AuthService(auth)
 
+    // Проверяем, возвращаемся ли мы после redirect авторизации
+    if (authService.isReturningFromRedirect()) {
+      console.log('Обрабатываем возврат после redirect авторизации...')
+      // Флаг будет очищен автоматически после обработки getRedirectResult в initAuth
+      setTimeout(() => {
+        authService.clearRedirectFlag()
+      }, 2000)
+    }
+
     const manager = new InterviewManager()
     await manager.init()
     manager.loadFromURL()
@@ -43,6 +52,18 @@ export async function initializeApp() {
     authUI.setupEventListeners()
     // UI обновляется через onAuthStateChanged
 
+    // Показываем уведомление о статусе авторизации
+    authService.setOnAuthStateChangedCallback((user) => {
+      if (user) {
+        const displayName = authService.getUserDisplayName()
+        notificationService.show(
+          `Добро пожаловать, ${displayName}!`,
+          'success',
+          3000,
+        )
+      }
+    })
+
     notificationService.show('Приложение загружено', 'success', 2000)
   } catch (error) {
     console.error('Ошибка инициализации приложения:', error)
@@ -55,6 +76,15 @@ export async function initializeInterviewsPage() {
   try {
     const { auth, firestore } = await db.init()
     const authService = new AuthService(auth)
+
+    // Проверяем redirect на странице интервью
+    if (authService.isReturningFromRedirect()) {
+      console.log('Обрабатываем возврат после redirect на странице интервью...')
+      setTimeout(() => {
+        authService.clearRedirectFlag()
+      }, 2000)
+    }
+
     const notificationService = new NotificationService()
     const filters = new InterviewFilters()
     const viewer = new InterviewsViewer()
@@ -69,6 +99,24 @@ export async function initializeInterviewsPage() {
     )
     authUI.setupEventListeners()
     // UI обновляется через onAuthStateChanged
+
+    // Показываем статус авторизации
+    authService.setOnAuthStateChangedCallback((user) => {
+      if (user) {
+        const displayName = authService.getUserDisplayName()
+        notificationService.show(
+          `Авторизован как ${displayName}`,
+          'success',
+          3000,
+        )
+      } else {
+        notificationService.show(
+          'Для полного доступа требуется авторизация',
+          'warning',
+          4000,
+        )
+      }
+    })
 
     // зависимости для viewer
     viewer.setDependencies({
@@ -101,3 +149,26 @@ export async function initializeCurrentPage() {
     await initializeApp()
   }
 }
+
+// Дополнительная диагностика для отладки
+window.addEventListener('load', () => {
+  console.log('=== Диагностика браузера ===')
+  console.log('User Agent:', navigator.userAgent)
+  console.log('Popup support:', !navigator.userAgent.includes('Mobile'))
+  console.log('Local Storage support:', !!window.localStorage)
+  console.log('Current URL:', window.location.href)
+  console.log('Referrer:', document.referrer)
+
+  // Проверка popup блокировки
+  try {
+    const popup = window.open('', '_blank', 'width=1,height=1')
+    if (popup && !popup.closed) {
+      console.log('Popup не заблокирован')
+      popup.close()
+    } else {
+      console.log('Popup заблокирован браузером')
+    }
+  } catch (e) {
+    console.log('Popup заблокирован (исключение):', e.message)
+  }
+})
