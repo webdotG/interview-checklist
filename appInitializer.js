@@ -38,7 +38,6 @@ export async function initializeApp() {
     await renderQuestions()
 
     const stats = questionUtils.getDetailedStats(questionsData)
-    console.log('Interview stats:', stats)
 
     // AuthUI устанавливает все обработчики
     authUI.setupEventListeners()
