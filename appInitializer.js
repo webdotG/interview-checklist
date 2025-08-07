@@ -8,6 +8,7 @@ import { renderQuestions } from './questions.renderer.js'
 import { questionUtils } from './questions.stats.js'
 import { questionsData } from './questions.data.js'
 import { InterviewsViewer } from './interviews.viewer.js'
+import { InterviewFilters } from './interview.filters.js'
 
 export async function initializeApp() {
   try {
@@ -57,8 +58,7 @@ export async function initializeInterviewsPage() {
     const authService = new AuthService(auth)
     const notificationService = new NotificationService()
     const isGitHubPages = window.location.hostname.includes('github.io')
-
-    // viewer для интервью
+    const filters = new InterviewFilters()
     const viewer = new InterviewsViewer()
 
     // зависимости
@@ -68,6 +68,7 @@ export async function initializeInterviewsPage() {
       firestore,
       isGitHubPages,
       db,
+      filters,
     })
 
     await viewer.init()

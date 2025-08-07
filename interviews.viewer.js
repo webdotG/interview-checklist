@@ -6,6 +6,7 @@ export class InterviewsViewer {
   constructor() {
     this.interviews = []
     this.filters = null
+    this.dependencies = null
     this.totalQuestions = questionUtils.countQuestions(questionsData)
 
     // UI элементы
@@ -34,8 +35,6 @@ export class InterviewsViewer {
   async init() {
     try {
       this.showLoading()
-
-      // Инициализируем db
       await db.init()
 
       if (!this.isGitHubPages()) {
@@ -50,20 +49,38 @@ export class InterviewsViewer {
     }
   }
 
+  setDependencies(deps) {
+    this.dependencies = deps
+    if (deps.filters) {
+      this.setFilters(deps.filters)
+    }
+  }
+
+  setFilters(filtersInstance) {
+    this.filters = filtersInstance
+    this.filters.onChange((result) => {
+      this.interviews = result.data
+      this.renderInterviews()
+      console.log('Фильтры работают:', result.stats)
+    })
+  }
+
   async loadInterviews() {
     this.showLoading()
     this.resetUI()
 
     try {
       this.interviews = await db.loadInterviews()
-
       console.log(`Загружено ${this.interviews.length} интервью`)
 
       if (this.interviews.length === 0) {
         this.showNoInterviews()
       } else {
         this.renderInterviews()
-        this.setupFilters()
+        if (this.filters) {
+          this.filters.setData(this.interviews)
+          this.filters.container.classList.remove('hidden')
+        }
       }
     } catch (error) {
       this.handleLoadError(error)
