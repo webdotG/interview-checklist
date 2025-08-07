@@ -16,27 +16,12 @@ export async function initializeApp() {
   try {
     const { auth } = await db.init()
     const authService = new AuthService(auth)
-    // 💡 ЭТО КРИТИЧЕСКИ ВАЖНЫЙ ШАГ
-    // ТЕСТ
-    authService.provider.setCustomParameters({
-      redirect_uri: 'https://webdotg.github.io/interview-checklist/',
-    })
-    // Проверяем, возвращаемся ли мы после redirect авторизации
-    // if (authService.isReturningFromRedirect()) {
-    //   console.log('Обрабатываем возврат после redirect авторизации...')
-    //   // Флаг будет очищен автоматически после обработки getRedirectResult в initAuth
-    //   setTimeout(() => {
-    //     authService.clearRedirectFlag()
-    //   }, 2000)
-    // }
-
     const manager = new InterviewManager()
     await manager.init()
     manager.loadFromURL()
 
     const notificationService = new NotificationService()
 
-    // AuthUI для главной страницы
     const authUI = new AuthUI(
       authService,
       notificationService,
@@ -50,16 +35,12 @@ export async function initializeApp() {
     questionUtils.addCounterToHeader(questionsData)
     await renderQuestions()
 
-    const stats = questionUtils.getDetailedStats(questionsData)
-
-    // AuthUI устанавливает все обработчики
     authUI.setupEventListeners()
-    // UI обновляется через onAuthStateChanged
 
-    // Показываем уведомление о статусе авторизации
     authService.setOnAuthStateChangedCallback((user) => {
+      authUI.updateUI(user)
       if (user) {
-        const displayName = authService.getUserDisplayName()
+        const displayName = authService.getUserDisplayName(user)
         notificationService.show(
           `Добро пожаловать, ${displayName}!`,
           'success',
@@ -80,34 +61,22 @@ export async function initializeInterviewsPage() {
   try {
     const { auth, firestore } = await db.init()
     const authService = new AuthService(auth)
-
-    // Проверяем redirect на странице интервью
-    // if (authService.isReturningFromRedirect()) {
-    //   console.log('Обрабатываем возврат после redirect на странице интервью...')
-    //   setTimeout(() => {
-    //     authService.clearRedirectFlag()
-    //   }, 2000)
-    // }
-
     const notificationService = new NotificationService()
     const filters = new InterviewFilters()
     const viewer = new InterviewsViewer()
-    // InterviewManager здесь не нужен.
 
-    // AuthUI для страницы интервью
     const authUI = new AuthUI(
       authService,
       notificationService,
-      null, // manager не используется на этой странице
+      null,
       isGitHubPages,
     )
     authUI.setupEventListeners()
-    // UI обновляется через onAuthStateChanged
 
-    // Показываем статус авторизации
     authService.setOnAuthStateChangedCallback((user) => {
+      authUI.updateUI(user)
       if (user) {
-        const displayName = authService.getUserDisplayName()
+        const displayName = authService.getUserDisplayName(user)
         notificationService.show(
           `Авторизован как ${displayName}`,
           'success',
@@ -122,7 +91,6 @@ export async function initializeInterviewsPage() {
       }
     })
 
-    // зависимости для viewer
     viewer.setDependencies({
       authService,
       notificationService,
@@ -143,7 +111,6 @@ export async function initializeInterviewsPage() {
   }
 }
 
-// какую страницу инициализировать
 export async function initializeCurrentPage() {
   const currentPage = window.location.pathname
 
@@ -154,7 +121,6 @@ export async function initializeCurrentPage() {
   }
 }
 
-// Дополнительная диагностика для отладки
 window.addEventListener('load', () => {
   console.log('=== Диагностика браузера ===')
   console.log('User Agent:', navigator.userAgent)
@@ -163,7 +129,6 @@ window.addEventListener('load', () => {
   console.log('Current URL:', window.location.href)
   console.log('Referrer:', document.referrer)
 
-  // Проверка popup блокировки
   try {
     const popup = window.open('', '_blank', 'width=1,height=1')
     if (popup && !popup.closed) {
