@@ -49,7 +49,7 @@ export class UIManager {
     const warningHTML = `
       <div class="warning-banner">
         <h3>Локальный режим</h3>
-        <p>Для сохранения и загрузки интервью из базы данных, пожалуйста, перейдите на 
+        <p>Для сохранения и загрузки интервью в базу данных, пожалуйста, перейдите на 
         <a href="https://webdotG.github.io/interview-checklist/" target="_blank">
         GitHub Pages версию
         </a> этого приложения.</p>
