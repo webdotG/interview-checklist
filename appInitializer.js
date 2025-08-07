@@ -61,7 +61,17 @@ export async function initializeInterviewsPage() {
     const filters = new InterviewFilters()
     const viewer = new InterviewsViewer()
 
-    // зависимости
+    // AuthUI
+    const authUI = new AuthUI(
+      authService,
+      notificationService,
+      viewer, // viewer вместо manager
+      isGitHubPages,
+    )
+    authUI.setupEventListeners()
+    authUI.updateUI()
+
+    // зависимости для viewer
     viewer.setDependencies({
       authService,
       notificationService,
@@ -69,6 +79,7 @@ export async function initializeInterviewsPage() {
       isGitHubPages,
       db,
       filters,
+      authUI,
     })
 
     await viewer.init()
