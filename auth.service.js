@@ -18,15 +18,6 @@ export class AuthService {
     // Колбэк для изменений состояния авторизации
     this.onAuthStateChangedCallback = () => {}
 
-    // Добавляем scope если нужен доступ к репозиториям (опционально)
-    // this.provider.addScope('repo')
-
-    // УБИРАЕМ redirect_uri - Firebase сам управляет редиректами!
-    // Вместо этого можно добавить другие GitHub параметры если нужно:
-    // this.provider.setCustomParameters({
-    //   'allow_signup': 'true'
-    // })
-
     this.initAuth()
   }
 
@@ -65,9 +56,9 @@ export class AuthService {
 
   // Вход через popup (рекомендуется для десктопа)
   async signInWithGitHub() {
-    console.log('Firebase config:', this.auth.app.options)
-    console.log('Current domain:', window.location.hostname)
     try {
+      // Принудительно используем popup для GitHub Pages
+      console.log('Попытка входа через GitHub popup...')
       const result = await signInWithPopup(this.auth, this.provider)
       const credential = GithubAuthProvider.credentialFromResult(result)
       const token = credential?.accessToken // GitHub access token если нужен
@@ -76,12 +67,13 @@ export class AuthService {
       console.log('Успешный вход через GitHub:', user.displayName || user.email)
       return user
     } catch (error) {
-      console.error('Ошибка входа через GitHub (popup):', error)
+      console.error('Ошибка входа через GitHub:', error)
+      console.error('Error code:', error.code)
+      console.error('Error message:', error.message)
 
-      // Обработка специфичных ошибок
-      if (error.code === 'auth/popup-blocked') {
-        console.log('Попап заблокирован браузером, попробуйте редирект')
-        return this.signInWithGitHubRedirect()
+      // Дополнительная информация об ошибке
+      if (error.customData) {
+        console.error('Error email:', error.customData.email)
       }
 
       return null
