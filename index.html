@@ -3,10 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>
-      Чек-лист для собеседования разработчика | Вопросы работодателю | Оценка
-      компании
-    </title>
     <!-- отображается под заголовком в результатах поиска Google -->
     <meta
       name="description"
@@ -52,73 +48,204 @@
       rel="icon"
       href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50%' y='50%' font-size='75' font-family='Arial, sans-serif' dominant-baseline='middle' text-anchor='middle' fill='%23333'>G \</text><style>text{font-weight:bold;} @media (prefers-color-scheme:dark){text{fill:%23fff}}</style></svg>"
     />
-    <title>чеклист собеса</title>
+    <title>Проект переехал на новый адрес</title>
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="./auth.ui.css" />
   </head>
   <body>
-    <main class="container">
-      <div class="header-nav">
-        <h1>Чек-лист собеседования</h1>
-        <h1>про логин с гита знаю</h1>
-        <h1>а как пофиксить?</h1>
-        <h1>походу никак</h1>
-        <h4>за сутки все ответы меня свели к -</h4>
-        <h4>хоститься на firebase</h4>
+    <div class="timer-container-top">
+      <svg class="timer-svg" viewBox="0 0 100 100">
+        <defs>
+          <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color: #b8f1c8; stop-opacity: 1" />
+            <stop offset="50%" style="stop-color: #a5d8ff; stop-opacity: 1" />
+            <stop offset="100%" style="stop-color: #d0b8f1; stop-opacity: 1" />
+          </linearGradient>
+        </defs>
+        <circle class="timer-background" cx="50" cy="50" r="45"></circle>
+        <circle class="timer-progress" cx="50" cy="50" r="45"></circle>
+      </svg>
+      <span class="timer-text" id="countdown">150</span>
+    </div>
 
-        <div id="auth-container">
-          <div id="auth-warning" class="hidden">
-            <p>
-              Чтобы сохранить ответы в общей базе и сделать их доступными для
-              всех
-            </p>
-            <button id="github-login-btn">Войти через GitHub</button>
-          </div>
-          <button id="github-logout-btn" class="hidden">Выйти из GitHub</button>
+    <div class="container">
+      <div id="intro-message">
+        <h1>Здравствуйте!</h1>
+        <h2>проект переезжает на новый адрес</h2>
+        <p class="small-text">
+          через 2.5 минуты вас перенаправит на новый адрес
+        </p>
+        <p class="small-text2">(для отмены есть кнопка внизу страницы)</p>
+        <article>
+          <h2>Объяснение</h2>
+          <p>
+            Проект переезжает на новый хостинг из-за несовместимости между
+            <strong>GitHub Pages</strong> и <strong>Firebase Auth</strong>. К
+            сожалению, это системное ограничение, о котором не сразу узнаёшь.
+          </p>
+
+          <h2>Причина детальнее</h2>
+          <ul>
+            <li>
+              <strong>GitHub Pages</strong> — это статический хостинг, который
+              не поддерживает специальные служебные файлы Firebase Auth (<code
+                >__/auth/handler</code
+              >
+              и <code>__/auth/iframe</code>) без расширения.
+            </li>
+            <li>
+              При попытке обращения к таким файлам GitHub Pages отдаёт их как
+              обычные загрузки (<code>MIME application/octet-stream</code>), а
+              не как исполняемые обработчики.
+            </li>
+            <li>
+              В результате аутентификация через редирект (GitHub OAuth)
+              зависает, так как Firebase не получает необходимого ответа.
+            </li>
+          </ul>
+
+          <pre><code>https://webdotg.github.io/__/auth/handler?apiKey=...&providerId=github.com</code></pre>
+          <p>
+            С точки зрения Firebase, этот URL-адрес корректен, но GitHub Pages
+            не может его обработать.
+          </p>
+
+          <h3>Вывод</h3>
+          <p>
+            GitHub Pages не может корректно хостить необходимые
+            Firebase-хелперы, даже если URL указан верно. Это системное
+            ограничение статического хостинга.
+          </p>
+
+          <h3>Каков итог</h3>
+          <p>
+            Чтобы решить эту проблему, я выбрал единственный простой и надёжный
+            вариант:
+            <strong>миграция на Firebase Hosting</strong>. Это позволит
+            стабильную работу аутентификации.
+          </p>
+          <p>
+            Другие варианты, такие как использование прокси-хостинга (Netlify,
+            Vercel) или самостоятельное размещение файлов, тоже возможны, но
+            требуют дополнительных настроек, которые могут быть всё равно
+            нестабильными на GitHub Pages.
+          </p>
+
+          <div class="warning"><p>Увидимся на новом хосте</p></div>
+        </article>
+        <div class="buttons">
+          <a href="#" class="exit" id="exit-button">Покинуть страницу</a>
+          <a href="https://your-new-firebase-url.com" class="proceed"
+            >Перейти на новый адрес</a
+          >
         </div>
-        <a href="interviews.html" class="nav-link">Посмотреть все интервью</a>
       </div>
 
-      <form id="interview-form" class="company-info">
-        <div class="input-group">
-          <label for="company">Компания:</label>
-          <input type="text" id="company" placeholder="Название компании" />
+      <div id="goodbye-message" style="display: none">
+        <h1>Очень жаль, но до свидания!</h1>
+        <h3>Вы можете закрыть эту вкладку.</h3>
+        <p>Если вы всё таки передумаете то навигация вот</p>
+        <div class="buttons">
+          <a href="#" class="exit" id="return-button"
+            >Прочитать о переезде ещё раз</a
+          >
+          <a href="https://your-new-firebase-url.com" class="proceed"
+            >Перейти на новый адрес</a
+          >
         </div>
+      </div>
+    </div>
 
-        <div class="input-group">
-          <label for="position">Должность:</label>
-          <input type="text" id="position" placeholder="Позиция" />
-        </div>
+    <script>
+      const newUrl = 'https://your-new-firebase-url.com'
+      // установка таймера (150 секунд)
+      let countdown = 150
+      // для хранения ID интервала таймера
+      let timerInterval
 
-        <div class="input-group">
-          <label for="salary">Зарплата:</label>
-          <input
-            type="text"
-            id="salary"
-            name="salary"
-            placeholder="Ожидаемая зарплата"
-            aria-describedby="salary-hint"
-            inputmode="numeric"
-            style="
-              -webkit-appearance: none;
-              -moz-appearance: textfield;
-              margin: 0;
-            "
-          />
-        </div>
-      </form>
+      // элементы страницы из DOM
+      const countdownElement = document.getElementById('countdown')
+      const circle = document.querySelector('.timer-progress')
+      const radius = circle.r.baseVal.value
+      const circumference = 2 * Math.PI * radius
 
-      <div id="questions-container"></div>
+      // блоки сообщений и кнопок
+      const introMessage = document.getElementById('intro-message')
+      const goodbyeMessage = document.getElementById('goodbye-message')
+      const exitButton = document.getElementById('exit-button')
+      const returnButton = document.getElementById('return-button')
 
-      <button id="submit-btn">Отправить ответы</button>
-      <div id="success-message" class="hidden">Ответы успешно сохранены!</div>
-    </main>
+      // круговой индикатор прогресса
+      circle.style.strokeDasharray = `${circumference} ${circumference}`
+      circle.style.strokeDashoffset = `${circumference}`
 
-    <script type="module">
-      import { initializeCurrentPage } from './appInitializer.js'
+      // для обновления кругового индикатора
+      function setProgress(percent) {
+        const offset = circumference - (percent / 100) * circumference
+        circle.style.strokeDashoffset = offset
+      }
 
-      document.addEventListener('DOMContentLoaded', async () => {
-        await initializeCurrentPage()
+      // главная функция таймера, вызывается каждую секунду
+      function updateCountdown() {
+        // вычисляет минуты и секунды
+        const minutes = Math.floor(countdown / 60)
+        const seconds = countdown % 60
+        // обновляет текст таймера в формате m:ss
+        countdownElement.textContent = `${minutes}:${seconds
+          .toString()
+          .padStart(2, '0')}`
+
+        // вычисляет процент для кругового индикатора
+        const percent = ((150 - countdown) / 150) * 100
+        // обновляет круговой индикатор
+        setProgress(percent)
+
+        // проверяет, закончилось ли вретя
+        if (countdown === 0) {
+          // перенаправляет пользователя на новый URL
+          window.location.href = newUrl
+        } else {
+          // уменьшает таймер на 1 секунду
+          countdown--
+        }
+      }
+
+      // функция для запуска таймера
+      function startTimer() {
+        // сбрасывает таймер на начальное значение
+        countdown = 150
+        // запускает интервал, который вызывает updateCountdown каждую секунду
+        timerInterval = setInterval(updateCountdown, 1000)
+      }
+
+      // запускает таймер при загрузке страницы
+      startTimer()
+
+      // добавляет обработчик событий для кнопки "Покинуть"
+      exitButton.addEventListener('click', function (event) {
+        // отменяет стандартное действие ссылки (переход по якорю #)
+        event.preventDefault()
+
+        // останавливает таймер
+        clearInterval(timerInterval)
+
+        // скрывает начальный текст
+        introMessage.style.display = 'none'
+        // показывает окно прощания
+        goodbyeMessage.style.display = 'block'
+      })
+
+      // добавляет обработчик событий для кнопки "Вернуться"
+      returnButton.addEventListener('click', function (event) {
+        // отменяет стандартное действие ссылки
+        event.preventDefault()
+
+        // скрывает окно прощания
+        goodbyeMessage.style.display = 'none'
+        // показывает начальный текст
+        introMessage.style.display = 'block'
+
+        // запускает таймер заново
+        startTimer()
       })
     </script>
   </body>

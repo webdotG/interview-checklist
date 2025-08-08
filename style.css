@@ -1,542 +1,187 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
+/* -------------------------------------------------- БАЗА (мобайл 320px+) ---------- */
 body {
-  font-family: -apple-system, Roboto, sans-serif;
-  line-height: 1.6;
-  color: #333;
-  background: linear-gradient(135deg, #8bd7d5 0%, #91ebf5 100%);
-  min-height: 100vh;
-  padding: 20px;
-}
-
-.header-nav {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.header-nav h1 {
-  color: white;
-  margin: 0;
-  font-size: 2rem;
-  font-weight: 300;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  flex-shrink: 0;
-}
-
-.nav-link {
-  color: white;
-  text-decoration: none;
-  font-weight: 600;
-  padding: 0.5rem 1rem;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 6px;
-  transition: all 0.3s ease;
-  font-size: 0.9rem;
-  white-space: nowrap;
-}
-
-.nav-link:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.6);
-  transform: translateY(-1px);
-}
-
-/* ------------------------------------------------------ счетчик вопросов */
-.questions-counter {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 0.9rem;
-  font-weight: 400;
+  font-family: Roboto, sans-serif;
   text-align: center;
-  margin-top: 0.5rem;
-  letter-spacing: 0.5px;
-  transition: all 0.3s ease;
+  padding: 15px;
+  background-color: #e9ecef;
+  color: #495057;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
 }
 
-.questions-counter:hover {
-  color: rgba(255, 255, 255, 1);
-  transform: translateY(-1px);
-}
-/* ------------------------------------------------------ мэйн */
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  width: 100%;
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 1s ease-in-out;
+  margin-top: 15px;
 }
 
 h1 {
-  color: white;
-  text-align: center;
-  padding: 2rem;
+  color: #424242;
+  font-size: 1.5em;
+  margin-bottom: 15px;
+}
+
+h2 {
+  font-size: 1.3em;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+p,
+li {
+  font-size: 0.95em;
+  line-height: 1.5;
+}
+
+article {
+  text-align: left;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+li {
+  margin-bottom: 8px;
+}
+
+code {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #f0f0f0;
+  padding: 2px 4px;
+  border-radius: 4px;
+  word-break: break-word;
+}
+
+pre {
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 6px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 0.9em;
+}
+
+.warning {
+  background-color: #e6ffef;
+  border-left: 5px solid #5cb85c;
+  padding: 12px;
+  margin-top: 20px;
+  border-radius: 6px;
+}
+
+.warning p {
+  font-size: 0.9em;
   margin: 0;
-  font-size: 2.5rem;
-  font-weight: 300;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* ------------------------------------------------------ информация о компании */
-.company-info {
-  background: #f8f9fa;
-  padding: 2rem;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-  border-bottom: 1px solid #e9ecef;
+/* --------------------------------------------------------- таймер ---------- */
+.timer-container-top {
+  position: sticky;
+  top: 10px;
+  width: 90px;
+  height: 90px;
+  margin-bottom: 15px;
+  background-color: #e9ecef;
+  padding: 5px;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.input-group {
+.timer-svg {
+  transform: rotate(-90deg);
+}
+
+.timer-background,
+.timer-progress {
+  fill: none;
+  stroke-width: 6;
+}
+
+.timer-background {
+  stroke: #e2e6ea;
+}
+
+.timer-progress {
+  stroke: url(#gradient);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s linear;
+}
+
+.timer-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #495057;
+  opacity: 0.7;
+}
+
+/* ------------------------------------------------------------ кнопки ---------- */
+.buttons {
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
+  gap: 12px;
+  align-items: center;
 }
 
-.input-group label {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: #495057;
-  font-size: 1.4rem;
-  text-transform: uppercase;
-  letter-spacing: 1.6px;
-}
-
-.input-group input {
-  padding: 12px 16px;
-  border: 2px solid #e9ecef;
-  border-radius: 8px;
-  font-size: 1.2rem;
+.buttons a {
+  text-decoration: none;
+  color: #333;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.95em;
   transition: all 0.3s ease;
-  background: white;
+  display: inline-block;
   width: 100%;
-}
-
-.input-group input:focus {
-  outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-  transform: translateY(-1px);
-}
-
-.input-group input::placeholder {
-  color: #adb5bd;
-}
-
-/* ------------------------------------------------------ контейнер вопросов */
-#questions-container {
-  padding: 2rem;
-}
-
-/* ------------------------------------------------------ секции */
-#questions-container > div {
-  margin-bottom: 3rem;
-}
-
-#questions-container h2 {
-  color: #495057;
-  font-size: 2.4rem;
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 3px solid #667eea;
-  font-weight: 400;
+  max-width: 280px;
   text-align: center;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
 }
 
-#questions-container h3 {
-  color: #6c757d;
-  font-size: 1.8rem;
-  margin: 1.5rem 0 1rem 0;
-  font-weight: 500;
-  position: relative;
-  padding-left: 1rem;
-  text-align: center;
-}
-
-/* ------------------------------------------------------ вопросы */
-.question {
-  background: #f8f9fa;
-  border: 1px solid #e9ecef;
-  border-radius: 8px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.question:hover {
-  background: #f1f3f4;
-  border-color: #dee2e6;
-  transform: translateX(4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.question label {
-  display: flex;
-  align-items: flex-start;
-  cursor: pointer;
-  font-weight: 500;
-  color: #495057;
-  line-height: 1.5;
-  margin-bottom: 1rem;
-  font-size: 1.2rem;
-  word-break: break-word;
-}
-
-.question input[type='checkbox'] {
-  margin-right: 12px;
-  margin-top: 2px;
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-  accent-color: #667eea;
-  font-size: 1.2rem;
-  letter-spacing: 0.1px;
-  flex-shrink: 0;
-}
-
-.question input[type='text'] {
-  width: 100%;
-  padding: 10px 14px;
-  border: 1px solid #ced4da;
-  border-radius: 6px;
-  font-size: 1rem;
-  line-height: 1.2rem;
-  background: white;
-  transition: all 0.2s ease;
-}
-
-.question input[type='text']:focus {
-  outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
-}
-
-.question input[type='text']::placeholder {
-  color: #adb5bd;
-  font-style: italic;
-}
-
-/* ------------------------------------------------------ секция предупреждений */
-.warnings-section {
-  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-  color: white;
-  padding: 2rem;
-  border-radius: 12px;
-  margin-top: 2rem;
-}
-
-.warnings-section h2 {
-  color: white !important;
-  border-bottom-color: rgba(255, 255, 255, 0.3) !important;
-  font-size: 1.6rem;
-  margin-bottom: 1.5rem;
-}
-
-.warnings-list {
-  list-style: none;
-  padding: 0;
-}
-
-.warnings-list li {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 1rem 1.5rem;
-  margin-bottom: 0.8rem;
-  border-radius: 8px;
-  border-left: 4px solid rgba(255, 255, 255, 0.5);
-  font-weight: 500;
-  transition: all 0.3s ease;
-  position: relative;
-  word-break: break-word;
-}
-
-.warnings-list li:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateX(4px);
-}
-
-.warnings-list li::before {
-  content: '⚠️';
-  margin-right: 10px;
-  font-size: 1.1em;
-}
-
-/* ------------------------------------------------------ кнопка отправки */
-#submit-btn {
-  background: linear-gradient(135deg, #48ffa3, #20c997);
-  color: white;
-  border: none;
-  padding: 1rem 2rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin: 2rem;
-  display: block;
-  width: calc(100% - 4rem);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-#submit-btn:hover {
-  background: linear-gradient(135deg, #218838, #1ea085);
+.buttons a:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
 }
 
-#submit-btn:active {
-  transform: translateY(0);
+.buttons .proceed {
+  background: linear-gradient(45deg, #b8f1c8, #a5d8ff);
 }
 
-/* ------------------------------------------------------ сообщение об успехе */
-#success-message {
-  background: linear-gradient(135deg, #28a745, #20c997);
-  color: white;
-  padding: 1rem 2rem;
-  margin: 1rem 2rem;
-  border-radius: 8px;
-  text-align: center;
-  font-weight: 600;
-  opacity: 1;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
+.buttons .exit {
+  background: linear-gradient(45deg, #d0b8f1, #a5d8ff);
 }
 
-.hidden {
-  opacity: 0 !important;
-  transform: translateY(-10px) !important;
-  pointer-events: none;
+.small-text {
+  margin-bottom: 0;
+  font-size: 0.95em;
+  line-height: 1.3em;
+  opacity: 0.7;
+  margin-top: 8px;
 }
-
-/* ------------------------------------------------------ адаптивность */
-@media (max-width: 768px) {
-  body {
-    padding: 10px;
-  }
-
-  .header-nav {
-    padding: 1rem;
-    flex-direction: column;
-    text-align: center;
-    gap: 1rem;
-  }
-
-  .header-nav h1 {
-    font-size: 1.8rem;
-  }
-
-  .nav-link {
-    font-size: 0.85rem;
-    padding: 0.6rem 1.2rem;
-  }
-
-  .questions-counter {
-    font-size: 0.8rem;
-    margin-top: 0.8rem;
-    letter-spacing: 0.3px;
-  }
-
-  h1 {
-    font-size: 2rem;
-    padding: 1.5rem;
-  }
-
-  .company-info {
-    grid-template-columns: 1fr;
-    padding: 1.5rem;
-    gap: 1rem;
-  }
-
-  .input-group label {
-    font-size: 1.1rem;
-    letter-spacing: 1px;
-  }
-
-  .input-group input {
-    font-size: 1rem;
-    padding: 10px 12px;
-  }
-
-  #questions-container {
-    padding: 1.5rem;
-  }
-
-  .question {
-    padding: 1rem;
-  }
-
-  .question label {
-    font-size: 1rem;
-    margin-bottom: 0.8rem;
-  }
-
-  #questions-container h2 {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
-  }
-
-  #questions-container h3 {
-    font-size: 1.4rem;
-    padding-left: 0.5rem;
-    margin: 1rem 0 0.8rem 0;
-  }
-
-  #submit-btn {
-    margin: 1.5rem;
-    width: calc(100% - 3rem);
-    padding: 1rem;
-    font-size: 1rem;
-  }
-
-  .warnings-section {
-    padding: 1.5rem;
-    margin: 1.5rem;
-  }
-
-  .warnings-section h2 {
-    font-size: 1.4rem;
-  }
+.small-text2 {
+  margin-top: 0px;
+  font-size: 0.95em;
+  line-height: 1.3em;
+  opacity: 0.7;
 }
-
-@media (max-width: 480px) {
-  body {
-    padding: 5px;
-  }
-
-  .header-nav {
-    padding: 0.8rem;
-  }
-
-  .header-nav h1 {
-    font-size: 1.5rem;
-  }
-
-  .nav-link {
-    font-size: 0.8rem;
-    padding: 0.5rem 1rem;
-  }
-
-  .questions-counter {
-    font-size: 0.75rem;
-    margin-top: 1rem;
-    letter-spacing: 0.2px;
-  }
-
-  .company-info {
-    padding: 1rem;
-  }
-
-  .input-group label {
-    font-size: 1rem;
-    letter-spacing: 0.5px;
-  }
-
-  .input-group input {
-    font-size: 0.9rem;
-    padding: 8px 10px;
-  }
-
-  #questions-container {
-    padding: 1rem;
-  }
-
-  .question {
-    padding: 0.8rem;
-  }
-
-  .question label {
-    font-size: 0.9rem;
-    line-height: 1.4;
-  }
-
-  .question input[type='checkbox'] {
-    width: 16px;
-    height: 16px;
-    margin-right: 10px;
-  }
-
-  .question input[type='text'] {
-    font-size: 0.9rem;
-    padding: 8px 10px;
-  }
-
-  #questions-container h2 {
-    font-size: 1.5rem;
-  }
-
-  #questions-container h3 {
-    font-size: 1.2rem;
-  }
-
-  #submit-btn {
-    margin: 1rem;
-    width: calc(100% - 2rem);
-    padding: 0.9rem;
-    font-size: 0.9rem;
-  }
-
-  .warnings-section {
-    padding: 1rem;
-    margin: 1rem;
-  }
-
-  .warnings-list li {
-    padding: 0.8rem 1rem;
-    font-size: 0.9rem;
-  }
-
-  #success-message {
-    margin: 1rem;
-    padding: 0.8rem 1rem;
-    font-size: 0.9rem;
-  }
-}
-
-@media (max-width: 360px) {
-  .header-nav h1 {
-    font-size: 1.3rem;
-  }
-
-  .nav-link {
-    font-size: 0.75rem;
-    padding: 0.4rem 0.8rem;
-  }
-
-  .questions-counter {
-    font-size: 0.7rem;
-    margin-top: 1rem;
-  }
-
-  .input-group label {
-    font-size: 0.9rem;
-  }
-
-  .question label {
-    font-size: 0.85rem;
-  }
-
-  #questions-container h2 {
-    font-size: 1.3rem;
-  }
-
-  #questions-container h3 {
-    font-size: 1.1rem;
-  }
-}
-
-/* ------------------------------------------------------ анимации */
-@keyframes fadeInUp {
+/* -------------------------------------------------------------------- анимации ---------- */
+@keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(-20px);
   }
   to {
     opacity: 1;
@@ -544,148 +189,64 @@ h1 {
   }
 }
 
-.question {
-  animation: fadeInUp 0.3s ease-out;
-}
-
-/* ------------------------------------------------------ скроллбар */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #5a67d8, #6b46c1);
-}
-
-/* ---------------------------------------------------------- валид форм инпут */
-
-.validation-hint {
-  font-size: 12px;
-  margin-top: 4px;
-  padding: 6px 8px;
-  border-radius: 4px;
-  background: #f8f9fa;
-  border: 1px solid #dee2e6;
-  color: #6c757d;
-  opacity: 0;
-  transform: translateY(-5px);
-  transition: all 0.3s ease;
-  pointer-events: none;
-}
-
-.validation-hint.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.validation-hint.error {
-  background: #f8d7da;
-  border-color: #f5c6cb;
-  color: #721c24;
-}
-
-.validation-hint.success {
-  background: #d4edda;
-  border-color: #c3e6cb;
-  color: #155724;
-}
-
-input.valid {
-  border-color: #28a745 !important;
-  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
-}
-
-input.invalid {
-  border-color: #dc3545 !important;
-  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
-}
-
-input.invalid:focus {
-  outline: none;
-}
-
-/* ---------------------------------------------------------- уведомления  */
-
-.notification {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  padding: 12px 24px;
-  border-radius: 6px;
-  color: white;
-  font-weight: 500;
-  z-index: 1000;
-  transform: translateX(400px);
-  opacity: 0;
-  transition: all 0.3s ease;
-}
-
-.notification--show {
-  transform: translateX(0);
-  opacity: 1;
-}
-
-.notification--hide {
-  transform: translateX(400px);
-  opacity: 0;
-}
-
-.notification--success {
-  background: #10b981;
-}
-.notification--error {
-  background: #ef4444;
-}
-.notification--warning {
-  background: #f59e0b;
-}
-.notification--info {
-  background: #3b82f6;
-}
-
-.auth-warning--highlighted {
-  animation: pulse 0.5s ease-in-out 3;
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    transform: scale(1);
+/* ------------------------------------------------------------ планшет 600px+ ---------- */
+@media (min-width: 600px) {
+  .container {
+    padding: 20px;
+    border-radius: 10px;
   }
-  50% {
-    transform: scale(1.02);
+  h1 {
+    font-size: 1.8em;
+  }
+  h2 {
+    font-size: 1.5em;
+  }
+  p,
+  li,
+  code,
+  pre {
+    font-size: 1em;
+  }
+  .buttons {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+  .buttons a {
+    width: auto;
+    min-width: 140px;
   }
 }
 
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 12px;
-  background: #f3f4f6;
-  border-radius: 6px;
-  font-size: 14px;
-}
-
-.btn--small {
-  padding: 4px 8px;
-  font-size: 12px;
-}
-
-.error {
-  border-color: #ef4444 !important;
-  background-color: #fef2f2;
-}
-
-.error:focus {
-  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+/* -------------------------------------------------------------- десктоп 1024px+ ---------- */
+@media (min-width: 1024px) {
+  body {
+    padding: 20px;
+  }
+  .container {
+    max-width: 700px;
+    padding: 40px;
+  }
+  h1 {
+    font-size: 2em;
+  }
+  h2 {
+    font-size: 1.7em;
+  }
+  p {
+    font-size: 1.1em;
+  }
+  pre {
+    font-size: 1em;
+    padding: 15px;
+  }
+  .timer-container-top {
+    width: 120px;
+    height: 120px;
+    padding: 10px;
+  }
+  .timer-text {
+    font-size: 2em;
+  }
 }
