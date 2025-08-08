@@ -2,7 +2,7 @@ import { db } from '../services/db.service.js'
 import {
   questionsStructure,
   generateQuestionId,
-} from '../questions.renderer.js'
+} from '../ui/questions.renderer.js'
 
 export class InterviewManager {
   constructor() {
