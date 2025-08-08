@@ -1,5 +1,5 @@
-import { InterviewFormatter } from './interview.formatter.js'
-import { questionUtils } from './questions.stats.js'
+import { InterviewFormatter } from '../utils/interview.formatter.js'
+import { questionUtils } from '../utils/questions.stats.js'
 
 export class InterviewRenderer {
   constructor(totalQuestions) {

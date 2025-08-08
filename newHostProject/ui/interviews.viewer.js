@@ -1,7 +1,7 @@
-import { questionUtils } from './questions.stats.js'
-import { questionsData } from './questions.data.js'
+import { questionUtils } from '../questions.stats.js'
+import { questionsData } from '../utils/questions.data.js'
 import { InterviewRenderer } from './interview.renderer.js'
-import { db } from './db.service.js'
+import { db } from '../services/db.service.js'
 
 export class InterviewsViewer {
   constructor() {

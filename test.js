@@ -1,3 +1,35 @@
+// ├── newHost
+// │   ├── index.html
+// │   ├── style.css
+// │   ├── interviews.html
+// │   ├── interviews.css
+// │   ├── assets
+// │   │   └── KirillGrant.png
+// │   ├── core
+// │   │   ├── appInitializer.js
+// │   │   └── interview.manager.js
+// │   ├── services
+// │   │   ├── auth.service.js
+// │   │   ├── db.service.js
+// │   │   └── notification.service.js
+// │   ├── ui
+// │   │   ├── auth.ui.css
+// │   │   ├── auth.ui.js
+// │   │   ├── form.validator.js
+// │   │   ├── interview.filters.css
+// │   │   ├── interview.filters.js
+// │   │   ├── interview.renderer.css
+// │   │   ├── interview.renderer.js
+// │   │   ├── interviews.viewer.css
+// │   │   ├── interviews.viewer.js
+// │   │   ├── ui.manager.css
+// │   │   └── ui.manager.js
+// │   └── utils
+// │       ├── interview.formatter.js
+// │       ├── questions.data.js
+// │       ├── questions.renderer.js
+// │       └── questions.stats.js
+
 //=============================================================================================
 
 //   /**

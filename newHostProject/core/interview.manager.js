@@ -1,5 +1,8 @@
-import { db } from './db.service.js'
-import { questionsStructure, generateQuestionId } from './questions.renderer.js'
+import { db } from '../db.service.js'
+import {
+  questionsStructure,
+  generateQuestionId,
+} from '../questions.renderer.js'
 
 export class InterviewManager {
   constructor() {
