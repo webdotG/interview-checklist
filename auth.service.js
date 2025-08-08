@@ -1,7 +1,6 @@
 import {
   getAuth,
-  signInWithRedirect,
-  getRedirectResult,
+  signInWithPopup, // 💡 ИСПОЛЬЗУЕМ POPUP
   GithubAuthProvider,
   signOut,
   onAuthStateChanged,
@@ -14,6 +13,11 @@ export class AuthService {
     this.auth = auth
     this.provider = new GithubAuthProvider()
     this.onAuthStateChangedCallback = () => {}
+
+    // 💡 ВОЗВРАЩАЕМ: Явно указываем домен для попапа
+    this.provider.setCustomParameters({
+      redirect_uri: 'https://webdotg.github.io/interview-checklist/',
+    })
 
     setPersistence(this.auth, browserLocalPersistence)
       .then(() => {
@@ -32,7 +36,9 @@ export class AuthService {
 
   async signInWithGitHub() {
     try {
-      await signInWithRedirect(this.auth, this.provider)
+      const result = await signInWithPopup(this.auth, this.provider)
+      const user = result.user
+      return user
     } catch (error) {
       console.error('Ошибка входа через GitHub:', error)
       return null
@@ -46,16 +52,6 @@ export class AuthService {
       }
     } catch (error) {
       console.error('Ошибка при выходе:', error)
-    }
-  }
-
-  async handleRedirectResult() {
-    try {
-      const result = await getRedirectResult(this.auth)
-      return result ? result.user : null
-    } catch (error) {
-      console.error('Ошибка при редирект-аутентификации:', error)
-      return null
     }
   }
 

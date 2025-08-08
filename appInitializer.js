@@ -16,17 +16,6 @@ export async function initializeApp() {
   try {
     const { auth } = await db.init()
     const authService = new AuthService(auth)
-
-    // 💡 ОТЛАДКА: Проверяем результат редиректа
-    const user = await authService.handleRedirectResult()
-    if (user) {
-      console.log('Пользователь авторизован после редиректа:', user)
-    } else {
-      console.log(
-        'Редирект не дал результата, возможно пользователь отменил вход',
-      )
-    }
-
     const manager = new InterviewManager()
     await manager.init()
     manager.loadFromURL()
@@ -47,15 +36,10 @@ export async function initializeApp() {
 
     authUI.setupEventListeners()
 
-    authService.setOnAuthStateChangedCallback((currentUser) => {
-      // 💡 ОТЛАДКА: Проверяем, что происходит в колбэке
-      console.log(
-        'onAuthStateChanged сработал, текущий пользователь:',
-        currentUser,
-      )
-      authUI.updateUI(currentUser)
-      if (currentUser) {
-        const displayName = authService.getUserDisplayName(currentUser)
+    authService.setOnAuthStateChangedCallback((user) => {
+      authUI.updateUI(user)
+      if (user) {
+        const displayName = authService.getUserDisplayName(user)
         notificationService.show(
           `Добро пожаловать, ${displayName}!`,
           'success',
@@ -80,16 +64,6 @@ export async function initializeInterviewsPage() {
     const filters = new InterviewFilters()
     const viewer = new InterviewsViewer()
 
-    // 💡 ОТЛАДКА: Проверяем результат редиректа
-    const user = await authService.handleRedirectResult()
-    if (user) {
-      console.log('Пользователь авторизован после редиректа:', user)
-    } else {
-      console.log(
-        'Редирект не дал результата, возможно пользователь отменил вход',
-      )
-    }
-
     const authUI = new AuthUI(
       authService,
       notificationService,
@@ -98,15 +72,10 @@ export async function initializeInterviewsPage() {
     )
     authUI.setupEventListeners()
 
-    authService.setOnAuthStateChangedCallback((currentUser) => {
-      // 💡 ОТЛАДКА: Проверяем, что происходит в колбэке
-      console.log(
-        'onAuthStateChanged сработал, текущий пользователь:',
-        currentUser,
-      )
-      authUI.updateUI(currentUser)
-      if (currentUser) {
-        const displayName = authService.getUserDisplayName(currentUser)
+    authService.setOnAuthStateChangedCallback((user) => {
+      authUI.updateUI(user)
+      if (user) {
+        const displayName = authService.getUserDisplayName(user)
         notificationService.show(
           `Авторизован как ${displayName}`,
           'success',
