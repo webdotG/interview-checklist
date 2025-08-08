@@ -11,8 +11,6 @@ import {
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js'
 import { NotificationService } from './notification.service.js'
 
-// 💡 ИСПРАВЛЕНИЕ: Автоматически определяем authDomain
-// Это устраняет потенциальную проблему несоответствия доменов между GitHub Pages и Firebase Hosting.
 const isGitHubPages = window.location.hostname.includes('github.io')
 const authDomain = isGitHubPages
   ? window.location.hostname

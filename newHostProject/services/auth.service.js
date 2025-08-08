@@ -1,6 +1,6 @@
 import {
   getAuth,
-  signInWithPopup, // 💡 ИСПОЛЬЗУЕМ POPUP
+  signInWithPopup, // ИСПОЛЬЗУЕМ POPUP
   GithubAuthProvider,
   signOut,
   onAuthStateChanged,
@@ -14,7 +14,7 @@ export class AuthService {
     this.provider = new GithubAuthProvider()
     this.onAuthStateChangedCallback = () => {}
 
-    // 💡 ВОЗВРАЩАЕМ: Явно указываем домен для попапа
+    // Явно указываем домен для попапа
     this.provider.setCustomParameters({
       redirect_uri: 'https://webdotg.github.io/interview-checklist/',
     })

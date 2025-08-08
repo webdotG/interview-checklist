@@ -1,4 +1,4 @@
-import { db } from '../db.service.js'
+import { db } from '../services/db.service.js'
 import {
   questionsStructure,
   generateQuestionId,

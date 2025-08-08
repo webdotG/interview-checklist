@@ -54,7 +54,7 @@
     />
     <title>чеклист собеса</title>
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="./auth.ui.css" />
+    <link rel="stylesheet" href="./ui/auth.ui.css" />
   </head>
   <body>
     <main class="container">
@@ -115,7 +115,7 @@
     </main>
 
     <script type="module">
-      import { initializeCurrentPage } from './appInitializer.js'
+      import { initializeCurrentPage } from './core/appInitializer.js'
 
       document.addEventListener('DOMContentLoaded', async () => {
         await initializeCurrentPage()

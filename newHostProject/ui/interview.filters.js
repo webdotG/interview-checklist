@@ -1,4 +1,4 @@
-import { questionUtils } from '../questions.stats.js'
+import { questionUtils } from '../utils/questions.stats.js'
 import { questionsData } from '../utils/questions.data.js'
 
 export class InterviewFilters {

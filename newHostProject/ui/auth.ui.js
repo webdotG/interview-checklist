@@ -1,4 +1,4 @@
-import { FormValidator } from './form.validator.js'
+import { FormValidator } from './form.validator'
 
 export class AuthUI {
   constructor(authService, notificationService, manager, isGitHubPages) {

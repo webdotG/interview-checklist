@@ -53,11 +53,11 @@
   />
   <title>Все интервью</title>
   <link rel="stylesheet" href="./interviews.css" />
-  <link rel="stylesheet" href="./auth.ui.css" />
-  <link rel="stylesheet" href="./interview.renderer.css" />
-  <link rel="stylesheet" href="./interviews.viewer.css" />
-  <link rel="stylesheet" href="./filters.css" />
-  <link rel="stylesheet" href="./ui.manager.css" />
+  <link rel="stylesheet" href="./ui/auth.ui.css" />
+  <link rel="stylesheet" href="./ui/interview.renderer.css" />
+  <link rel="stylesheet" href="./ui/interviews.viewer.css" />
+  <link rel="stylesheet" href="./ui/interview.filters.css" />
+  <link rel="stylesheet" href="./ui/ui.manager.css" />
 </head>
 <body>
   <div class="container">
@@ -121,7 +121,7 @@
       </div>
       
   <script type="module">
-    import { initializeCurrentPage } from './appInitializer.js'
+    import { initializeCurrentPage } from './core/appInitializer.js'
 
     document.addEventListener('DOMContentLoaded', async () => {
       await initializeCurrentPage()
