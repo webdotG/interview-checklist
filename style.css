@@ -5,14 +5,14 @@
 
 .strikethrough-container {
   text-decoration: line-through;
-  opacity: 0.69;
+
 }
 
 .strikethrough-container h1,
 .strikethrough-container .buttons,
 .strikethrough-container .warning p {
   text-decoration: none;
-  opacity: 1;
+    opacity: 0.69;
 }
 
 .prose-container p{
