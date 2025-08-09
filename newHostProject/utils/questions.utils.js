@@ -5,8 +5,15 @@ import { questionsData } from './questions.data.js'
  */
 export const generateQuestionId = (sectionTitle, subsectionTitle, questionText) => {
   const normalize = (str) =>
-    str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
-  return `q-${normalize(sectionTitle)}-${normalize(subsectionTitle)}-${normalize(questionText)}`
+    str
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-') // заменяем все небуквенно-цифровые символы на дефисы
+      .replace(/-+/g, '-') // схлопываем множественные дефисы в один
+      .replace(/^-|-$/g, '') // удаляем дефисы в начале и конце
+
+  return `q-${normalize(sectionTitle)}-${normalize(
+    subsectionTitle
+  )}-${normalize(questionText)}`
 }
 
 /**

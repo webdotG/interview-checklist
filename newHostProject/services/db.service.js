@@ -12,7 +12,6 @@ import {
 import { NotificationService } from './notification.service.js'
 import { GitHubUserFormatter } from '../utils/formatGithubUserData.js'
 
-// Единый объект настроек Firebase для всего приложения
 const firebaseConfig = {
   apiKey: 'AIzaSyAQCgDpHF9u2i6swE0j0lNxiZmRp9j42oE',
   authDomain: 'interview-checklist.web.app',
@@ -82,96 +81,96 @@ export const db = {
     }
   },
 
-  async saveInterview(
-    company,
-    position,
-    salary,
-    answers,
-    companyUrl,
-    vacancyUrl,
-    interviewer
-  ) {
+  async saveInterview(interviewData) {
     try {
-      const githubUserData = GitHubUserFormatter.formatGithubUserData(
-        auth?.currentUser
-      )
+      // Валидация обязательных полей
+      if (
+        !interviewData.company ||
+        !interviewData.position ||
+        !interviewData.salary
+      ) {
+        throw new Error('Обязательные поля не заполнены')
+      }
 
-      const interviewData = {
-        company,
-        position,
-        salary,
-        answers,
+      // Форматируем данные пользователя (GitHub или пустой объект)
+      const userData = GitHubUserFormatter.format(auth?.currentUser || null)
+
+      // Собираем данные для записи в Firestore
+      const dataToSave = {
+        company: interviewData.company || '',
+        position: interviewData.position || '',
+        salary: interviewData.salary || '',
+        answers: interviewData.answers || {},
+        companyUrl: interviewData.companyUrl || null,
+        vacancyUrl: interviewData.vacancyUrl || null,
+        interviewer: interviewData.interviewer || null,
+        ...userData,
         timestamp: new Date().toISOString(),
-        userId: auth?.currentUser?.uid || null,
-        ...githubUserData,
+        userAgent: navigator.userAgent.substring(0, 100),
+        createdAt: new Date().toISOString(),
       }
 
       if (firebaseInitialized && auth?.currentUser) {
         try {
-          const userDisplayName =
-            auth.currentUser.displayName || auth.currentUser.email
-          const dataToSave = {
-            ...interviewData,
-            timestamp: serverTimestamp(),
-            userAgent: navigator.userAgent.substring(0, 100),
-            createdAt: new Date().toISOString(),
-            userName: userDisplayName,
-            companyUrl,
-            vacancyUrl,
-            interviewer,
-          }
           const docRef = await addDoc(
             collection(firestore, 'interviews'),
             dataToSave
           )
-          console.log('Сохранено в Firebase с ID:', docRef.id)
-          notificationService.show(
-            'Интервью сохранено в общую базу и локально!',
-            'success'
-          )
+          console.log('Сохранено в Firebase, ID:', docRef.id)
+          notificationService.show('Интервью сохранено!', 'success')
         } catch (firebaseError) {
-          console.warn(
-            'Не удалось сохранить в общую базу. Сохраняю только локально.',
-            firebaseError
-          )
+          console.warn('Ошибка сохранения в Firebase:', firebaseError)
           notificationService.show(
-            'Сохраняю только локально. Войдите, чтобы сохранить в базу.',
+            'Ошибка сохранения в Firebase. Данные не сохранены.',
             'error'
           )
+          return false
         }
+      } else {
+        // Локальный режим — сохраняем в файл JSON
+        this.saveToLocalFile(dataToSave)
+        notificationService.show(
+          'Интервью сохранено локально (без Firebase)',
+          'info'
+        )
       }
-
-      this.saveToJson(interviewData)
       return true
     } catch (error) {
-      console.error('Ошибка сохранения:', error)
-      notificationService.show('Произошла ошибка при сохранении.', 'error')
+      console.error('Ошибка при сохранении интервью:', error)
+      notificationService.show(`Ошибка сохранения: ${error.message}`, 'error')
       return false
     }
   },
 
-  saveToJson(data) {
+  saveToLocalFile(data) {
     try {
-      const filename =
-        `Интервью_${data.company}_${data.position}_${data.salary}.json`
-          .replace(/\s+/g, '_')
-          .replace(/[<>:"\/\\|?*]/g, '')
-
       const blob = new Blob([JSON.stringify(data, null, 2)], {
         type: 'application/json',
       })
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = filename
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-      URL.revokeObjectURL(url)
 
-      console.log('JSON-файл скачан')
+      const filenameBase = data.company
+        ? data.company
+            .replace(/[^\w\s-]/g, '')
+            .trim()
+            .replace(/\s+/g, '_')
+        : 'interview'
+      const timestamp = new Date()
+        .toISOString()
+        .replace(/:/g, '-')
+        .replace(/\..+/, '')
+      const filename = `${filenameBase}_${timestamp}.json`
+
+      const link = document.createElement('a')
+      link.href = URL.createObjectURL(blob)
+      link.download = filename
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
+      URL.revokeObjectURL(link.href)
+      console.log('Файл сохранён локально:', filename)
     } catch (error) {
-      console.error('Ошибка при сохранении JSON:', error)
+      console.error('Ошибка при сохранении локального файла:', error)
+      notificationService.show('Ошибка сохранения локального файла', 'error')
     }
   },
 }
