@@ -65,9 +65,9 @@ export const db = {
 
   async loadInterviews() {
     if (!firebaseInitialized || !firestore) {
-      throw new Error('OFFLINE_MODE')
+      console.log('Локальный режим: загрузка интервью из Firebase невозможна.')
+      return []
     }
-
     try {
       const interviewsRef = collection(firestore, 'interviews')
       const q = query(interviewsRef, orderBy('timestamp', 'desc'))
@@ -113,8 +113,15 @@ export const db = {
             userAgent: navigator.userAgent.substring(0, 100),
             createdAt: new Date().toISOString(),
             userName: userDisplayName,
-            githubUsername: username,
-            githubProfileUrl: profileUrl,
+            companyUrl: companyUrl,
+            vacancyUrl: vacancyUrl,
+            interviewer: interviewer,
+            githubUsername:
+              auth.currentUser.providerData[0].reloadUserInfo.screenName,
+            githubProfileUrl: auth.currentUser.providerData[0].photoURL.replace(
+              /\.com\/u\/\d+\?v=\d+/,
+              '.com'
+            ),
           }
 
           const docRef = await addDoc(

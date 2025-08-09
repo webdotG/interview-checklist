@@ -51,6 +51,36 @@
   gap: 0.5rem;
 }
 
+/* -------------------------------------  о компании и юзере--- */
+.company-link,
+.github-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  transition: text-decoration 0.3s ease;
+}
+
+.company-link:hover,
+.github-link:hover {
+  text-decoration: underline;
+}
+
+.interview-interviewer {
+  font-size: 0.9rem;
+  color: #6c757d;
+  font-style: italic;
+  white-space: nowrap;
+}
+
+.interview-user {
+  padding: 0 1.5rem;
+  font-size: 0.9rem;
+  color: #6c757d;
+  font-style: italic;
+}
+/* ---------------------------------------------------------- карточка*/
+
+
 .interview-stats {
   padding: 1rem;
   font-size: 1.1rem;

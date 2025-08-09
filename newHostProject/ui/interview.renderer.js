@@ -15,7 +15,7 @@ export class InterviewRenderer {
       InterviewFormatter.countAnsweredQuestions(interview)
     const totalQuestions = this.totalQuestions
 
-    // есть ли имя и ссылка ?
+    // наличие имени и ссылки на GitHub
     const userHtml = interview.githubUsername
       ? `<a href="${
           interview.githubProfileUrl
@@ -24,11 +24,24 @@ export class InterviewRenderer {
         )}</a>`
       : ''
 
+    // о компании и интервьюере
+    const companyInfoHtml = interview.companyUrl
+      ? `<a href="${
+          interview.companyUrl
+        }" target="_blank" rel="noopener noreferrer" class="company-link">${InterviewFormatter.escapeHtml(
+          interview.company
+        )}</a>`
+      : InterviewFormatter.escapeHtml(interview.company)
+
+    const interviewerInfoHtml = interview.interviewer
+      ? `<div class="interview-interviewer">Интервьюер: ${InterviewFormatter.escapeHtml(
+          interview.interviewer
+        )}</div>`
+      : ''
+
     card.innerHTML = `
       <div class="interview-header">
-        <div class="interview-company">${InterviewFormatter.escapeHtml(
-          InterviewFormatter.formatCompanyName(interview.company)
-        )}</div>
+        <div class="interview-company">${companyInfoHtml}</div>
         <div class="interview-position">${InterviewFormatter.escapeHtml(
           InterviewFormatter.formatPosition(interview.position)
         )}</div>
@@ -39,6 +52,7 @@ export class InterviewRenderer {
           ${InterviewFormatter.formatSalaryDisplay(interview.salary)}
         </div>
         <div class="interview-date">${date}</div>
+        ${interviewerInfoHtml}
       </div>
       <div class="interview-user"> ${userHtml}</div>
       <div class="interview-stats">
@@ -78,19 +92,19 @@ export class InterviewRenderer {
 
     Object.entries(answers).forEach(([sectionTitle, subsections]) => {
       html += `<div class="section-title">${InterviewFormatter.escapeHtml(
-        sectionTitle,
+        sectionTitle
       )}</div>`
 
       if (subsections && typeof subsections === 'object') {
         Object.entries(subsections).forEach(([subsectionTitle, questions]) => {
           // отмеченные вопросы в этой подсекции
           const hasCheckedQuestions = Object.values(questions || {}).some(
-            (q) => q && q.checked,
+            (q) => q && q.checked
           )
 
           if (hasCheckedQuestions) {
             html += `<div class="subsection-title">${InterviewFormatter.escapeHtml(
-              subsectionTitle,
+              subsectionTitle
             )}</div>`
 
             Object.entries(questions || {}).forEach(
@@ -98,7 +112,7 @@ export class InterviewRenderer {
                 if (questionData && questionData.checked) {
                   html += this.renderQuestionItem(questionText, questionData)
                 }
-              },
+              }
             )
           }
         })
@@ -117,7 +131,7 @@ export class InterviewRenderer {
         ${
           questionData.note
             ? `<div class="question-note">${InterviewFormatter.escapeHtml(
-                questionData.note,
+                questionData.note
               )}</div>`
             : ''
         }

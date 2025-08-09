@@ -13,6 +13,9 @@ export class InterviewManager {
     this.companyInput = document.getElementById('company')
     this.positionInput = document.getElementById('position')
     this.salaryInput = document.getElementById('salary')
+    this.companyUrlInput = document.getElementById('company-url')
+    this.vacancyUrlInput = document.getElementById('vacancy-url')
+    this.interviewerInput = document.getElementById('interviewer')
     this.submitBtn = document.getElementById('submit-btn')
     this.successMessage = document.getElementById('success-message')
     this.questionsContainer = document.getElementById('questions-container')
@@ -28,6 +31,9 @@ export class InterviewManager {
     this.companyInput.value = params.get('company') || ''
     this.positionInput.value = params.get('position') || ''
     this.salaryInput.value = params.get('salary') || ''
+    this.companyUrlInput.value = params.get('company-url') || ''
+    this.vacancyUrlInput.value = params.get('vacancy-url') || ''
+    this.interviewerInput.value = params.get('interviewer') || ''
 
     questionsStructure.forEach((section) => {
       section.subsections.forEach((subsection) => {
@@ -58,6 +64,9 @@ export class InterviewManager {
     params.set('company', this.companyInput.value)
     params.set('position', this.positionInput.value)
     params.set('salary', this.salaryInput.value)
+    params.set('company-url', this.companyUrlInput.value)
+    params.set('vacancy-url', this.vacancyUrlInput.value)
+    params.set('interviewer', this.interviewerInput.value)
 
     questionsStructure.forEach((section) => {
       section.subsections.forEach((subsection) => {
@@ -87,6 +96,9 @@ export class InterviewManager {
     this.companyInput.value = ''
     this.positionInput.value = ''
     this.salaryInput.value = ''
+    this.companyUrlInput.value = ''
+    this.vacancyUrlInput.value = ''
+    this.interviewerInput.value = ''
 
     questionsStructure.forEach((section) => {
       section.subsections.forEach((subsection) => {
@@ -112,6 +124,9 @@ export class InterviewManager {
     this.companyInput.addEventListener('input', () => this.saveToURL())
     this.positionInput.addEventListener('input', () => this.saveToURL())
     this.salaryInput.addEventListener('input', () => this.saveToURL())
+    this.companyUrlInput.addEventListener('input', () => this.saveToURL())
+    this.vacancyUrlInput.addEventListener('input', () => this.saveToURL())
+    this.interviewerInput.addEventListener('input', () => this.saveToURL())
 
     questionsStructure.forEach((section) => {
       section.subsections.forEach((subsection) => {
@@ -137,12 +152,9 @@ export class InterviewManager {
     const company = this.companyInput.value
     const position = this.positionInput.value
     const salary = this.salaryInput.value
-    const companyUrl =
-      document.getElementById('company-url').value.trim() || null
-    const vacancyUrl =
-      document.getElementById('vacancy-url').value.trim() || null
-    const interviewer =
-      document.getElementById('interviewer').value.trim() || null
+     const companyUrl = this.companyUrlInput.value.trim() || null
+     const vacancyUrl = this.vacancyUrlInput.value.trim() || null
+     const interviewer = this.interviewerInput.value.trim() || null
 
     const answers = {}
 
