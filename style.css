@@ -15,10 +15,10 @@
     opacity: 0.69;
 }
 .prose-container p, h4, h5 {
+  text-align: left;
   margin: 0;
 }
 .prose-container p{
-  text-align: left;
   font-size: 0.8em;
   line-height: 1em;
 }
