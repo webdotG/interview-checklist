@@ -3,7 +3,7 @@
   position: relative;
 }
 
-.strikethrough-container * {
+.strikethrough-container {
   text-decoration: line-through;
   opacity: 0.69;
 }
