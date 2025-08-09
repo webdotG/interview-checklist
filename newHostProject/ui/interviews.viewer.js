@@ -7,8 +7,8 @@ export class InterviewsViewer {
     this.interviews = []
     this.filters = null
     this.dependencies = null
-    this.totalQuestions = questionStats.countQuestions()
-    this.renderer = new InterviewRenderer(this.totalQuestions)
+    const totalStats = questionStats.getTotalStats()
+    this.renderer = new InterviewRenderer(totalStats.total)
 
     // UI элементы
     this.loadingElement = document.getElementById('loading-message')

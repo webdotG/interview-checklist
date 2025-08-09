@@ -6,7 +6,7 @@ export class InterviewFilters {
     this.originalData = []
     this.filteredData = []
     this.onFilterChange = null
-    this.totalQuestions = questionStats.countQuestions()
+    this.totalQuestions = questionStats.getTotalQuestions()
 
     this.initElements()
     this.bindEvents()

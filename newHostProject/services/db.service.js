@@ -92,11 +92,25 @@ export const db = {
         throw new Error('Обязательные поля не заполнены')
       }
 
+      // Формируем базовое имя файла
+      const cleanField = (str) =>
+        (str || '')
+          .toString()
+          .replace(/[<>:"\/\\|?*]/g, '')
+          .replace(/\s+/g, '_')
+          .substring(0, 50)
+
+      const company = cleanField(interviewData.company) || 'Без_компании'
+      const position = cleanField(interviewData.position) || 'Без_должности'
+      const salary = cleanField(interviewData.salary) || '0'
+      const filenameBase = `${company}_${position}_${salary}`
+
       // Форматируем данные пользователя (GitHub или пустой объект)
       const userData = GitHubUserFormatter.format(auth?.currentUser || null)
 
       // Собираем данные для записи в Firestore
       const dataToSave = {
+        filename: filenameBase,
         company: interviewData.company || '',
         position: interviewData.position || '',
         salary: interviewData.salary || '',
@@ -148,17 +162,19 @@ export const db = {
         type: 'application/json',
       })
 
-      const filenameBase = data.company
-        ? data.company
-            .replace(/[^\w\s-]/g, '')
-            .trim()
-            .replace(/\s+/g, '_')
-        : 'interview'
-      const timestamp = new Date()
-        .toISOString()
-        .replace(/:/g, '-')
-        .replace(/\..+/, '')
-      const filename = `${filenameBase}_${timestamp}.json`
+      // Формируем имя файла из обязательных полей
+      const cleanField = (str) =>
+        (str || '')
+          .toString()
+          .replace(/[<>:"\/\\|?*]/g, '') // Удаляем запрещенные символы
+          .replace(/\s+/g, '_') // Заменяем пробелы на подчеркивания
+          .substring(0, 50) // Ограничиваем длину
+
+      const company = cleanField(data.company) || 'Без_компании'
+      const position = cleanField(data.position) || 'Без_должности'
+      const salary = cleanField(data.salary) || '0'
+
+      const filename = `${company}_${position}_${salary}.json`
 
       const link = document.createElement('a')
       link.href = URL.createObjectURL(blob)

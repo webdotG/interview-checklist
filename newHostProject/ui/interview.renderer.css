@@ -291,14 +291,19 @@
   font-size: 0.8rem;
 }
 
+.btn--small:hover {
+opacity: 0.75;
+}
+
 .btn--secondary {
-  background: #6c757d;
+  background: linear-gradient(135deg, #667eea, #764ba2);
   color: white;
 }
 
 .btn--secondary:hover {
-  background: #5a6268;
+  background: linear-gradient(135deg, #667eea, #764ba2);
   transform: translateY(-1px);
+    color: white;
 }
 
 .btn:not(.btn--secondary) {

@@ -1,11 +1,13 @@
 import { db } from '../services/db.service.js'
-import { forEachQuestion } from '../utils/questions.utils.js'
-import { renderQuestions } from '../ui/questions.renderer.js'
+import { QuestionsRenderer } from '../ui/questions.renderer.js'
 
 export class InterviewManager {
   constructor() {
+    // Создаем экземпляры новых классов
+    this.questionsRenderer = new QuestionsRenderer()
+    this.questionsUtils = this.questionsRenderer.getQuestionsUtils()
     this.initElements()
-    this.listenersSetup = false 
+    this.listenersSetup = false
   }
 
   initElements() {
@@ -26,7 +28,11 @@ export class InterviewManager {
 
   async init() {
     try {
-      await renderQuestions() // Сначала создаем элементы
+      console.log('🔍 Проверка уникальности ID вопросов...')
+      // ✅ Используем метод класса вместо глобальной функции
+      this.questionsUtils.checkIdUniqueness()
+      // ✅ Используем метод класса вместо функции
+      await this.questionsRenderer.renderQuestions() // Сначала создаем элементы
       await this.setupEventListeners() // Потом устанавливаем слушатели
       this.loadFromURL() // Затем загружаем данные
     } catch (error) {
@@ -37,6 +43,7 @@ export class InterviewManager {
   loadFromURL() {
     try {
       const params = new URLSearchParams(window.location.search)
+      console.log('📥 Загружаем данные из URL:', params.toString())
 
       // Загрузка основных полей
       this.companyInput.value = params.get('company') || ''
@@ -46,19 +53,21 @@ export class InterviewManager {
       this.vacancyUrlInput.value = params.get('vacancy-url') || ''
       this.interviewerInput.value = params.get('interviewer') || ''
 
-      // Загрузка состояний вопросов
-      forEachQuestion((sectionTitle, subsectionTitle, question, questionId) => {
-        const checked = params.get(`check-${questionId}`) === 'true'
-        const inputValue = params.get(`input-${questionId}`) || ''
+      // ✅ Используем метод класса вместо глобальной функции
+      this.questionsUtils.forEachQuestion(
+        (sectionTitle, subsectionTitle, question, questionId) => {
+          const checked = params.get(`check-${questionId}`) === 'true'
+          const inputValue = params.get(`input-${questionId}`) || ''
 
-        const checkbox = document.getElementById(`check-${questionId}`)
-        const input = document.getElementById(`input-${questionId}`)
+          const checkbox = document.getElementById(`check-${questionId}`)
+          const input = document.getElementById(`input-${questionId}`)
 
-        if (checkbox && input) {
-          checkbox.checked = checked
-          input.value = inputValue
+          if (checkbox && input) {
+            checkbox.checked = checked
+            input.value = inputValue
+          }
         }
-      })
+      )
     } catch (error) {
       console.error('Ошибка загрузки данных из URL:', error)
     }
@@ -76,16 +85,18 @@ export class InterviewManager {
       params.set('vacancy-url', this.vacancyUrlInput.value)
       params.set('interviewer', this.interviewerInput.value)
 
-      // Сохранение состояний вопросов
-      forEachQuestion((sectionTitle, subsectionTitle, question, questionId) => {
-        const checkbox = document.getElementById(`check-${questionId}`)
-        const input = document.getElementById(`input-${questionId}`)
+      // ✅ Используем метод класса вместо глобальной функции
+      this.questionsUtils.forEachQuestion(
+        (sectionTitle, subsectionTitle, question, questionId) => {
+          const checkbox = document.getElementById(`check-${questionId}`)
+          const input = document.getElementById(`input-${questionId}`)
 
-        if (checkbox && input) {
-          params.set(`check-${questionId}`, checkbox.checked)
-          params.set(`input-${questionId}`, input.value)
+          if (checkbox && input) {
+            params.set(`check-${questionId}`, checkbox.checked)
+            params.set(`input-${questionId}`, input.value)
+          }
         }
-      })
+      )
 
       window.history.replaceState({}, '', `?${params.toString()}`)
     } catch (error) {
@@ -105,16 +116,18 @@ export class InterviewManager {
       this.vacancyUrlInput.value = ''
       this.interviewerInput.value = ''
 
-      // Очистка состояний вопросов
-      forEachQuestion((sectionTitle, subsectionTitle, question, questionId) => {
-        const checkbox = document.getElementById(`check-${questionId}`)
-        const input = document.getElementById(`input-${questionId}`)
+      // ✅ Используем метод класса вместо глобальной функции
+      this.questionsUtils.forEachQuestion(
+        (sectionTitle, subsectionTitle, question, questionId) => {
+          const checkbox = document.getElementById(`check-${questionId}`)
+          const input = document.getElementById(`input-${questionId}`)
 
-        if (checkbox && input) {
-          checkbox.checked = false
-          input.value = ''
+          if (checkbox && input) {
+            checkbox.checked = false
+            input.value = ''
+          }
         }
-      })
+      )
     } catch (error) {
       console.error('Ошибка очистки данных:', error)
     }
@@ -144,18 +157,20 @@ export class InterviewManager {
         }
       })
 
-      // Слушатели для вопросов
-      forEachQuestion((sectionTitle, subsectionTitle, question, questionId) => {
-        const checkbox = document.getElementById(`check-${questionId}`)
-        const input = document.getElementById(`input-${questionId}`)
+      // ✅ Используем метод класса вместо глобальной функции
+      this.questionsUtils.forEachQuestion(
+        (sectionTitle, subsectionTitle, question, questionId) => {
+          const checkbox = document.getElementById(`check-${questionId}`)
+          const input = document.getElementById(`input-${questionId}`)
 
-        if (checkbox && input) {
-          checkbox.addEventListener('change', () => this.saveToURL())
-          input.addEventListener('input', () => this.saveToURL())
-        } else {
-          console.warn(`Не найдены элементы для вопроса ${questionId}`)
+          if (checkbox && input) {
+            checkbox.addEventListener('change', () => this.saveToURL())
+            input.addEventListener('input', () => this.saveToURL())
+          } else {
+            console.warn(`Не найдены элементы для вопроса ${questionId}`)
+          }
         }
-      })
+      )
 
       // Обработчик отправки формы
       if (this.submitBtn) {
@@ -215,26 +230,29 @@ export class InterviewManager {
 
   prepareAnswers() {
     const answers = {}
-    forEachQuestion((sectionTitle, subsectionTitle, question, questionId) => {
-      const checkbox = document.getElementById(`check-${questionId}`)
-      const input = document.getElementById(`input-${questionId}`)
+    // ✅ Используем метод класса вместо глобальной функции
+    this.questionsUtils.forEachQuestion(
+      (sectionTitle, subsectionTitle, question, questionId) => {
+        const checkbox = document.getElementById(`check-${questionId}`)
+        const input = document.getElementById(`input-${questionId}`)
 
-      if (checkbox && input) {
-        if (!answers[sectionTitle]) answers[sectionTitle] = {}
-        if (!answers[sectionTitle][subsectionTitle]) {
-          answers[sectionTitle][subsectionTitle] = {}
-        }
+        if (checkbox && input) {
+          if (!answers[sectionTitle]) answers[sectionTitle] = {}
+          if (!answers[sectionTitle][subsectionTitle]) {
+            answers[sectionTitle][subsectionTitle] = {}
+          }
 
-        answers[sectionTitle][subsectionTitle][question] = {
-          checked: checkbox.checked,
-          note: input.value.trim() || null,
+          answers[sectionTitle][subsectionTitle][question] = {
+            checked: checkbox.checked,
+            note: input.value.trim() || null,
+          }
+        } else {
+          console.warn(
+            `Элементы вопроса не найдены при подготовке ответов: ${questionId}`
+          )
         }
-      } else {
-        console.warn(
-          `Элементы вопроса не найдены при подготовке ответов: ${questionId}`
-        )
       }
-    })
+    )
     return answers
   }
 

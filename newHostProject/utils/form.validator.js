@@ -5,51 +5,149 @@ export class FormValidator {
 
     this.validators = {
       company: {
-        pattern: /^[a-zA-Zа-яА-ЯёЁ0-9\s\-.,()"'/:;\\|&]{2,}$/u,
+        pattern: /^[a-zA-Zа-яА-ЯёЁ0-9\s\-.,()"'/:;\\|&№]{2,}$/u,
         errorMessage: 'Название компании должно содержать минимум 2 символа',
-        sanitize: (value) => value.replace(/[<>]/g, ''), // Запрещаем теги
+        sanitize: (value) => this.sanitizeText(value),
       },
       position: {
-        pattern: /^[a-zA-Zа-яА-ЯёЁ0-9\s\-.,()"'/:;\\|&]{2,}$/u,
+        pattern: /^[a-zA-Zа-яА-ЯёЁ0-9\s\-.,()"'/:;\\|&№+]{2,}$/u,
         errorMessage: 'Должность должна содержать минимум 2 символа',
-        sanitize: (value) => value.replace(/[<>]/g, ''),
+        sanitize: (value) => this.sanitizeText(value),
       },
       salary: {
         pattern: /^[0-9\s]{3,}$/,
         errorMessage: 'Зарплата должна содержать только цифры (минимум 3)',
-        sanitize: (value) => value.replace(/\D/g, ''), // Оставляем только цифры
+        sanitize: (value) => this.sanitizeNumber(value),
       },
       'company-url': {
-        pattern: /^(|https?:\/\/[^\s]+|[^\s]+\.[^\s]+)$/i,
-        errorMessage: 'Введите корректный URL (можно без https://)',
-        sanitize: (value) => {
-          if (!value) return ''
-          // Добавляем https:// если нет схемы и есть точка
-          if (!value.match(/^https?:\/\//i) && value.includes('.')) {
-            return `https://${value.replace(/^\/\/|^https?:\/\//i, '')}`
-          }
-          return value
-        },
+        pattern: /^(|https?:\/\/[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}[^\s]*|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}[^\s]*)$/i,
+        errorMessage: 'Введите корректный URL (например: ya.ru или https://example.com)',
+        sanitize: (value) => this.sanitizeUrl(value),
       },
       'vacancy-url': {
-        pattern: /^(|https?:\/\/[^\s]+|[^\s]+\.[^\s]+)$/i,
-        errorMessage: 'Введите корректный URL (можно без https://)',
-        sanitize: (value) => {
-          if (!value) return ''
-          if (!value.match(/^https?:\/\//i) && value.includes('.')) {
-            return `https://${value.replace(/^\/\/|^https?:\/\//i, '')}`
-          }
-          return value
-        },
+        pattern: /^(|https?:\/\/[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}[^\s]*|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}[^\s]*)$/i,
+        errorMessage: 'Введите корректный URL (например: ya.ru или https://example.com)',
+        sanitize: (value) => this.sanitizeUrl(value),
       },
       interviewer: {
-        pattern: /^.{0,100}$/,
-        errorMessage: 'Максимум 100 символов',
-        sanitize: (value) => value.replace(/[<>]/g, ''),
+        pattern: /^([a-zA-Zа-яА-ЯёЁ0-9\s\-.,()"']{1,100}|(https?:\/\/|www\.)[^\s]+)$/u,
+        errorMessage: 'Максимум 100 символов для имени или корректный URL',
+        sanitize: (value) => this.sanitizeInterviewer(value),
       },
     }
 
     this.activeFields = new Set()
+  }
+
+  /**
+   * Универсальная санитизация текста - защита от XSS и инъекций
+   */
+  sanitizeText(value) {
+    if (!value || typeof value !== 'string') return ''
+    
+    return value
+      // Удаляем все HTML теги
+      .replace(/<[^>]*>/g, '')
+      // Удаляем JavaScript события
+      .replace(/on\w+\s*=\s*['""][^'"]*['"]/gi, '')
+      // Удаляем javascript: протокол
+      .replace(/javascript\s*:/gi, '')
+      // Удаляем data: протокол
+      .replace(/data\s*:/gi, '')
+      // Удаляем vbscript: протокол  
+      .replace(/vbscript\s*:/gi, '')
+      // Удаляем потенциально опасные символы
+      .replace(/[<>'"&\x00-\x1f\x7f-\x9f]/g, '')
+      // Удаляем множественные пробелы
+      .replace(/\s+/g, ' ')
+      // Обрезаем пробелы по краям
+      .trim()
+      // Ограничиваем максимальную длину
+      .substring(0, 500)
+  }
+
+  /**
+   * Санитизация чисел - только цифры и пробелы
+   */
+  sanitizeNumber(value) {
+    if (!value || typeof value !== 'string') return ''
+    
+    return value
+      // Оставляем только цифры и пробелы
+      .replace(/[^0-9\s]/g, '')
+      // Удаляем множественные пробелы
+      .replace(/\s+/g, ' ')
+      .trim()
+      // Ограничиваем длину
+      .substring(0, 20)
+  }
+
+  /**
+   * Санитизация URL - безопасная обработка ссылок
+   */
+  sanitizeUrl(value) {
+    if (!value || typeof value !== 'string') return ''
+    
+    // Базовая очистка
+    let cleanValue = value
+      .replace(/[<>'"&\x00-\x1f\x7f-\x9f]/g, '')
+      .replace(/\s+/g, '')
+      .trim()
+      .substring(0, 500)
+
+    if (!cleanValue) return ''
+
+    // Удаляем опасные протоколы
+    if (cleanValue.match(/^(javascript|data|vbscript|file|ftp):/i)) {
+      return ''
+    }
+
+    // Если это простой домен (например ya.ru, google.com)
+    if (cleanValue.match(/^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}[^\s]*$/)) {
+      // Проверяем что это реальный домен
+      if (this.isValidDomain(cleanValue)) {
+        return `https://${cleanValue}`
+      }
+    }
+
+    // Если уже есть протокол http/https
+    if (cleanValue.match(/^https?:\/\//i)) {
+      return cleanValue
+    }
+
+    // Если начинается с //, добавляем https:
+    if (cleanValue.startsWith('//')) {
+      return `https:${cleanValue}`
+    }
+
+    return cleanValue
+  }
+
+    /**
+   * Специальная санитизация для поля интервьюера
+   */
+  sanitizeInterviewer(value) {
+    if (!value) return ''
+    
+    // Если это похоже на URL
+    if (value.match(/^(https?:\/\/|www\.)/i)) {
+      return this.sanitizeUrl(value)
+    }
+    
+    // Обычный текст
+    return this.sanitizeText(value)
+  }
+
+  
+  /**
+   * Проверка валидности домена
+   */
+  isValidDomain(domain) {
+    // Убираем путь после домена для проверки
+    const domainOnly = domain.split('/')[0]
+    
+    // Базовые правила для домена
+    return /^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/.test(domainOnly)
   }
 
   init(formSelector = '#interview-form') {
@@ -62,6 +160,21 @@ export class FormValidator {
     form.querySelectorAll('input').forEach((field) => {
       this.setupFieldValidation(field)
     })
+
+    // Защита от автозаполнения потенциально опасных данных
+    form.addEventListener('paste', (e) => {
+      setTimeout(() => {
+        form.querySelectorAll('input').forEach(field => {
+          if (this.validators[field.id]) {
+            const sanitized = this.validators[field.id].sanitize(field.value)
+            if (field.value !== sanitized) {
+              field.value = sanitized
+              this.validateField(field)
+            }
+          }
+        })
+      }, 10)
+    })
   }
 
   setupFieldValidation(field) {
@@ -71,12 +184,34 @@ export class FormValidator {
 
     this.createHintContainer(field, validator)
 
+    // Дополнительные атрибуты безопасности
+    field.setAttribute('autocomplete', 'off')
+    field.setAttribute('spellcheck', 'false')
+
     field.addEventListener('focus', () => this.showHint(field))
     field.addEventListener('blur', () => this.hideHint(field))
-    field.addEventListener('input', () => {
-      // Санитизация вводимых данных
-      field.value = validator.sanitize(field.value)
+    field.addEventListener('input', (e) => {
+      // Санитизация в реальном времени
+      const originalValue = field.value
+      const sanitizedValue = validator.sanitize(originalValue)
+      
+      if (originalValue !== sanitizedValue) {
+        field.value = sanitizedValue
+        // Восстанавливаем позицию курсора
+        const cursorPos = Math.min(field.selectionStart, sanitizedValue.length)
+        field.setSelectionRange(cursorPos, cursorPos)
+      }
+      
       this.validateField(field)
+    })
+
+    // Дополнительная защита от специальных клавиш
+    field.addEventListener('keydown', (e) => {
+      // Блокируем потенциально опасные комбинации
+      if (e.ctrlKey && (e.key === 'v' || e.key === 'V')) {
+        // Позволяем вставку, но потом очистим через санитизацию
+        return
+      }
     })
   }
 
@@ -133,6 +268,16 @@ export class FormValidator {
       return true
     }
 
+    // Дополнительная проверка на потенциально опасное содержимое
+    if (this.containsDangerousContent(value)) {
+      this.setFieldState(
+        field,
+        'invalid',
+        'Обнаружено потенциально опасное содержимое'
+      )
+      return false
+    }
+
     // Проверка по регулярному выражению
     const isValid = validator.pattern.test(value)
     this.setFieldState(
@@ -142,6 +287,33 @@ export class FormValidator {
     )
 
     return isValid
+  }
+
+  /**
+   * Проверка на потенциально опасное содержимое
+   */
+  containsDangerousContent(value) {
+    if (!value) return false
+    
+    const dangerousPatterns = [
+      /<script[^>]*>/i,
+      /javascript\s*:/i,
+      /vbscript\s*:/i,
+      /data\s*:/i,
+      /on\w+\s*=/i,
+      /<iframe[^>]*>/i,
+      /<object[^>]*>/i,
+      /<embed[^>]*>/i,
+      /<link[^>]*>/i,
+      /<meta[^>]*>/i,
+      /document\./i,
+      /window\./i,
+      /eval\s*\(/i,
+      /setTimeout\s*\(/i,
+      /setInterval\s*\(/i,
+    ]
+
+    return dangerousPatterns.some(pattern => pattern.test(value))
   }
 
   setFieldState(field, state, message = '') {
@@ -201,17 +373,37 @@ export class FormValidator {
 
     form.querySelectorAll('input').forEach((field) => {
       const validator = this.validators[field.id]
-      data[field.id] = validator
+      let fieldValue = validator
         ? validator.sanitize(field.value.trim())
-        : field.value.trim()
+        : this.sanitizeText(field.value.trim())
+
+      // Дополнительная санитизация перед сохранением
+      fieldValue = this.finalSanitize(fieldValue)
+      
+      data[field.id] = fieldValue
 
       // Пустые необязательные поля -> null
-      if (!this.requiredFields.has(field.id) && data[field.id] === '') {
+      if (!this.requiredFields.has(field.id) && fieldValue === '') {
         data[field.id] = null
       }
     })
 
     return { valid: true, data }
+  }
+
+  /**
+   * Финальная санитизация перед сохранением
+   */
+  finalSanitize(value) {
+    if (!value || typeof value !== 'string') return ''
+    
+    // Последняя проверка на опасное содержимое
+    if (this.containsDangerousContent(value)) {
+      console.warn('Обнаружено и удалено потенциально опасное содержимое:', value)
+      return ''
+    }
+    
+    return value
   }
 
   clearForm(formSelector = '#interview-form') {
