@@ -76,17 +76,17 @@
 
       <form id="interview-form" class="company-info">
         <div class="input-group">
-          <label for="company">Компания:</label>
+          <label for="company">Компания:*</label>
           <input type="text" id="company" placeholder="Название компании" />
         </div>
 
         <div class="input-group">
-          <label for="position">Должность:</label>
+          <label for="position">Должность:*</label>
           <input type="text" id="position" placeholder="Позиция" />
         </div>
 
         <div class="input-group">
-          <label for="salary">Зарплата:</label>
+          <label for="salary">Зарплата:*</label>
           <input
             type="text"
             id="salary"
@@ -101,6 +101,22 @@
             "
           />
         </div>
+        
+  <div class="input-group">
+    <label for="company-url">Ссылка на компанию:</label>
+    <input type="url" id="company-url" placeholder="https://example.com" />
+  </div>
+
+  <div class="input-group">
+    <label for="vacancy-url">Ссылка на вакансию:</label>
+    <input type="url" id="vacancy-url" placeholder="https://hh.ru/vacancy/..." />
+  </div>
+
+  <div class="input-group">
+    <label for="interviewer">Имя или ссылка на интервьюера:</label>
+    <input type="text" id="interviewer" placeholder="Иван Петров или https://linkedin.com/in/..." />
+  </div>
+
       </form>
 
       <div id="questions-container"></div>

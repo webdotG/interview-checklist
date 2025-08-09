@@ -15,13 +15,22 @@ export class InterviewRenderer {
       InterviewFormatter.countAnsweredQuestions(interview)
     const totalQuestions = this.totalQuestions
 
+    // есть ли имя и ссылка ?
+    const userHtml = interview.githubUsername
+      ? `<a href="${
+          interview.githubProfileUrl
+        }" target="_blank" rel="noopener noreferrer" class="github-link">${InterviewFormatter.escapeHtml(
+          interview.githubUsername
+        )}</a>`
+      : ''
+
     card.innerHTML = `
       <div class="interview-header">
         <div class="interview-company">${InterviewFormatter.escapeHtml(
-          InterviewFormatter.formatCompanyName(interview.company),
+          InterviewFormatter.formatCompanyName(interview.company)
         )}</div>
         <div class="interview-position">${InterviewFormatter.escapeHtml(
-          InterviewFormatter.formatPosition(interview.position),
+          InterviewFormatter.formatPosition(interview.position)
         )}</div>
       </div>
       
@@ -31,7 +40,7 @@ export class InterviewRenderer {
         </div>
         <div class="interview-date">${date}</div>
       </div>
-      
+      <div class="interview-user"> ${userHtml}</div>
       <div class="interview-stats">
         Отвечено ${questionUtils.getQuestionWord(answeredQuestions)}: 
           <strong>

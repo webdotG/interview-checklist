@@ -137,6 +137,12 @@ export class InterviewManager {
     const company = this.companyInput.value
     const position = this.positionInput.value
     const salary = this.salaryInput.value
+    const companyUrl =
+      document.getElementById('company-url').value.trim() || null
+    const vacancyUrl =
+      document.getElementById('vacancy-url').value.trim() || null
+    const interviewer =
+      document.getElementById('interviewer').value.trim() || null
 
     const answers = {}
 
@@ -150,7 +156,7 @@ export class InterviewManager {
           const questionId = generateQuestionId(
             section.title,
             subsection.title,
-            question,
+            question
           )
           const checkbox = document.getElementById(`check-${questionId}`)
           const input = document.getElementById(`input-${questionId}`)
@@ -166,12 +172,21 @@ export class InterviewManager {
     })
 
     try {
-      const success = await db.saveInterview(company, position, salary, answers)
+      const success = await db.saveInterview(
+        company,
+        position,
+        salary,
+        answers,
+        companyUrl,
+        vacancyUrl,
+        interviewer
+      )
 
       if (success) {
         this.successMessage.classList.remove('hidden')
         setTimeout(() => this.successMessage.classList.add('hidden'), 3000)
         this.clearData()
+        window.scrollTo({ top: 0, behavior: 'smooth' })
       }
     } catch (error) {
       console.error('Ошибка при сохранении:', error)

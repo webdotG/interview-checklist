@@ -50,13 +50,13 @@ export const db = {
     } catch (error) {
       console.warn(
         'Ошибка инициализации Firebase, приложение работает в локальном режиме:',
-        error,
+        error
       )
       firebaseInitialized = false
     }
     if (!firebaseInitialized) {
       console.log(
-        'Приложение работает в локальном режиме, Firebase не инициализирован',
+        'Приложение работает в локальном режиме, Firebase не инициализирован'
       )
     }
 
@@ -85,7 +85,14 @@ export const db = {
     }
   },
 
-  async saveInterview(company, position, salary, answers) {
+  async saveInterview(
+    company,
+    position,
+    salary,
+    answers,
+    username,
+    profileUrl
+  ) {
     try {
       const interviewData = {
         company,
@@ -106,25 +113,27 @@ export const db = {
             userAgent: navigator.userAgent.substring(0, 100),
             createdAt: new Date().toISOString(),
             userName: userDisplayName,
+            githubUsername: username,
+            githubProfileUrl: profileUrl,
           }
 
           const docRef = await addDoc(
             collection(firestore, 'interviews'),
-            dataToSave,
+            dataToSave
           )
           console.log('Сохранено в Firebase с ID:', docRef.id)
           notificationService.show(
             'Интервью сохранено в общую базу и локально!',
-            'success',
+            'success'
           )
         } catch (firebaseError) {
           console.warn(
             'Не удалось сохранить в общую базу. Сохраняю только локально.',
-            firebaseError,
+            firebaseError
           )
           notificationService.show(
             'Сохраняю только локально. Войдите, чтобы сохранить в базу.',
-            'error',
+            'error'
           )
         }
       }

@@ -34,7 +34,16 @@ export class AuthService {
     try {
       const result = await signInWithPopup(this.auth, this.provider)
       const user = result.user
-      return user
+      //  допо инфа
+      const credential = GithubAuthProvider.credentialFromResult(result)
+      const githubToken = credential.accessToken
+      const githubUser = result.additionalUserInfo.profile
+
+      // объект githubUser - login (имя пользователя) и html_url (ссылка на профиль)
+      const username = githubUser.login
+      const profileUrl = githubUser.html_url
+
+      return { user, username, profileUrl }
     } catch (error) {
       console.error('Ошибка входа через GitHub:', error)
       return null
