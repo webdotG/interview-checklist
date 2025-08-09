@@ -14,10 +14,11 @@
   text-decoration: none;
     opacity: 0.69;
 }
-
+.prose-container p, h4, h5 {
+  margin: 0;
+}
 .prose-container p{
   text-align: left;
-  margin: 0;
   font-size: 1em;
   line-height: 1.2em;
 }
