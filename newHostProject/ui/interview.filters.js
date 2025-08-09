@@ -1,5 +1,4 @@
-import { questionUtils } from '../utils/questions.stats.js'
-import { questionsData } from '../utils/questions.data.js'
+import { questionStats } from '../utils/questions.utils.js'
 
 export class InterviewFilters {
   constructor(containerSelector = '#filters-container') {
@@ -7,7 +6,7 @@ export class InterviewFilters {
     this.originalData = []
     this.filteredData = []
     this.onFilterChange = null
-    this.totalQuestions = questionUtils.countQuestions(questionsData)
+    this.totalQuestions = questionStats.countQuestions()
 
     this.initElements()
     this.bindEvents()
@@ -71,7 +70,6 @@ export class InterviewFilters {
     this.clearFiltersBtn.addEventListener('click', () => this.clearFilters())
   }
 
-  // метод для установки данных
   setData(interviews) {
     this.originalData = [...interviews]
     this.filteredData = [...interviews]
@@ -79,13 +77,11 @@ export class InterviewFilters {
     return this
   }
 
-  // для уведомления об изменениях
   onChange(callback) {
     this.onFilterChange = callback
     return this
   }
 
-  // фильтры
   applyFilters() {
     let result = [...this.originalData]
 
@@ -106,7 +102,6 @@ export class InterviewFilters {
     this.notifyChange()
   }
 
-  // сброс всех фильтров
   clearFilters() {
     this.salaryFilter.value = ''
     this.questionsFilter.value = ''
@@ -119,7 +114,6 @@ export class InterviewFilters {
     return this.filteredData
   }
 
-  // статистика фильтров
   getFilterStats() {
     const salaryActive = this.salaryFilter.value !== ''
     const questionsActive = this.questionsFilter.value !== ''
@@ -140,76 +134,40 @@ export class InterviewFilters {
     }
   }
 
-  // подсчет отвеченных вопросов
-  countAnsweredQuestions(interview) {
-    let count = 0
-    if (!interview.answers) return 0
-
-    Object.values(interview.answers).forEach((subsections) => {
-      if (subsections && typeof subsections === 'object') {
-        Object.values(subsections).forEach((questions) => {
-          if (questions && typeof questions === 'object') {
-            Object.values(questions).forEach((questionData) => {
-              if (questionData && questionData.checked) {
-                count++
-              }
-            })
-          }
-        })
-      }
-    })
-
-    return count
-  }
-
-  // сортировка по зарплате
   sortBySalary(interviews, order = 'desc') {
     return [...interviews].sort((a, b) => {
       const salaryA = this.parseSalary(a.salary)
       const salaryB = this.parseSalary(b.salary)
 
-      if (order === 'desc') {
-        return salaryB - salaryA
-      } else {
-        return salaryA - salaryB
-      }
+      return order === 'desc' ? salaryB - salaryA : salaryA - salaryB
     })
   }
 
-  // сортировка по количеству вопросов
   sortByQuestions(interviews, order = 'desc') {
     return [...interviews].sort((a, b) => {
-      const questionsA = this.countAnsweredQuestions(a)
-      const questionsB = this.countAnsweredQuestions(b)
+      const questionsA = questionStats.countAnsweredQuestions(a)
+      const questionsB = questionStats.countAnsweredQuestions(b)
 
-      if (order === 'desc') {
-        return questionsB - questionsA
-      } else {
-        return questionsA - questionsB
-      }
+      return order === 'desc'
+        ? questionsB - questionsA
+        : questionsA - questionsB
     })
   }
 
-  // парсинг зарплаты из строки
   parseSalary(salary) {
-    if (!salary) return 0
+    if (!salary && salary !== 0) return 0
 
-    // все нецифровые символы кроме точки и запятой
     const cleaned = salary.toString().replace(/[^\d.,]/g, '')
-
-    // конверт в число
     const parsed = parseFloat(cleaned.replace(',', '.'))
 
     return isNaN(parsed) ? 0 : parsed
   }
 
-  // обновление счетчика результатов
   updateResultCounter() {
     if (this.resultCounter) {
       const count = this.filteredData.length
       this.resultCounter.textContent = `Найдено: ${count}`
 
-      // анимация обновления
       this.resultCounter.classList.add('updating')
       setTimeout(() => {
         this.resultCounter.classList.remove('updating')
@@ -217,9 +175,8 @@ export class InterviewFilters {
     }
   }
 
-  // уведомление об изменениях
   notifyChange() {
-    if (this.onFilterChange && typeof this.onFilterChange === 'function') {
+    if (this.onFilterChange) {
       this.onFilterChange({
         data: this.filteredData,
         stats: this.getFilterStats(),
@@ -228,11 +185,7 @@ export class InterviewFilters {
   }
 
   setLoading(loading = true) {
-    if (loading) {
-      this.container.classList.add('loading')
-    } else {
-      this.container.classList.remove('loading')
-    }
+    this.container.classList.toggle('loading', loading)
   }
 
   getState() {
@@ -242,7 +195,6 @@ export class InterviewFilters {
     }
   }
 
-  // восстановление состояния фильтров
   setState(state) {
     if (state.salary !== undefined) {
       this.salaryFilter.value = state.salary
@@ -252,20 +204,12 @@ export class InterviewFilters {
       this.questionsFilter.value = state.questions
     }
 
-    // применяем фильтры с восстановленным состоянием
     this.applyFilters()
   }
 
-  // для очистки обработчиков событий
   destroy() {
-    if (this.salaryFilter) {
-      this.salaryFilter.removeEventListener('change', this.applyFilters)
-    }
-    if (this.questionsFilter) {
-      this.questionsFilter.removeEventListener('change', this.applyFilters)
-    }
-    if (this.clearFiltersBtn) {
-      this.clearFiltersBtn.removeEventListener('click', this.clearFilters)
-    }
+    this.salaryFilter?.removeEventListener('change', this.applyFilters)
+    this.questionsFilter?.removeEventListener('change', this.applyFilters)
+    this.clearFiltersBtn?.removeEventListener('click', this.clearFilters)
   }
 }

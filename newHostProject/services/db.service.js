@@ -10,7 +10,7 @@ import {
   getDocs,
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js'
 import { NotificationService } from './notification.service.js'
-
+import { GitHubUserFormatter } from '../utils/formatGithubUserData.js'
 
 // Единый объект настроек Firebase для всего приложения
 const firebaseConfig = {
@@ -40,7 +40,6 @@ export const db = {
     }
 
     try {
-      // Инициализация Firebase происходит всегда
       const firebaseApp = initializeApp(firebaseConfig)
       firestore = getFirestore(firebaseApp)
       auth = getAuth(firebaseApp)
@@ -53,6 +52,7 @@ export const db = {
       )
       firebaseInitialized = false
     }
+
     if (!firebaseInitialized) {
       console.log(
         'Приложение работает в локальном режиме, Firebase не инициализирован'
@@ -71,12 +71,10 @@ export const db = {
       const interviewsRef = collection(firestore, 'interviews')
       const q = query(interviewsRef, orderBy('timestamp', 'desc'))
       const querySnapshot = await getDocs(q)
-
       const interviews = []
       querySnapshot.forEach((doc) => {
         interviews.push({ id: doc.id, ...doc.data() })
       })
-
       return interviews
     } catch (error) {
       console.error('Ошибка загрузки из Firebase:', error)
@@ -84,50 +82,73 @@ export const db = {
     }
   },
 
-  async saveInterview(company, position, salary, answers, companyUrl, vacancyUrl, interviewer, githubUserData) {
-  try {
-    const baseData = {
-      company,
-      position,
-      salary,
-      answers,
-      companyUrl,
-      vacancyUrl,
-      interviewer,
-      userId: auth?.currentUser?.uid || null,
-      userAgent: navigator.userAgent.substring(0, 100),
-      createdAt: new Date().toISOString(),
-      timestamp: serverTimestamp(),
-      ...githubUserData, // githubLogin, githubProfileUrl, githubAvatarUrl, fullName, email
-    };
+  async saveInterview(
+    company,
+    position,
+    salary,
+    answers,
+    companyUrl,
+    vacancyUrl,
+    interviewer
+  ) {
+    try {
+      const githubUserData = GitHubUserFormatter.formatGithubUserData(
+        auth?.currentUser
+      )
 
-    if (firebaseInitialized && auth?.currentUser) {
-      try {
-        const userDisplayName = auth.currentUser.displayName || auth.currentUser.email;
-        const dataToSave = {
-          ...baseData,
-          userName: userDisplayName,
-        };
-
-        const docRef = await addDoc(collection(firestore, 'interviews'), dataToSave);
-        console.log('Сохранено в Firebase с ID:', docRef.id);
-
-        notificationService.show('Интервью сохранено в общую базу и локально!', 'success');
-      } catch (firebaseError) {
-        console.warn('Не удалось сохранить в общую базу. Сохраняю только локально.', firebaseError);
-        notificationService.show('Сохраняю только локально. Войдите, чтобы сохранить в базу.', 'error');
+      const interviewData = {
+        company,
+        position,
+        salary,
+        answers,
+        timestamp: new Date().toISOString(),
+        userId: auth?.currentUser?.uid || null,
+        ...githubUserData,
       }
+
+      if (firebaseInitialized && auth?.currentUser) {
+        try {
+          const userDisplayName =
+            auth.currentUser.displayName || auth.currentUser.email
+          const dataToSave = {
+            ...interviewData,
+            timestamp: serverTimestamp(),
+            userAgent: navigator.userAgent.substring(0, 100),
+            createdAt: new Date().toISOString(),
+            userName: userDisplayName,
+            companyUrl,
+            vacancyUrl,
+            interviewer,
+          }
+          const docRef = await addDoc(
+            collection(firestore, 'interviews'),
+            dataToSave
+          )
+          console.log('Сохранено в Firebase с ID:', docRef.id)
+          notificationService.show(
+            'Интервью сохранено в общую базу и локально!',
+            'success'
+          )
+        } catch (firebaseError) {
+          console.warn(
+            'Не удалось сохранить в общую базу. Сохраняю только локально.',
+            firebaseError
+          )
+          notificationService.show(
+            'Сохраняю только локально. Войдите, чтобы сохранить в базу.',
+            'error'
+          )
+        }
+      }
+
+      this.saveToJson(interviewData)
+      return true
+    } catch (error) {
+      console.error('Ошибка сохранения:', error)
+      notificationService.show('Произошла ошибка при сохранении.', 'error')
+      return false
     }
-
-    this.saveToJson(baseData);
-    return true;
-  } catch (error) {
-    console.error('Ошибка сохранения:', error);
-    notificationService.show('Произошла ошибка при сохранении.', 'error');
-    return false;
-  }
-}
-
+  },
 
   saveToJson(data) {
     try {

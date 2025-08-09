@@ -1,8 +1,5 @@
 import { db } from '../services/db.service.js'
-import {
-  questionsStructure,
-  generateQuestionId,
-} from '../ui/questions.renderer.js'
+import { forEachQuestion } from '../utils/questions.utils.js'
 
 export class InterviewManager {
   constructor() {
@@ -28,6 +25,7 @@ export class InterviewManager {
   loadFromURL() {
     const params = new URLSearchParams(window.location.search)
 
+    // Загрузка основных полей
     this.companyInput.value = params.get('company') || ''
     this.positionInput.value = params.get('position') || ''
     this.salaryInput.value = params.get('salary') || ''
@@ -35,32 +33,25 @@ export class InterviewManager {
     this.vacancyUrlInput.value = params.get('vacancy-url') || ''
     this.interviewerInput.value = params.get('interviewer') || ''
 
-    questionsStructure.forEach((section) => {
-      section.subsections.forEach((subsection) => {
-        subsection.questions.forEach((question) => {
-          const questionId = generateQuestionId(
-            section.title,
-            subsection.title,
-            question,
-          )
-          const checked = params.get(`check-${questionId}`) === 'true'
-          const inputValue = params.get(`input-${questionId}`) || ''
+    // Загрузка состояний вопросов
+    forEachQuestion((sectionTitle, subsectionTitle, question, questionId) => {
+      const checked = params.get(`check-${questionId}`) === 'true'
+      const inputValue = params.get(`input-${questionId}`) || ''
 
-          const checkbox = document.getElementById(`check-${questionId}`)
-          const input = document.getElementById(`input-${questionId}`)
+      const checkbox = document.getElementById(`check-${questionId}`)
+      const input = document.getElementById(`input-${questionId}`)
 
-          if (checkbox && input) {
-            checkbox.checked = checked
-            input.value = inputValue
-          }
-        })
-      })
+      if (checkbox && input) {
+        checkbox.checked = checked
+        input.value = inputValue
+      }
     })
   }
 
   saveToURL() {
     const params = new URLSearchParams()
 
+    // Сохранение основных полей
     params.set('company', this.companyInput.value)
     params.set('position', this.positionInput.value)
     params.set('salary', this.salaryInput.value)
@@ -68,23 +59,15 @@ export class InterviewManager {
     params.set('vacancy-url', this.vacancyUrlInput.value)
     params.set('interviewer', this.interviewerInput.value)
 
-    questionsStructure.forEach((section) => {
-      section.subsections.forEach((subsection) => {
-        subsection.questions.forEach((question) => {
-          const questionId = generateQuestionId(
-            section.title,
-            subsection.title,
-            question,
-          )
-          const checkbox = document.getElementById(`check-${questionId}`)
-          const input = document.getElementById(`input-${questionId}`)
+    // Сохранение состояний вопросов
+    forEachQuestion((sectionTitle, subsectionTitle, question, questionId) => {
+      const checkbox = document.getElementById(`check-${questionId}`)
+      const input = document.getElementById(`input-${questionId}`)
 
-          if (checkbox && input) {
-            params.set(`check-${questionId}`, checkbox.checked)
-            params.set(`input-${questionId}`, input.value)
-          }
-        })
-      })
+      if (checkbox && input) {
+        params.set(`check-${questionId}`, checkbox.checked)
+        params.set(`input-${questionId}`, input.value)
+      }
     })
 
     window.history.replaceState({}, '', `?${params.toString()}`)
@@ -93,6 +76,7 @@ export class InterviewManager {
   clearData() {
     window.history.replaceState({}, '', window.location.pathname)
 
+    // Очистка основных полей
     this.companyInput.value = ''
     this.positionInput.value = ''
     this.salaryInput.value = ''
@@ -100,27 +84,20 @@ export class InterviewManager {
     this.vacancyUrlInput.value = ''
     this.interviewerInput.value = ''
 
-    questionsStructure.forEach((section) => {
-      section.subsections.forEach((subsection) => {
-        subsection.questions.forEach((question) => {
-          const questionId = generateQuestionId(
-            section.title,
-            subsection.title,
-            question,
-          )
-          const checkbox = document.getElementById(`check-${questionId}`)
-          const input = document.getElementById(`input-${questionId}`)
+    // Очистка состояний вопросов
+    forEachQuestion((sectionTitle, subsectionTitle, question, questionId) => {
+      const checkbox = document.getElementById(`check-${questionId}`)
+      const input = document.getElementById(`input-${questionId}`)
 
-          if (checkbox && input) {
-            checkbox.checked = false
-            input.value = ''
-          }
-        })
-      })
+      if (checkbox && input) {
+        checkbox.checked = false
+        input.value = ''
+      }
     })
   }
 
   async setupEventListeners() {
+    // Слушатели для основных полей
     this.companyInput.addEventListener('input', () => this.saveToURL())
     this.positionInput.addEventListener('input', () => this.saveToURL())
     this.salaryInput.addEventListener('input', () => this.saveToURL())
@@ -128,23 +105,15 @@ export class InterviewManager {
     this.vacancyUrlInput.addEventListener('input', () => this.saveToURL())
     this.interviewerInput.addEventListener('input', () => this.saveToURL())
 
-    questionsStructure.forEach((section) => {
-      section.subsections.forEach((subsection) => {
-        subsection.questions.forEach((question) => {
-          const questionId = generateQuestionId(
-            section.title,
-            subsection.title,
-            question,
-          )
-          const checkbox = document.getElementById(`check-${questionId}`)
-          const input = document.getElementById(`input-${questionId}`)
+    // Слушатели для вопросов
+    forEachQuestion((sectionTitle, subsectionTitle, question, questionId) => {
+      const checkbox = document.getElementById(`check-${questionId}`)
+      const input = document.getElementById(`input-${questionId}`)
 
-          if (checkbox && input) {
-            checkbox.addEventListener('change', () => this.saveToURL())
-            input.addEventListener('input', () => this.saveToURL())
-          }
-        })
-      })
+      if (checkbox && input) {
+        checkbox.addEventListener('change', () => this.saveToURL())
+        input.addEventListener('input', () => this.saveToURL())
+      }
     })
   }
 
@@ -152,35 +121,30 @@ export class InterviewManager {
     const company = this.companyInput.value
     const position = this.positionInput.value
     const salary = this.salaryInput.value
-     const companyUrl = this.companyUrlInput.value.trim() || null
-     const vacancyUrl = this.vacancyUrlInput.value.trim() || null
-     const interviewer = this.interviewerInput.value.trim() || null
+    const companyUrl = this.companyUrlInput.value.trim() || null
+    const vacancyUrl = this.vacancyUrlInput.value.trim() || null
+    const interviewer = this.interviewerInput.value.trim() || null
 
     const answers = {}
 
-    questionsStructure.forEach((section) => {
-      answers[section.title] = {}
+    // Построение структуры ответов
+    forEachQuestion((sectionTitle, subsectionTitle, question, questionId) => {
+      const checkbox = document.getElementById(`check-${questionId}`)
+      const input = document.getElementById(`input-${questionId}`)
 
-      section.subsections.forEach((subsection) => {
-        answers[section.title][subsection.title] = {}
+      if (checkbox && input) {
+        if (!answers[sectionTitle]) {
+          answers[sectionTitle] = {}
+        }
+        if (!answers[sectionTitle][subsectionTitle]) {
+          answers[sectionTitle][subsectionTitle] = {}
+        }
 
-        subsection.questions.forEach((question) => {
-          const questionId = generateQuestionId(
-            section.title,
-            subsection.title,
-            question
-          )
-          const checkbox = document.getElementById(`check-${questionId}`)
-          const input = document.getElementById(`input-${questionId}`)
-
-          if (checkbox && input) {
-            answers[section.title][subsection.title][question] = {
-              checked: checkbox.checked,
-              note: input.value || null,
-            }
-          }
-        })
-      })
+        answers[sectionTitle][subsectionTitle][question] = {
+          checked: checkbox.checked,
+          note: input.value || null,
+        }
+      }
     })
 
     try {

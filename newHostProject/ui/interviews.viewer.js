@@ -1,5 +1,4 @@
-import { questionUtils } from '../utils/questions.stats.js'
-import { questionsData } from '../utils/questions.data.js'
+import { questionStats } from '../utils/questions.utils.js'
 import { InterviewRenderer } from './interview.renderer.js'
 import { db } from '../services/db.service.js'
 
@@ -8,11 +7,7 @@ export class InterviewsViewer {
     this.interviews = []
     this.filters = null
     this.dependencies = null
-    this.renderer = new InterviewRenderer(
-      questionUtils.countQuestions(questionsData),
-    )
-    // InterviewRenderer
-    this.totalQuestions = questionUtils.countQuestions(questionsData)
+    this.totalQuestions = questionStats.countQuestions()
     this.renderer = new InterviewRenderer(this.totalQuestions)
 
     // UI элементы
@@ -42,7 +37,6 @@ export class InterviewsViewer {
     }
   }
 
-  // 💡 Исправленная и единственная версия setFilters
   setFilters(filtersInstance) {
     this.filters = filtersInstance
     this.filters.onChange((result) => {
@@ -87,7 +81,6 @@ export class InterviewsViewer {
     }
   }
 
-  // использует InterviewRenderer
   renderInterviews() {
     this.containerElement.innerHTML = ''
     this.interviews.forEach((interview) => {
@@ -101,7 +94,6 @@ export class InterviewsViewer {
       this.loadButton.addEventListener('click', () => this.loadInterviews())
     }
 
-    // для карточек интервью и модального окна
     this.containerElement.addEventListener('click', (e) => {
       const target = e.target
       const action = target.dataset.action
@@ -119,11 +111,10 @@ export class InterviewsViewer {
 
     if (this.modalCloseBtn) {
       this.modalCloseBtn.addEventListener('click', () =>
-        this.closeInterviewModal(),
+        this.closeInterviewModal()
       )
     }
 
-    // закрытие модального окна по клику вне области
     if (this.modalBackdrop) {
       this.modalBackdrop.addEventListener('click', (e) => {
         if (e.target.id === 'modal-backdrop') {
@@ -135,29 +126,20 @@ export class InterviewsViewer {
 
   showInterviewModal(id) {
     const interview = this.interviews.find((i) => i.id === id)
-    if (!interview) {
-      return
-    }
+    if (!interview) return
 
-    // наполнение модального окно данными
     if (this.modalHeader) {
       this.modalHeader.textContent = interview.company || 'Неизвестная компания'
     }
     if (this.modalBody) {
-      // правильное количество вопросов для рендерера
-      this.modalBody.innerHTML = this.renderer.renderAnswers(
-        interview.answers,
-        questionUtils.countQuestions(questionsData),
-      )
+      this.modalBody.innerHTML = this.renderer.renderAnswers(interview.answers)
     }
 
-    // обновляет кнопку "Скачать" в модалке
     if (this.modalDownloadBtn) {
       this.modalDownloadBtn.onclick = () =>
         this.downloadInterviewJson(interview)
     }
 
-    // модальное окно
     this.modalBackdrop?.classList.remove('hidden')
     document.body.classList.add('no-scroll')
   }
@@ -191,7 +173,6 @@ export class InterviewsViewer {
     }
   }
 
-  // ... (остальные вспомогательные методы)
   setupFilters() {
     if (this.filters) {
       this.filters.setData(this.interviews)
@@ -214,7 +195,6 @@ export class InterviewsViewer {
     }
   }
 
-  // UI методы
   showLoading() {
     this.loadingElement?.classList.remove('hidden')
     this.errorElement?.classList.add('hidden')
@@ -245,65 +225,11 @@ export class InterviewsViewer {
     this.noInterviewsElement?.classList.add('hidden')
   }
 
-  // showLocalMode() {
-  //   this.hideLoading()
-  //   if (this.localWarning) {
-  //     this.localWarning.innerHTML = `
-  //       <div class="warning">
-  //         <p>Вы работаете в локальном режиме. Для просмотра интервью (хотя это скоро пофиксится) из общей базы откройте приложение на GitHub Pages.</p>
-  //       </div>
-  //     `
-  //     this.localWarning.classList.remove('hidden')
-  //   }
-  // }
-
   clearInterviews() {
     if (this.containerElement) this.containerElement.innerHTML = ''
   }
 
   isGitHubPages() {
     return window.location.hostname.includes('github.io')
-  }
-
-  // Методы форматирования данных
-  countAnsweredQuestions(interview) {
-    if (!interview.answers) return 0
-    return Object.keys(interview.answers).filter((key) => {
-      const answer = interview.answers[key]
-      return answer && answer.trim() !== ''
-    }).length
-  }
-
-  formatDate(timestamp) {
-    if (!timestamp) return 'Неизвестна'
-    try {
-      return new Date(timestamp).toLocaleDateString('ru-RU', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      })
-    } catch {
-      return 'Неизвестна'
-    }
-  }
-
-  formatSalary(salary) {
-    if (!salary) return 'Не указана'
-    if (typeof salary === 'string') return salary
-    if (typeof salary === 'number') {
-      return new Intl.NumberFormat('ru-RU', {
-        style: 'currency',
-        currency: 'RUB',
-        maximumFractionDigits: 0,
-      }).format(salary)
-    }
-    return salary.toString()
-  }
-
-  escapeHtml(text) {
-    if (!text) return ''
-    const div = document.createElement('div')
-    div.textContent = text
-    return div.innerHTML
   }
 }

@@ -49,27 +49,6 @@ export class InterviewFormatter {
     return div.innerHTML
   }
 
-  static countAnsweredQuestions(interview) {
-    let count = 0
-    if (!interview.answers) return 0
-
-    Object.values(interview.answers).forEach((subsections) => {
-      if (subsections && typeof subsections === 'object') {
-        Object.values(subsections).forEach((questions) => {
-          if (questions && typeof questions === 'object') {
-            Object.values(questions).forEach((questionData) => {
-              if (questionData && questionData.checked) {
-                count++
-              }
-            })
-          }
-        })
-      }
-    })
-
-    return count
-  }
-
   static getSafeValue(value, fallback = '') {
     return value || fallback
   }

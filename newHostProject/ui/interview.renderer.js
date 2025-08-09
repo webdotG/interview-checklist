@@ -1,5 +1,5 @@
 import { InterviewFormatter } from '../utils/interview.formatter.js'
-import { questionUtils } from '../utils/questions.stats.js'
+import { questionStats } from '../utils/questions.utils.js'
 
 export class InterviewRenderer {
   constructor(totalQuestions) {
@@ -11,8 +11,7 @@ export class InterviewRenderer {
     card.className = 'interview-card'
 
     const date = InterviewFormatter.formatDate(interview.timestamp)
-    const answeredQuestions =
-      InterviewFormatter.countAnsweredQuestions(interview)
+    const answeredQuestions = questionStats.countAnsweredQuestions(interview)
     const totalQuestions = this.totalQuestions
 
     // наличие имени и ссылки на GitHub
@@ -56,7 +55,7 @@ export class InterviewRenderer {
       </div>
       <div class="interview-user"> ${userHtml}</div>
       <div class="interview-stats">
-        Отвечено ${questionUtils.getQuestionWord(answeredQuestions)}: 
+        Отвечено ${questionStats.getQuestionWord(answeredQuestions)}: 
           <strong>
             ${answeredQuestions} из ${totalQuestions}
           </strong>
@@ -97,7 +96,6 @@ export class InterviewRenderer {
 
       if (subsections && typeof subsections === 'object') {
         Object.entries(subsections).forEach(([subsectionTitle, questions]) => {
-          // отмеченные вопросы в этой подсекции
           const hasCheckedQuestions = Object.values(questions || {}).some(
             (q) => q && q.checked
           )

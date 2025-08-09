@@ -5,10 +5,9 @@ import { AuthUI } from '../ui/auth.ui.js'
 import { InterviewManager } from './interview.manager.js'
 import { FormValidator } from '../ui/form.validator.js'
 import { renderQuestions } from '../ui/questions.renderer.js'
-import { questionUtils } from '../utils/questions.stats.js'
+import { questionStats } from '../utils/questions.utils.js'
 import { InterviewsViewer } from '../ui/interviews.viewer.js'
 import { InterviewFilters } from '../ui/interview.filters.js'
-import { questionsData } from '../utils/questions.data.js'
 
 const isGitHubPages = window.location.hostname.includes('github.io')
 
@@ -25,13 +24,13 @@ export async function initializeApp() {
       authService,
       notificationService,
       manager,
-      isGitHubPages,
+      isGitHubPages
     )
 
     const formValidator = new FormValidator()
     formValidator.init('#interview-form')
 
-    questionUtils.addCounterToHeader(questionsData)
+    questionStats.addCounterToHeader()
     await renderQuestions()
 
     authUI.setupEventListeners()
@@ -43,7 +42,7 @@ export async function initializeApp() {
         notificationService.show(
           `Добро пожаловать, ${displayName}!`,
           'success',
-          3000,
+          3000
         )
       }
     })
@@ -68,7 +67,7 @@ export async function initializeInterviewsPage() {
       authService,
       notificationService,
       null,
-      isGitHubPages,
+      isGitHubPages
     )
     authUI.setupEventListeners()
 
@@ -79,13 +78,13 @@ export async function initializeInterviewsPage() {
         notificationService.show(
           `Авторизован как ${displayName}`,
           'success',
-          3000,
+          3000
         )
       } else {
         notificationService.show(
           'Для полного доступа требуется авторизация',
           'warning',
-          4000,
+          4000
         )
       }
     })
@@ -119,24 +118,3 @@ export async function initializeCurrentPage() {
     await initializeApp()
   }
 }
-
-// window.addEventListener('load', () => {
-//   console.log('=== Диагностика браузера ===')
-//   console.log('User Agent:', navigator.userAgent)
-//   console.log('Popup support:', !navigator.userAgent.includes('Mobile'))
-//   console.log('Local Storage support:', !!window.localStorage)
-//   console.log('Current URL:', window.location.href)
-//   console.log('Referrer:', document.referrer)
-
-//   try {
-//     const popup = window.open('', '_blank', 'width=1,height=1')
-//     if (popup && !popup.closed) {
-//       console.log('Popup не заблокирован')
-//       popup.close()
-//     } else {
-//       console.log('Popup заблокирован браузером')
-//     }
-//   } catch (e) {
-//     console.log('Popup заблокирован (исключение):', e.message)
-//   }
-// })
