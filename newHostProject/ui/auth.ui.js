@@ -1,4 +1,4 @@
-import { FormValidator } from './form.validator.js'
+import { FormValidator } from '../utils/form.validator.js'
 
 export class AuthUI {
   constructor(authService, notificationService, manager, isGitHubPages) {
@@ -34,14 +34,14 @@ export class AuthUI {
       if (user) {
         this.notificationService.show(
           `Добро пожаловать, ${user.displayName || user.email}!`,
-          'success',
+          'success'
         )
         // колбэк (setOnAuthStateChangedCallback) сделает всё сам
       }
     } catch (error) {
       this.notificationService.show(
         'Ошибка при входе. Попробуйте снова.',
-        'error',
+        'error'
       )
       console.error('Login error:', error)
     }
@@ -154,7 +154,7 @@ export class AuthUI {
     if (!isFormValid) {
       this.notificationService.show(
         'Пожалуйста, заполните обязательные поля.',
-        'error',
+        'error'
       )
       return false
     }
@@ -166,7 +166,7 @@ export class AuthUI {
     } else {
       this.notificationService.show(
         'Для сохранения в общую базу необходимо войти через GitHub',
-        'warning',
+        'warning'
       )
       this.highlightAuthWarning()
       return false
