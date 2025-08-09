@@ -1,266 +1,240 @@
-      <!DOCTYPE html>
-      <html lang="ru">
-      <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <!-- отображается под заголовком в результатах поиска Google -->
-      <meta
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
       name="description"
       content="Полный интерактивный чек-лист вопросов для разработчика на собеседовании. Узнайте, что спросить у работодателя, чтобы оценить команду, процессы и избежать 'красных флагов'."
-      />
-      <meta
+    />
+    <meta
       name="keywords"
       content="собеседование разработчика, вопросы работодателю, чек-лист, IT-собеседование, оценка компании, красные флаги, поиск работы, developer interview, interview questions, tech interview"
-      />
-      <!-- для Facebook, LinkedIn, Telegram и т.д. -->
-      <meta
+    />
+    <meta
       property="og:title"
       content="Чек-лист для собеседования разработчика: Собеседуй работодателя!"
-      />
-      <meta
+    />
+    <meta
       property="og:description"
       content="Чек-лист с вопросами для разработчика, чтобы задавать их работодателю на собеседовании и делать осознанный выбор."
-      />
-      <meta property="og:type" content="website" />
-      <meta
+    />
+    <meta property="og:type" content="website" />
+    <meta
       property="og:url"
       content="https://webdotG.github.io/interview-checklist/"
-      />
-      <!--  будет отображаться при репосте в соцсетях -->
-      <meta
+    />
+    <meta
       property="og:image"
       content="https://webdotG.github.io/interview-checklist/KirillGrant.png"
-      />
-      <meta property="og:locale" content="ru_RU" />
-      <!-- Twitter Card мета-теги (для X) -->
-      <meta name="twitter:card" content="summary_large_image" />
-
-      <meta
+    />
+    <meta property="og:locale" content="ru_RU" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
       name="twitter:title"
       content="Чек-лист для собеседования разработчика: Собеседуй работодателя!"
-      />
-      <meta
+    />
+    <meta
       name="twitter:description"
       content="Чек-лист с вопросами для разработчика, чтобы задавать их работодателю на собеседовании и делать осознанный выбор."
-      />
+    />
 
-      <link
+    <link
       rel="icon"
       href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50%' y='50%' font-size='75' font-family='Arial, sans-serif' dominant-baseline='middle' text-anchor='middle' fill='%23333'>G \</text><style>text{font-weight:bold;} @media (prefers-color-scheme:dark){text{fill:%23fff}}</style></svg>"
-      />
-      <title>Проект переехал на новый адрес</title>
-      <link rel="stylesheet" href="style.css" />
-      </head>
-      <body>
-      <div class="timer-container-top">
+    />
+    <title>Проект переехал на новый адрес</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="timer-container-top">
       <svg class="timer-svg" viewBox="0 0 100 100">
-      <defs>
-      <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" style="stop-color: #b8f1c8; stop-opacity: 1" />
-        <stop offset="50%" style="stop-color: #a5d8ff; stop-opacity: 1" />
-        <stop offset="100%" style="stop-color: #d0b8f1; stop-opacity: 1" />
-      </linearGradient>
-      </defs>
-      <circle class="timer-background" cx="50" cy="50" r="45"></circle>
-      <circle class="timer-progress" cx="50" cy="50" r="45"></circle>
+        <defs>
+          <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color: #b8f1c8; stop-opacity: 1" />
+            <stop offset="50%" style="stop-color: #a5d8ff; stop-opacity: 1" />
+            <stop offset="100%" style="stop-color: #d0b8f1; stop-opacity: 1" />
+          </linearGradient>
+        </defs>
+        <circle class="timer-background" cx="50" cy="50" r="45"></circle>
+        <circle class="timer-progress" cx="50" cy="50" r="45"></circle>
       </svg>
       <span class="timer-text" id="countdown">150</span>
-      </div>
+    </div>
 
-      <div class="container">
-      <div id="intro-message" class="strikethrough-container">
-      <h1>Здравствуйте!</h1>
-      <h2>проект переехал на новый адрес</h2>
-      <p class="small-text">через 2.5 минуты вас перенаправит туда</p>
-      <p class="small-text2">(для отмены есть кнопка внизу страницы)</p>
+    <div class="container">
+      <div id="intro-message">
+        <h1>Здравствуйте!</h1>
+        <h2>проект переехал на новый адрес</h2>
+        <p class="small-text">через 2.5 минуты вас перенаправит туда</p>
+        <p class="small-text2">(для отмены есть кнопка внизу страницы)</p>
 
-      <div class="prose-container">
-      <h3>Бля, я иногда такой затупок. Шо пиздец.</h3>
-      <p>
-      Сутки править один косяк. Перенести приложение на новый хост и там
-      столкнуться с тем же, и ещё сутки пытаться фиксить.
-      </p>
-      <p>Косяк котрый пытался пофиксить кстати описан ниже, правда в том что он может и правда не работаеть, а может такого косяка и нет есть только косяк в моих мозгах(но это я проверять уже не стану)</p>
-      <p>А в итоге что? Что, блять?</p>
-      <p>Просто на вкладку ниже посмотреть надо было. Ну ебать. Ну красавчик. Ай да молодец, ёшкин кот.</p>
-      <p>Голова, ничего не сказать.</p>
-      <p>Но в итоге сделал. А дел там было на 10 минут.</p>
-      <p>Из дикого леса дикая тварь. Как вообще работающий код пишу? В такие моменты диву даюсь, конеш.</p>
-      </div>
+        <div class="prose-container">
+          <h3>Бля, я иногда такой затупок. Шо пиздец.</h3>
+          <p>
+            Сутки править один косяк. Перенести приложение на новый хост и там
+            столкнуться с тем же, и ещё сутки пытаться фиксить.
+          </p>
+          <p>
+            Косяк котрый пытался пофиксить кстати описан ниже, правда в том что
+            он может и правда не работаеть, а может такого косяка и нет есть
+            только косяк в моих мозгах(но это я проверять уже не стану)
+          </p>
+          <p>А в итоге что? Что, блять?</p>
+          <p>
+            Просто на вкладку ниже посмотреть надо было. Ну ебать. Ну красавчик.
+            Ай да молодец, ёшкин кот.
+          </p>
+          <p>Голова, ничего не сказать.</p>
+          <p>Но в итоге сделал. А дел там было на 10 минут.</p>
+          <p>
+            Из дикого леса дикая тварь. Как вообще работающий код пишу? В такие
+            моменты диву даюсь, конеш.
+          </p>
+        </div>
 
-      <div class="strikethrough-container">
-      <article>
-      <h2>Почему ?</h2>
-      <p>
-        Проект переезжает на новый хостинг из-за несовместимости между
-        <strong>GitHub Pages</strong> и <strong>Firebase Auth</strong>. К
-        сожалению, это системное ограничение, о котором не сразу узнаёшь.
-      </p>
+        <div class="strikethrough-container">
+          <article>
+            <h2>Почему ?</h2>
+            <p>
+              Проект переезжает на новый хостинг из-за несовместимости между
+              <strong>GitHub Pages</strong> и <strong>Firebase Auth</strong>. К
+              сожалению, это системное ограничение, о котором не сразу узнаёшь.
+            </p>
 
-      <h2>Причина детальнее</h2>
-      <ul>
-        <li>
-          <strong>GitHub Pages</strong> — это статический хостинг, который
-          не поддерживает специальные служебные файлы Firebase Auth (<code
-            >__/auth/handler</code
+            <h2>Причина детальнее</h2>
+            <ul>
+              <li>
+                <strong>GitHub Pages</strong> — это статический хостинг, который
+                не поддерживает специальные служебные файлы Firebase Auth (<code
+                  >__/auth/handler</code
+                >
+                и <code>__/auth/iframe</code>) без расширения.
+              </li>
+              <li>
+                При попытке обращения к таким файлам GitHub Pages отдаёт их как
+                обычные загрузки (<code>MIME application/octet-stream</code>), а
+                не как исполняемые обработчики.
+              </li>
+              <li>
+                В результате аутентификация через редирект (GitHub OAuth)
+                зависает, так как Firebase не получает необходимого ответа.
+              </li>
+            </ul>
+
+            <pre><code>https://webdotg.github.io/__/auth/handler?apiKey=...&providerId=github.com</code></pre>
+            <p>
+              С точки зрения Firebase, этот URL-адрес корректен, но GitHub Pages
+              не может его обработать.
+            </p>
+
+            <h3>Вывод</h3>
+            <p>
+              GitHub Pages не может корректно хостить необходимые
+              Firebase-хелперы, даже если URL указан верно. Это системное
+              ограничение статического хостинга.
+            </p>
+
+            <h3>Итог</h3>
+            <p>
+              Чтобы решить эту проблему, я выбрал единственный простой и
+              надёжный вариант:
+              <strong>миграция на Firebase Hosting</strong>. Это позволит
+              стабильную работу аутентификации.
+            </p>
+            <p>
+              Другие варианты, такие как использование прокси-хостинга
+              (Netlify, Vercel) или самостоятельное размещение файлов, тоже
+              возможны, но требуют дополнительных настроек, которые могут быть
+              всё равно нестабильными на GitHub Pages.
+            </p>
+            <div class="warning"><p>Увидимся на новом хосте</p></div>
+          </article>
+        </div>
+
+        <div class="buttons">
+          <a href="#" class="exit" id="exit-button">Покинуть страницу</a>
+          <a href="https://interview-checklist.web.app/" class="proceed"
+            >Перейти на новый адрес</a
           >
-          и <code>__/auth/iframe</code>) без расширения.
-        </li>
-        <li>
-          При попытке обращения к таким файлам GitHub Pages отдаёт их как
-          обычные загрузки (<code>MIME application/octet-stream</code>), а
-          не как исполняемые обработчики.
-        </li>
-        <li>
-          В результате аутентификация через редирект (GitHub OAuth)
-          зависает, так как Firebase не получает необходимого ответа.
-        </li>
-      </ul>
-
-      <pre><code>https://webdotg.github.io/__/auth/handler?apiKey=...&providerId=github.com</code></pre>
-      <p>
-        С точки зрения Firebase, этот URL-адрес корректен, но GitHub Pages
-        не может его обработать.
-      </p>
-
-      <h3>Вывод</h3>
-      <p>
-        GitHub Pages не может корректно хостить необходимые
-        Firebase-хелперы, даже если URL указан верно. Это системное
-        ограничение статического хостинга.
-      </p>
-
-      <h3>Итог</h3>
-      <p>
-        Чтобы решить эту проблему, я выбрал единственный простой и надёжный
-        вариант:
-        <strong>миграция на Firebase Hosting</strong>. Это позволит
-        стабильную работу аутентификации.
-      </p>
-      <p>
-        Другие варианты, такие как использование прокси-хостинга (Netlify,
-        Vercel) или самостоятельное размещение файлов, тоже возможны, но
-        требуют дополнительных настроек, которые могут быть всё равно
-        нестабильными на GitHub Pages.
-      </p>
-      </div>
-      <div class="warning"><p>Увидимся на новом хосте</p></div>
-      </article>
-      <div class="buttons">
-      <a href="#" class="exit" id="exit-button">Покинуть страницу</a>
-      <a href="https://interview-checklist.web.app/" class="proceed"
-        >Перейти на новый адрес</a
-      >
-      </div>
+        </div>
       </div>
 
       <div id="goodbye-message" style="display: none">
-      <h1>Очень жаль, но до свидания!</h1>
-      <h3>Вы можете закрыть эту вкладку.</h3>
-      <p>Если вы всё таки передумаете, то:</p>
-      <div class="buttons">
-      <a href="#" class="exit" id="return-button"
-        >Прочитать о переезде ещё раз</a
-      >
-      <a href="https://interview-checklist.web.app/" class="proceed"
-        >Перейти на новый адрес</a
-      >
+        <h1>Очень жаль, но до свидания!</h1>
+        <h3>Вы можете закрыть эту вкладку.</h3>
+        <p>Если вы всё таки передумаете, то:</p>
+        <div class="buttons">
+          <a href="#" class="exit" id="return-button"
+            >Прочитать о переезде ещё раз</a
+          >
+          <a href="https://interview-checklist.web.app/" class="proceed"
+            >Перейти на новый адрес</a
+          >
+        </div>
       </div>
-      </div>
-      </div>
+    </div>
 
-      <script>
-      const newUrl = 'https://interview-checklist.web.app/'
-      // установка таймера (150 секунд)
-      let countdown = 150
-      // для хранения ID интервала таймера
-      let timerInterval
+    <script>
+      const newUrl = 'https://interview-checklist.web.app/';
+      let countdown = 150;
+      let timerInterval;
 
-      // элементы страницы из DOM
-      const countdownElement = document.getElementById('countdown')
-      const circle = document.querySelector('.timer-progress')
-      const radius = circle.r.baseVal.value
-      const circumference = 2 * Math.PI * radius
+      const countdownElement = document.getElementById('countdown');
+      const circle = document.querySelector('.timer-progress');
+      const radius = circle.r.baseVal.value;
+      const circumference = 2 * Math.PI * radius;
 
-      // блоки сообщений и кнопок
-      const introMessage = document.getElementById('intro-message')
-      const goodbyeMessage = document.getElementById('goodbye-message')
-      const exitButton = document.getElementById('exit-button')
-      const returnButton = document.getElementById('return-button')
+      const introMessage = document.getElementById('intro-message');
+      const goodbyeMessage = document.getElementById('goodbye-message');
+      const exitButton = document.getElementById('exit-button');
+      const returnButton = document.getElementById('return-button');
 
-      // круговой индикатор прогресса
-      circle.style.strokeDasharray = `${circumference} ${circumference}`
-      circle.style.strokeDashoffset = `${circumference}`
+      circle.style.strokeDasharray = `${circumference} ${circumference}`;
+      circle.style.strokeDashoffset = `${circumference}`;
 
-      // для обновления кругового индикатора
       function setProgress(percent) {
-      const offset = circumference - (percent / 100) * circumference
-      circle.style.strokeDashoffset = offset
+        const offset = circumference - (percent / 100) * circumference;
+        circle.style.strokeDashoffset = offset;
       }
 
-      // главная функция таймера, вызывается каждую секунду
       function updateCountdown() {
-      // вычисляет минуты и секунды
-      const minutes = Math.floor(countdown / 60)
-      const seconds = countdown % 60
-      // обновляет текст таймера в формате m:ss
-      countdownElement.textContent = `${minutes}:${seconds
-      .toString()
-      .padStart(2, '0')}`
+        const minutes = Math.floor(countdown / 60);
+        const seconds = countdown % 60;
+        countdownElement.textContent = `${minutes}:${seconds
+          .toString()
+          .padStart(2, '0')}`;
 
-      // вычисляет процент для кругового индикатора
-      const percent = ((150 - countdown) / 150) * 100
-      // обновляет круговой индикатор
-      setProgress(percent)
+        const percent = ((150 - countdown) / 150) * 100;
+        setProgress(percent);
 
-      // проверяет, закончилось ли вретя
-      if (countdown === 0) {
-      // перенаправляет пользователя на новый URL
-      window.location.href = newUrl
-      } else {
-      // уменьшает таймер на 1 секунду
-      countdown--
-      }
+        if (countdown === 0) {
+          window.location.href = newUrl;
+        } else {
+          countdown--;
+        }
       }
 
-      // функция для запуска таймера
       function startTimer() {
-      // сбрасывает таймер на начальное значение
-      countdown = 150
-      // запускает интервал, который вызывает updateCountdown каждую секунду
-      timerInterval = setInterval(updateCountdown, 1000)
+        countdown = 150;
+        timerInterval = setInterval(updateCountdown, 1000);
       }
 
-      // запускает таймер при загрузке страницы
-      startTimer()
+      startTimer();
 
-      // добавляет обработчик событий для кнопки "Покинуть"
       exitButton.addEventListener('click', function (event) {
-      // отменяет стандартное действие ссылки (переход по якорю #)
-      event.preventDefault()
+        event.preventDefault();
+        clearInterval(timerInterval);
+        introMessage.style.display = 'none';
+        goodbyeMessage.style.display = 'block';
+      });
 
-      // останавливает таймер
-      clearInterval(timerInterval)
-
-      // скрывает начальный текст
-      introMessage.style.display = 'none'
-      // показывает окно прощания
-      goodbyeMessage.style.display = 'block'
-      })
-
-      // добавляет обработчик событий для кнопки "Вернуться"
       returnButton.addEventListener('click', function (event) {
-      // отменяет стандартное действие ссылки
-      event.preventDefault()
-
-      // скрывает окно прощания
-      goodbyeMessage.style.display = 'none'
-      // показывает начальный текст
-      introMessage.style.display = 'block'
-
-      // запускает таймер заново
-      startTimer()
-      })
-      </script>
-      </body>
-      </html>
+        event.preventDefault();
+        goodbyeMessage.style.display = 'none';
+        introMessage.style.display = 'block';
+        startTimer();
+      });
+    </script>
+  </body>
+</html>
