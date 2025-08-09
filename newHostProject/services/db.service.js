@@ -12,14 +12,11 @@ import {
 import { NotificationService } from './notification.service.js'
 
 const isGitHubPages = window.location.hostname.includes('github.io')
-const authDomain = isGitHubPages
-  ? window.location.hostname
-  : 'interview-checklist.firebaseapp.com'
 
 // Единый объект настроек Firebase для всего приложения
 const firebaseConfig = {
   apiKey: 'AIzaSyAQCgDpHF9u2i6swE0j0lNxiZmRp9j42oE',
-  authDomain: authDomain, // Используем динамически определенный домен
+  authDomain: 'interview-checklist.web.app',
   projectId: 'interview-checklist',
   storageBucket: 'interview-checklist.appspot.com',
   messagingSenderId: '1038665174709',

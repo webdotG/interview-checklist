@@ -48,17 +48,10 @@ export class AuthUI {
   }
 
   updateUI(user) {
-    const currentUser = user
-
-    if (this.isGitHubPages) {
-      if (currentUser) {
-        this.showAuthorizedState(currentUser)
-      } else {
-        this.showLoginButton()
-      }
+    if (user) {
+      this.showAuthorizedState(user)
     } else {
-      this.showLocalMode()
-      if (this.authContainer) this.authContainer.classList.add('hidden')
+      this.showUnauthorizedState()
     }
   }
 
@@ -172,7 +165,7 @@ export class AuthUI {
       return true
     } else {
       this.notificationService.show(
-        'Для сохранения необходимо войти через GitHub',
+        'Для сохранения в общую базу необходимо войти через GitHub',
         'warning',
       )
       this.highlightAuthWarning()

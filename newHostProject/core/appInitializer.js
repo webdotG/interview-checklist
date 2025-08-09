@@ -120,23 +120,23 @@ export async function initializeCurrentPage() {
   }
 }
 
-window.addEventListener('load', () => {
-  console.log('=== Диагностика браузера ===')
-  console.log('User Agent:', navigator.userAgent)
-  console.log('Popup support:', !navigator.userAgent.includes('Mobile'))
-  console.log('Local Storage support:', !!window.localStorage)
-  console.log('Current URL:', window.location.href)
-  console.log('Referrer:', document.referrer)
+// window.addEventListener('load', () => {
+//   console.log('=== Диагностика браузера ===')
+//   console.log('User Agent:', navigator.userAgent)
+//   console.log('Popup support:', !navigator.userAgent.includes('Mobile'))
+//   console.log('Local Storage support:', !!window.localStorage)
+//   console.log('Current URL:', window.location.href)
+//   console.log('Referrer:', document.referrer)
 
-  try {
-    const popup = window.open('', '_blank', 'width=1,height=1')
-    if (popup && !popup.closed) {
-      console.log('Popup не заблокирован')
-      popup.close()
-    } else {
-      console.log('Popup заблокирован браузером')
-    }
-  } catch (e) {
-    console.log('Popup заблокирован (исключение):', e.message)
-  }
-})
+//   try {
+//     const popup = window.open('', '_blank', 'width=1,height=1')
+//     if (popup && !popup.closed) {
+//       console.log('Popup не заблокирован')
+//       popup.close()
+//     } else {
+//       console.log('Popup заблокирован браузером')
+//     }
+//   } catch (e) {
+//     console.log('Popup заблокирован (исключение):', e.message)
+//   }
+// })

@@ -1,3 +1,19 @@
+/* -------------------------------------------------- ВСЁ ХУЙНЯ ---------- */
+.strikethrough-container {
+  position: relative;
+}
+
+.strikethrough-container * {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.strikethrough-container h1,
+.strikethrough-container .buttons,
+.strikethrough-container .warning p {
+  text-decoration: none;
+  opacity: 1;
+}
 /* -------------------------------------------------- БАЗА (мобайл 320px+) ---------- */
 body {
   font-family: Roboto, sans-serif;
