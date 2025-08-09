@@ -5,6 +5,7 @@ import { renderQuestions } from '../ui/questions.renderer.js'
 export class InterviewManager {
   constructor() {
     this.initElements()
+    this.listenersSetup = false 
   }
 
   initElements() {
@@ -121,6 +122,10 @@ export class InterviewManager {
 
   async setupEventListeners() {
     try {
+      // Проверяем, не установлены ли уже слушатели
+      if (this.listenersSetup) {
+        return
+      }
       // Слушатели изменений для сохранения в URL
       const fieldsToWatch = [
         this.companyInput,
@@ -161,6 +166,9 @@ export class InterviewManager {
       } else {
         console.warn('Кнопка отправки не найдена')
       }
+
+      // Помечаем, что слушатели установлены
+      this.listenersSetup = true
     } catch (error) {
       console.error('Ошибка установки слушателей:', error)
     }

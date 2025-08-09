@@ -4,7 +4,6 @@ import { NotificationService } from '../services/notification.service.js'
 import { AuthUI } from '../ui/auth.ui.js'
 import { InterviewManager } from './interview.manager.js'
 import { FormValidator } from '../utils/form.validator.js'
-import { renderQuestions } from '../ui/questions.renderer.js'
 import { questionStats } from '../utils/questions.utils.js'
 import { InterviewsViewer } from '../ui/interviews.viewer.js'
 import { InterviewFilters } from '../ui/interview.filters.js'
@@ -31,7 +30,6 @@ export async function initializeApp() {
     formValidator.init('#interview-form')
 
     questionStats.addCounterToHeader()
-    await renderQuestions()
 
     authUI.setupEventListeners()
 
