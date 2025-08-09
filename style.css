@@ -19,8 +19,8 @@
 }
 .prose-container p{
   text-align: left;
-  font-size: 1em;
-  line-height: 1.2em;
+  font-size: 0.8em;
+  line-height: 1em;
 }
 /* -------------------------------------------------- БАЗА (мобайл 320px+) ---------- */
 body {
