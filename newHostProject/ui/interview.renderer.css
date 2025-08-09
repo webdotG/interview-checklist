@@ -21,6 +21,7 @@
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
+/* ------------------------------------------------------ заголовок карточки */
 .interview-header {
   background: linear-gradient(135deg, #667eea, #764ba2);
   color: white;
@@ -38,8 +39,34 @@
   font-size: 1rem;
   opacity: 0.9;
   word-break: break-word;
+  margin-bottom: 0.8rem;
 }
 
+/* ------------------------------------------------------ ссылка на вакансию */
+.vacancy-link {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.vacancy-link--empty {
+  opacity: 0.7;
+  font-style: italic;
+  display: none; /* скрываем, если не указана */
+}
+
+.vacancy-url {
+  color: white;
+  text-decoration: none;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+.vacancy-url:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+/* ------------------------------------------------------ мета информация */
 .interview-meta {
   background: #f8f9fa;
   padding: 1rem 1.5rem;
@@ -49,43 +76,6 @@
   border-bottom: 1px solid #e9ecef;
   flex-wrap: wrap;
   gap: 0.5rem;
-}
-
-/* -------------------------------------  о компании и юзере--- */
-.company-link,
-.github-link {
-  color: white;
-  text-decoration: none;
-  font-weight: 600;
-  transition: text-decoration 0.3s ease;
-}
-
-.company-link:hover,
-.github-link:hover {
-  text-decoration: underline;
-}
-
-.interview-interviewer {
-  font-size: 0.9rem;
-  color: #6c757d;
-  font-style: italic;
-  white-space: nowrap;
-}
-
-.interview-user {
-  padding: 0 1.5rem;
-  font-size: 0.9rem;
-  color: #6c757d;
-  font-style: italic;
-}
-/* ---------------------------------------------------------- карточка*/
-
-
-.interview-stats {
-  padding: 1rem;
-  font-size: 1.1rem;
-  line-height: 1.3rem;
-  font-weight: 400;
 }
 
 .interview-salary {
@@ -100,6 +90,122 @@
   white-space: nowrap;
 }
 
+.interview-interviewer {
+  font-size: 0.9rem;
+  color: #6c757d;
+  font-style: italic;
+  white-space: nowrap;
+}
+
+.interview-interviewer--empty {
+  opacity: 0.6;
+  display: none; /* скрываем, если не указан */
+}
+
+/* ------------------------------------------------------ информация о пользователе */
+.interview-user {
+  padding: 0.8rem 1.5rem;
+  border-bottom: 1px solid #f1f3f4;
+  background: #fafbfc;
+}
+
+/* GitHub пользователь */
+.user-github {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.github-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #24292e;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.github-link:hover {
+  color: #0366d6;
+  text-decoration: underline;
+}
+
+.github-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid #e1e4e8;
+}
+
+.github-username {
+  font-size: 0.9rem;
+}
+
+/* Локальный пользователь (только имя + email) */
+.user-local {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6c757d;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.user-name {
+  font-weight: 500;
+  color: #495057;
+  font-style: normal;
+}
+
+.user-email {
+  font-size: 0.8rem;
+  color: #6c757d;
+  opacity: 0.8;
+}
+
+/* Анонимный пользователь */
+.user-anonymous {
+  color: #6c757d;
+  font-size: 0.9rem;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+/* Локальное сохранение */
+.user-local-save {
+  color: #28a745;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* ------------------------------------------------------ ссылки компании */
+.company-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  transition: text-decoration 0.3s ease;
+}
+
+.company-link:hover {
+  text-decoration: underline;
+}
+
+/* ------------------------------------------------------ статистика */
+.interview-stats {
+  padding: 1rem;
+  font-size: 1.1rem;
+  line-height: 1.3rem;
+  font-weight: 400;
+}
+
+/* ------------------------------------------------------ контент */
 .interview-content {
   padding: 1.5rem;
   max-height: 400px;
@@ -159,6 +265,52 @@
   line-height: 1.3;
 }
 
+/* ------------------------------------------------------ кнопки действий */
+.interview-actions {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e9ecef;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn--small {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+}
+
+.btn--secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.btn--secondary:hover {
+  background: #5a6268;
+  transform: translateY(-1px);
+}
+
+.btn:not(.btn--secondary) {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+}
+
+.btn:not(.btn--secondary):hover {
+  background: linear-gradient(135deg, #5a67d8, #6b46c1);
+  transform: translateY(-1px);
+}
+
 /* ------------------------------------------------------ скроллбар */
 .interview-content::-webkit-scrollbar {
   width: 6px;
@@ -175,4 +327,27 @@
 
 .interview-content::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(135deg, #5a67d8, #6b46c1);
+}
+
+/* ------------------------------------------------------ адаптивность */
+@media (max-width: 768px) {
+  .interviews-grid {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .interview-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+  }
+  
+  .interview-actions {
+    justify-content: stretch;
+  }
+  
+  .interview-actions .btn {
+    flex: 1;
+  }
 }

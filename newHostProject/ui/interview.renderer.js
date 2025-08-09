@@ -10,33 +10,24 @@ export class InterviewRenderer {
     const card = document.createElement('div')
     card.className = 'interview-card'
 
-    const date = InterviewFormatter.formatDate(interview.timestamp)
+    // Используем createdAt или timestamp для даты
+    const date = InterviewFormatter.formatDate(
+      interview.createdAt || interview.timestamp
+    )
     const answeredQuestions = questionStats.countAnsweredQuestions(interview)
     const totalQuestions = this.totalQuestions
 
-    // наличие имени и ссылки на GitHub
-    const userHtml = interview.githubUsername
-      ? `<a href="${
-          interview.githubProfileUrl
-        }" target="_blank" rel="noopener noreferrer" class="github-link">${InterviewFormatter.escapeHtml(
-          interview.githubUsername
-        )}</a>`
-      : ''
+    // GitHub пользователь - используем githubLogin или fullName + email
+    const userHtml = this.renderUserInfo(interview)
 
-    // о компании и интервьюере
-    const companyInfoHtml = interview.companyUrl
-      ? `<a href="${
-          interview.companyUrl
-        }" target="_blank" rel="noopener noreferrer" class="company-link">${InterviewFormatter.escapeHtml(
-          interview.company
-        )}</a>`
-      : InterviewFormatter.escapeHtml(interview.company)
+    // Информация о компании (обязательно проверяем companyUrl)
+    const companyInfoHtml = this.renderCompanyInfo(interview)
 
-    const interviewerInfoHtml = interview.interviewer
-      ? `<div class="interview-interviewer">Интервьюер: ${InterviewFormatter.escapeHtml(
-          interview.interviewer
-        )}</div>`
-      : ''
+    // Информация об интервьюере
+    const interviewerInfoHtml = this.renderInterviewerInfo(interview)
+
+    // Ссылка на вакансию
+    const vacancyLinkHtml = this.renderVacancyLink(interview)
 
     card.innerHTML = `
       <div class="interview-header">
@@ -44,6 +35,7 @@ export class InterviewRenderer {
         <div class="interview-position">${InterviewFormatter.escapeHtml(
           InterviewFormatter.formatPosition(interview.position)
         )}</div>
+        ${vacancyLinkHtml}
       </div>
       
       <div class="interview-meta">
@@ -53,7 +45,9 @@ export class InterviewRenderer {
         <div class="interview-date">${date}</div>
         ${interviewerInfoHtml}
       </div>
-      <div class="interview-user"> ${userHtml}</div>
+      
+      <div class="interview-user">${userHtml}</div>
+      
       <div class="interview-stats">
         Отвечено ${questionStats.getQuestionWord(answeredQuestions)}: 
           <strong>
@@ -80,6 +74,62 @@ export class InterviewRenderer {
     `
 
     return card
+  }
+
+  renderUserInfo(interview) {
+    // Приоритет: githubLogin -> fullName -> email -> firebaseUid
+    if (interview.githubLogin && interview.githubProfileUrl) {
+      return `
+        <div class="user-github">
+          <a href="${interview.githubProfileUrl}" target="_blank" rel="noopener noreferrer" class="github-link">
+            ${interview.githubAvatarUrl ? `<img src="${interview.githubAvatarUrl}" alt="Avatar" class="github-avatar">` : ''}
+            <span class="github-username">${InterviewFormatter.escapeHtml(interview.githubLogin)}</span>
+          </a>
+          ${interview.email ? `<div class="user-email">${InterviewFormatter.escapeHtml(interview.email)}</div>` : ''}
+        </div>
+      `
+    } else if (interview.fullName || interview.email) {
+      return `
+        <div class="user-local">
+          ${interview.githubAvatarUrl ? `<img src="${interview.githubAvatarUrl}" alt="Avatar" class="github-avatar">` : ''}
+          <div class="user-details">
+            ${interview.fullName ? `<span class="user-name">${InterviewFormatter.escapeHtml(interview.fullName)}</span>` : ''}
+            ${interview.email ? `<div class="user-email">${InterviewFormatter.escapeHtml(interview.email)}</div>` : ''}
+          </div>
+        </div>
+      `
+    } else if (interview.firebaseUid) {
+      return `<div class="user-anonymous">Анонимный пользователь</div>`
+    } else {
+      return `<div class="user-local-save">Локальное сохранение</div>`
+    }
+  }
+
+  renderCompanyInfo(interview) {
+    if (interview.companyUrl) {
+      return `<a href="${interview.companyUrl}" target="_blank" rel="noopener noreferrer" class="company-link">${InterviewFormatter.escapeHtml(interview.company)}</a>`
+    }
+    return InterviewFormatter.escapeHtml(interview.company)
+  }
+
+  renderInterviewerInfo(interview) {
+    if (!interview.interviewer) {
+      return `<div class="interview-interviewer interview-interviewer--empty">Интервьюер не указан</div>`
+    }
+    return `<div class="interview-interviewer">Интервьюер: ${InterviewFormatter.escapeHtml(interview.interviewer)}</div>`
+  }
+
+  renderVacancyLink(interview) {
+    if (!interview.vacancyUrl) {
+      return `<div class="vacancy-link vacancy-link--empty">Ссылка на вакансию не указана</div>`
+    }
+    return `
+      <div class="vacancy-link">
+        <a href="${interview.vacancyUrl}" target="_blank" rel="noopener noreferrer" class="vacancy-url">
+          📋 Посмотреть вакансию
+        </a>
+      </div>
+    `
   }
 
   renderAnswers(answers) {
