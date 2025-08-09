@@ -161,7 +161,6 @@ export class AuthUI {
 
     if (isLocalSaveAllowed) {
       this.notificationService.show('Сохраняем ответы...', 'info')
-      await this.manager.saveToDatabase()
       return true
     } else {
       this.notificationService.show(

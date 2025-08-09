@@ -126,9 +126,9 @@ export const db = {
           )
           return false
         }
-      } else {
-        // Локальный режим — сохраняем в файл JSON
+        // В люом случае всегда строго — сохраняем в файл JSON
         this.saveToLocalFile(dataToSave)
+      } else {
         notificationService.show(
           'Интервью сохранено локально (без Firebase)',
           'info'
