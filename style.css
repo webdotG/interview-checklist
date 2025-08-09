@@ -82,6 +82,7 @@ code {
   padding: 2px 4px;
   border-radius: 4px;
   word-break: break-word;
+  
 }
 
 pre {
@@ -92,6 +93,7 @@ pre {
   white-space: pre-wrap;
   word-break: break-word;
   font-size: 0.9em;
+  z-index: 1;
 }
 
 .warning {
@@ -118,26 +120,31 @@ pre {
   padding: 5px;
   border-radius: 50%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
 }
 
 .timer-svg {
   transform: rotate(-90deg);
+  z-index: 10;
 }
 
 .timer-background,
 .timer-progress {
   fill: none;
   stroke-width: 6;
+  z-index: 10;
 }
 
 .timer-background {
   stroke: #e2e6ea;
+  z-index: 10;
 }
 
 .timer-progress {
   stroke: url(#gradient);
   stroke-linecap: round;
   transition: stroke-dashoffset 1s linear;
+  z-index: 10;
 }
 
 .timer-text {
@@ -149,6 +156,7 @@ pre {
   font-weight: bold;
   color: #495057;
   opacity: 0.7;
+  z-index: 10;
 }
 
 /* ------------------------------------------------------------ кнопки ---------- */
