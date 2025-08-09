@@ -11,7 +11,6 @@ import {
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js'
 import { NotificationService } from './notification.service.js'
 
-const isGitHubPages = window.location.hostname.includes('github.io')
 
 // Единый объект настроек Firebase для всего приложения
 const firebaseConfig = {
