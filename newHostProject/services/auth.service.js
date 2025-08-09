@@ -32,18 +32,28 @@ export class AuthService {
 
   async signInWithGitHub() {
     try {
+      // Запрашиваем базовые данные
+      this.provider.addScope('read:user')
+      this.provider.addScope('user:email')
+
       const result = await signInWithPopup(this.auth, this.provider)
+
       const user = result.user
-      //  допо инфа
-      const credential = GithubAuthProvider.credentialFromResult(result)
-      const githubToken = credential.accessToken
-      const githubUser = result.additionalUserInfo.profile
+      const providerProfile = user.providerData[0] || {}
+      const profile = result.additionalUserInfo?.profile || {}
 
-      // объект githubUser - login (имя пользователя) и html_url (ссылка на профиль)
-      const username = githubUser.login
-      const profileUrl = githubUser.html_url
+      const githubData = {
+        firebaseUid: user.uid || null,
+        githubLogin: profile.login || null,
+        githubProfileUrl: profile.html_url || null,
+        githubAvatarUrl: profile.avatar_url || providerProfile.photoURL || null,
+        fullName: profile.name || user.displayName || null,
+        email: profile.email || user.email || null,
+      }
 
-      return { user, username, profileUrl }
+      console.log('GitHub user data:', githubData)
+
+      return githubData
     } catch (error) {
       console.error('Ошибка входа через GitHub:', error)
       return null
