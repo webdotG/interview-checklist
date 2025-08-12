@@ -68,9 +68,14 @@ export const db = {
     }
     try {
       const interviewsRef = collection(firestore, 'interviews')
+      console.log(
+        'Загружаем интервью. Текущий пользователь:',
+        auth?.currentUser?.uid
+      )
       const q = query(interviewsRef, orderBy('timestamp', 'desc'))
       const querySnapshot = await getDocs(q)
       const interviews = []
+      console.log('Получено документов:', querySnapshot.size)
       querySnapshot.forEach((doc) => {
         interviews.push({ id: doc.id, ...doc.data() })
       })
@@ -118,10 +123,12 @@ export const db = {
         companyUrl: interviewData.companyUrl || null,
         vacancyUrl: interviewData.vacancyUrl || null,
         interviewer: interviewData.interviewer || null,
-        ...userData,
-        timestamp: new Date().toISOString(),
+        userId: auth.currentUser.uid,
+        firebaseUid: auth.currentUser.uid,
         userAgent: navigator.userAgent.substring(0, 100),
+        timestamp: new Date().toISOString(),
         createdAt: new Date().toISOString(),
+        ...userData,
       }
 
       if (firebaseInitialized && auth?.currentUser) {
