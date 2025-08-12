@@ -63,15 +63,15 @@ export const db = {
 
   async loadInterviews() {
     if (!firebaseInitialized || !firestore) {
-      console.log('Локальный режим: загрузка интервью из Firebase невозможна.')
+      // console.log('Локальный режим: загрузка интервью из Firebase невозможна.')
       return []
     }
     try {
       const interviewsRef = collection(firestore, 'interviews')
-      console.log(
-        'Загружаем интервью. Текущий пользователь:',
-        auth?.currentUser?.uid
-      )
+      // console.log(
+      //   'Загружаем интервью. Текущий пользователь:',
+      //   auth?.currentUser?.uid
+      // )
       const q = query(interviewsRef, orderBy('timestamp', 'desc'))
       const querySnapshot = await getDocs(q)
       const interviews = []
@@ -137,7 +137,7 @@ export const db = {
             collection(firestore, 'interviews'),
             dataToSave
           )
-          console.log('Сохранено в Firebase, ID:', docRef.id)
+          // console.log('Сохранено в Firebase, ID:', docRef.id)
           notificationService.show('Интервью сохранено!', 'success')
         } catch (firebaseError) {
           console.warn('Ошибка сохранения в Firebase:', firebaseError)

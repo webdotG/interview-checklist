@@ -29,9 +29,9 @@ export class InterviewManager {
   async init() {
     try {
       console.log('🔍 Проверка уникальности ID вопросов...')
-      // ✅ Используем метод класса вместо глобальной функции
+      // Используем метод класса вместо глобальной функции
       this.questionsUtils.checkIdUniqueness()
-      // ✅ Используем метод класса вместо функции
+      // Используем метод класса вместо функции
       await this.questionsRenderer.renderQuestions() // Сначала создаем элементы
       await this.setupEventListeners() // Потом устанавливаем слушатели
       this.loadFromURL() // Затем загружаем данные
@@ -53,7 +53,7 @@ export class InterviewManager {
       this.vacancyUrlInput.value = params.get('vacancy-url') || ''
       this.interviewerInput.value = params.get('interviewer') || ''
 
-      // ✅ Используем метод класса вместо глобальной функции
+      // Используем метод класса вместо глобальной функции
       this.questionsUtils.forEachQuestion(
         (sectionTitle, subsectionTitle, question, questionId) => {
           const checked = params.get(`check-${questionId}`) === 'true'
@@ -85,7 +85,7 @@ export class InterviewManager {
       params.set('vacancy-url', this.vacancyUrlInput.value)
       params.set('interviewer', this.interviewerInput.value)
 
-      // ✅ Используем метод класса вместо глобальной функции
+      // Используем метод класса вместо глобальной функции
       this.questionsUtils.forEachQuestion(
         (sectionTitle, subsectionTitle, question, questionId) => {
           const checkbox = document.getElementById(`check-${questionId}`)
@@ -116,7 +116,7 @@ export class InterviewManager {
       this.vacancyUrlInput.value = ''
       this.interviewerInput.value = ''
 
-      // ✅ Используем метод класса вместо глобальной функции
+      // Используем метод класса вместо глобальной функции
       this.questionsUtils.forEachQuestion(
         (sectionTitle, subsectionTitle, question, questionId) => {
           const checkbox = document.getElementById(`check-${questionId}`)
@@ -157,7 +157,7 @@ export class InterviewManager {
         }
       })
 
-      // ✅ Используем метод класса вместо глобальной функции
+      // Используем метод класса вместо глобальной функции
       this.questionsUtils.forEachQuestion(
         (sectionTitle, subsectionTitle, question, questionId) => {
           const checkbox = document.getElementById(`check-${questionId}`)
@@ -230,7 +230,7 @@ export class InterviewManager {
 
   prepareAnswers() {
     const answers = {}
-    // ✅ Используем метод класса вместо глобальной функции
+    // Используем метод класса вместо глобальной функции
     this.questionsUtils.forEachQuestion(
       (sectionTitle, subsectionTitle, question, questionId) => {
         const checkbox = document.getElementById(`check-${questionId}`)
