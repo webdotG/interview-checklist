@@ -1,6 +1,6 @@
 # Обновления и Планы   
 # &   
-# the Bag and Fix   
+# the [ Bag and Fix ]  
 
 
 ## Обновления
