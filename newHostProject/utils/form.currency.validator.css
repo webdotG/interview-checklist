@@ -1,21 +1,43 @@
-/* --------------------------------------------------------- выбор валюты */
 .salary-input-container {
   display: flex;
-  position: relative;
+  align-items: stretch;
   width: 100%;
-  height: 48px;
+  position: relative;
+}
+.validation-hint {
+  position: absolute;
+  bottom: -35px;
 }
 
+/* Поле ввода зарплаты */
+.salary-input-container input {
+  flex: 1;
+  height: 100%;
+  padding: 0 16px;
+  border: 1px solid #e2e8f0;
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.salary-input-container input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Валютный селектор */
 .currency-selector {
   position: relative;
-  display: inline-block;
+  display: flex;
   height: 100%;
-  z-index: 10;
+  flex-shrink: 0;
 }
 
 .currency-toggle {
   height: 100%;
-  padding: 0 16px;
+  padding: 0 12px;
   background: #f8f9fa;
   border: 1px solid #e2e8f0;
   border-left: none;
@@ -28,18 +50,41 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  gap: 8px;
+  outline: none;
 }
 
 .currency-toggle:hover {
   background: #edf2f7;
-  color: #1a365d;
 }
 
-.currency-toggle:active {
-  transform: scale(0.98);
+.currency-toggle:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
+.currency-toggle-flag {
+  width: 20px;
+  height: 15px;
+  object-fit: cover;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.currency-toggle-placeholder {
+  width: 20px;
+  height: 15px;
+  background: #e2e8f0;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.currency-toggle-symbol {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* -------------------------------------- Dropdown */
 .currency-dropdown {
   position: absolute;
   top: calc(100% + 8px);
@@ -49,7 +94,7 @@
   border-radius: 8px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.1);
   z-index: 1000;
-  width: 240px;
+  width: 280px;
   max-height: 400px;
   overflow-y: auto;
   display: none;
@@ -60,6 +105,7 @@
   display: block;
 }
 
+/* Группы валют */
 .currency-group {
   padding: 4px 0;
   border-bottom: 1px solid #f1f5f9;
@@ -77,41 +123,106 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   background-color: #f8fafc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
 }
 
+.currency-group-title:hover {
+  background-color: #f1f5f9;
+}
+
+.dropdown-arrow {
+  font-size: 10px;
+  transition: transform 0.2s ease;
+}
+
+.crypto-group.active .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+/* --------------------------------------------------- опции валют */
 .currency-option {
-  padding: 10px 16px;
-  cursor: pointer;
-  font-size: 14px;
-  color: #334155;
-  transition: all 0.2s ease;
   display: flex;
   align-items: center;
+  padding: 10px 16px;
+  gap: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
 .currency-option:hover {
   background: #f1f5f9;
-  color: #1e40af;
 }
 
-.crypto-group {
-  position: relative;
+.currency-flag {
+  width: 24px;
+  height: 16px;
+  object-fit: cover;
+  border-radius: 2px;
+  flex-shrink: 0;
+  object-fit: contain;
 }
 
-.crypto-toggle {
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.crypto-flag,
+.currency-flag.crypto {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
 }
 
-.crypto-toggle::after {
-  content: "▼";
-  font-size: 10px;
-  margin-left: 8px;
-  transition: transform 0.2s ease;
+.currency-flag-placeholder {
+  width: 24px;
+  height: 16px;
+  background: #e2e8f0;
+  border-radius: 2px;
+  flex-shrink: 0;
 }
 
+.crypto-placeholder {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #f1f5f9;
+}
+
+.currency-code {
+  font-weight: 500;
+  color: #2d3748;
+  min-width: 40px;
+  flex-shrink: 0;
+}
+
+.currency-symbol {
+  color: #64748b;
+  font-size: 0.9em;
+  min-width: 30px;
+  flex-shrink: 0;
+}
+
+.currency-name {
+  color: #64748b;
+  font-size: 0.8em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-grow: 1;
+  text-align: right;
+}
+
+/* Специальные опции */
+.add-option {
+  color: #3b82f6;
+  font-weight: 500;
+}
+
+.add-option:hover {
+  background: #dbeafe !important;
+}
+
+/* Подменю криптовалют */
 .crypto-submenu {
   display: none;
   padding-left: 12px;
@@ -123,94 +234,130 @@
   animation: slideDown 0.2s ease-out;
 }
 
-.add-custom {
-  color: #2563eb;
-  font-weight: 500;
-}
-
-.add-custom:hover {
-  background: #dbeafe !important;
-}
-
 /* Анимации */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { 
+    opacity: 0; 
+    transform: translateY(-10px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
 }
 
 @keyframes slideDown {
-  from { opacity: 0; max-height: 0; }
-  to { opacity: 1; max-height: 500px; }
+  from { 
+    opacity: 0; 
+    max-height: 0; 
+  }
+  to { 
+    opacity: 1; 
+    max-height: 500px; 
+  }
 }
 
-/* Уведомления */
-.currency-notification {
-  position: fixed;
-  top: 24px;
-  right: 24px;
-  padding: 14px 24px;
-  border-radius: 8px;
-  color: white;
-  font-size: 14px;
-  font-weight: 500;
-  z-index: 10000;
-  animation: slideIn 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-  box-shadow: 0 10px 15px rgba(0,0,0,0.1);
-}
-
-.currency-notification.success {
-  background: linear-gradient(135deg, #10b981, #059669);
-}
-
-.currency-notification.error {
-  background: linear-gradient(135deg, #ef4444, #dc2626);
-}
-
-.currency-notification.info {
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-}
-
-@keyframes slideIn {
-  from { transform: translateX(100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-
-/* Адаптивность */
+/* ---------------------------------------------- адаптивность */
 @media (max-width: 768px) {
-  .currency-dropdown {
-    width: 220px;
-    top: calc(100% + 6px);
-  }
-  
-  .currency-option {
-    padding: 8px 14px;
-    font-size: 13px;
-  }
-}
-
-@media (max-width: 480px) {
   .salary-input-container {
     height: 44px;
   }
   
-  .currency-toggle {
-    padding: 0 12px;
-    min-width: 50px;
-    font-size: 15px;
-  }
-  
   .currency-dropdown {
-    width: 200px;
+    width: 260px;
   }
   
-  .currency-group-title {
-    padding: 6px 12px;
+  .currency-option {
+    padding: 8px 12px;
+    gap: 8px;
   }
   
-  .currency-notification {
-    top: 16px;
-    right: 16px;
-    padding: 12px 20px;
-    font-size: 13px;
+  .currency-flag,
+  .currency-flag-placeholder {
+    width: 20px;
+    height: 14px;
   }
+  
+  .crypto-flag,
+  .crypto-placeholder {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .currency-toggle {
+    padding: 0 10px;
+    min-width: 55px;
+    gap: 6px;
+  }
+  
+  .currency-toggle-flag {
+    width: 18px;
+    height: 13px;
+  }
+  
+  .currency-toggle-placeholder {
+    width: 18px;
+    height: 13px;
+  }
+}
+
+/* Дополнительные стили для лучшей совместимости */
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #2d3748;
+}
+
+/* Фокус на всем контейнере при фокусе на input */
+.salary-input-container:focus-within {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-radius: 8px;
+}
+
+.salary-input-container:focus-within input {
+  border-color: #3b82f6;
+  box-shadow: none;
+}
+
+.salary-input-container:focus-within .currency-toggle {
+  border-color: #3b82f6;
+  box-shadow: none;
+}
+
+
+.currency-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  min-width: 80px;
+}
+
+.currency-toggle-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.currency-flag {
+  width: 20px;
+  height: 15px;
+  object-fit: contain;
+  border-radius: 2px;
+}
+
+.crypto-flag {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.currency-toggle-symbol {
+  font-weight: 500;
+  white-space: nowrap;
 }
