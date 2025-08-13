@@ -68,10 +68,7 @@ export const db = {
     }
     try {
       const interviewsRef = collection(firestore, 'interviews')
-      // console.log(
-      //   'Загружаем интервью. Текущий пользователь:',
-      //   auth?.currentUser?.uid
-      // )
+
       const q = query(interviewsRef, orderBy('timestamp', 'desc'))
       const querySnapshot = await getDocs(q)
       const interviews = []
@@ -87,6 +84,16 @@ export const db = {
   },
 
   async saveInterview(interviewData) {
+    const VALID_CURRENCIES = new Set(['₽', '$', '€', '₿', 'Ξ', 'USDT', 'TON'])
+
+    if (
+      interviewData.salaryCurrency &&
+      !VALID_CURRENCIES.has(interviewData.salaryCurrency)
+    ) {
+      console.warn('Недопустимая валюта:', interviewData.salaryCurrency)
+      interviewData.salaryCurrency = '₽' // Установка значения по умолчанию
+    }
+
     try {
       // Валидация обязательных полей
       if (
@@ -108,7 +115,9 @@ export const db = {
       const company = cleanField(interviewData.company) || 'Без_компании'
       const position = cleanField(interviewData.position) || 'Без_должности'
       const salary = cleanField(interviewData.salary) || '0'
-      const filenameBase = `${company}_${position}_${salary}`
+      const filenameBase = `${company}_${position}_${salary}_${
+        interviewData.salaryCurrency || '₽'
+      }`
 
       // Форматируем данные пользователя (GitHub или пустой объект)
       const userData = GitHubUserFormatter.format(auth?.currentUser || null)
@@ -119,6 +128,7 @@ export const db = {
         company: interviewData.company || '',
         position: interviewData.position || '',
         salary: interviewData.salary || '',
+        salaryCurrency: interviewData.salaryCurrency || '₽',
         answers: interviewData.answers || {},
         companyUrl: interviewData.companyUrl || null,
         vacancyUrl: interviewData.vacancyUrl || null,
@@ -181,7 +191,9 @@ export const db = {
       const position = cleanField(data.position) || 'Без_должности'
       const salary = cleanField(data.salary) || '0'
 
-      const filename = `${company}_${position}_${salary}.json`
+      const filename = `${company}_${position}_${salary}_${
+        interviewData.salaryCurrency || '₽'
+      }.json`
 
       const link = document.createElement('a')
       link.href = URL.createObjectURL(blob)

@@ -14,11 +14,21 @@ export async function initializeApp() {
   try {
     const { auth } = await db.init()
     const authService = new AuthService(auth)
+    const notificationService = new NotificationService()
+
+    // 1. Создаем FormValidator ПЕРВЫМ
+    const formValidator = new FormValidator()
+    // formValidator.init('#interview-form')
+    formValidator.init()
+    // 2. Создаем InterviewManager и связываем с FormValidator
     const manager = new InterviewManager()
+    manager.setFormValidator(formValidator) // ← Связываем ПЕРЕД инициализацией
+
+    // 3. Инициализируем manager (теперь у него есть FormValidator)
     await manager.init()
     manager.loadFromURL()
 
-    const notificationService = new NotificationService()
+    // 4. Остальная инициализация
     const authUI = new AuthUI(
       authService,
       notificationService,
@@ -26,11 +36,7 @@ export async function initializeApp() {
       isGitHubPages
     )
 
-    const formValidator = new FormValidator()
-    formValidator.init('#interview-form')
-
     questionStats.addCounterToHeader()
-
     authUI.setupEventListeners()
 
     authService.setOnAuthStateChangedCallback((user) => {
@@ -67,6 +73,7 @@ export async function initializeInterviewsPage() {
       null,
       isGitHubPages
     )
+
     authUI.setupEventListeners()
 
     authService.setOnAuthStateChangedCallback((user) => {
@@ -98,7 +105,6 @@ export async function initializeInterviewsPage() {
     })
 
     await viewer.init()
-
     notificationService.show('Страница интервью загружена', 'success', 2000)
   } catch (error) {
     console.error('Ошибка инициализации страницы интервью:', error)
@@ -109,7 +115,6 @@ export async function initializeInterviewsPage() {
 
 export async function initializeCurrentPage() {
   const currentPage = window.location.pathname
-
   if (currentPage.includes('interviews.html')) {
     await initializeInterviewsPage()
   } else {

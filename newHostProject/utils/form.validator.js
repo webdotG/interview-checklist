@@ -1,7 +1,12 @@
+import { CurrencyValidator } from './form.currency.validator.js'
+
 export class FormValidator {
   constructor() {
     // Обязательные поля помечены *
     this.requiredFields = new Set(['company', 'position', 'salary'])
+
+    // Инициализация валидатора валют
+    this.currencyValidator = new CurrencyValidator()
 
     this.validators = {
       company: {
@@ -16,21 +21,26 @@ export class FormValidator {
       },
       salary: {
         pattern: /^[0-9\s]{3,}$/,
-        errorMessage: 'Зарплата должна содержать только цифры (минимум 3)',
-        sanitize: (value) => this.sanitizeNumber(value),
+        errorMessage: 'Введите сумму',
+        sanitize: (value) => this.sanitizeSalary(value),
       },
       'company-url': {
-        pattern: /^(|https?:\/\/[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}[^\s]*|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}[^\s]*)$/i,
-        errorMessage: 'Введите корректный URL (например: ya.ru или https://example.com)',
+        pattern:
+          /^(|https?:\/\/[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}[^\s]*|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}[^\s]*)$/i,
+        errorMessage:
+          'Введите корректный URL (например: ya.ru или https://test.com)',
         sanitize: (value) => this.sanitizeUrl(value),
       },
       'vacancy-url': {
-        pattern: /^(|https?:\/\/[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}[^\s]*|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}[^\s]*)$/i,
-        errorMessage: 'Введите корректный URL (например: ya.ru или https://example.com)',
+        pattern:
+          /^(|https?:\/\/[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}[^\s]*|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}[^\s]*)$/i,
+        errorMessage:
+          'Введите корректный URL (например: ya.ru или https://test.com)',
         sanitize: (value) => this.sanitizeUrl(value),
       },
       interviewer: {
-        pattern: /^([a-zA-Zа-яА-ЯёЁ0-9\s\-.,()"']{1,100}|(https?:\/\/|www\.)[^\s]+)$/u,
+        pattern:
+          /^([a-zA-Zа-яА-ЯёЁ0-9\s\-.,()"']{1,100}|(https?:\/\/|www\.)[^\s]+)$/u,
         errorMessage: 'Максимум 100 символов для имени или корректный URL',
         sanitize: (value) => this.sanitizeInterviewer(value),
       },
@@ -39,31 +49,53 @@ export class FormValidator {
     this.activeFields = new Set()
   }
 
+  setCurrency(currencyCode) {
+    this.currencyValidator.setCurrency(currencyCode)
+  }
+
+  /**
+   * Метод для санитизации зарплаты
+   */
+  sanitizeSalary(value) {
+    if (!value || typeof value !== 'string') return ''
+
+    // Оставляем только цифры и пробелы
+    const cleanAmount = value
+      .replace(/[^0-9\s]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .substring(0, 20)
+
+    return cleanAmount
+  }
+
   /**
    * Универсальная санитизация текста - защита от XSS и инъекций
    */
   sanitizeText(value) {
     if (!value || typeof value !== 'string') return ''
-    
-    return value
-      // Удаляем все HTML теги
-      .replace(/<[^>]*>/g, '')
-      // Удаляем JavaScript события
-      .replace(/on\w+\s*=\s*['""][^'"]*['"]/gi, '')
-      // Удаляем javascript: протокол
-      .replace(/javascript\s*:/gi, '')
-      // Удаляем data: протокол
-      .replace(/data\s*:/gi, '')
-      // Удаляем vbscript: протокол  
-      .replace(/vbscript\s*:/gi, '')
-      // Удаляем потенциально опасные символы
-      .replace(/[<>'"&\x00-\x1f\x7f-\x9f]/g, '')
-      // Удаляем множественные пробелы
-      .replace(/\s+/g, ' ')
-      // Обрезаем пробелы по краям
-      .trim()
-      // Ограничиваем максимальную длину
-      .substring(0, 500)
+
+    return (
+      value
+        // Удаляем все HTML теги
+        .replace(/<[^>]*>/g, '')
+        // Удаляем JavaScript события
+        .replace(/on\w+\s*=\s*["'][^"']*["']/gi, '')
+        // Удаляем javascript: протокол
+        .replace(/javascript\s*:/gi, '')
+        // Удаляем data: протокол
+        .replace(/data\s*:/gi, '')
+        // Удаляем vbscript: протокол
+        .replace(/vbscript\s*:/gi, '')
+        // Удаляем потенциально опасные символы (но оставляем допустимые спецсимволы)
+        .replace(/[<>'"&\x00-\x1f\x7f-\x9f]/g, '')
+        // Удаляем множественные пробелы
+        .replace(/\s+/g, ' ')
+        // Обрезаем пробелы по краям
+        .trim()
+        // Ограничиваем максимальную длину
+        .substring(0, 500)
+    )
   }
 
   /**
@@ -71,15 +103,17 @@ export class FormValidator {
    */
   sanitizeNumber(value) {
     if (!value || typeof value !== 'string') return ''
-    
-    return value
-      // Оставляем только цифры и пробелы
-      .replace(/[^0-9\s]/g, '')
-      // Удаляем множественные пробелы
-      .replace(/\s+/g, ' ')
-      .trim()
-      // Ограничиваем длину
-      .substring(0, 20)
+
+    return (
+      value
+        // Оставляем только цифры и пробелы
+        .replace(/[^0-9\s]/g, '')
+        // Удаляем множественные пробелы
+        .replace(/\s+/g, ' ')
+        .trim()
+        // Ограничиваем длину
+        .substring(0, 20)
+    )
   }
 
   /**
@@ -87,7 +121,7 @@ export class FormValidator {
    */
   sanitizeUrl(value) {
     if (!value || typeof value !== 'string') return ''
-    
+
     // Базовая очистка
     let cleanValue = value
       .replace(/[<>'"&\x00-\x1f\x7f-\x9f]/g, '')
@@ -105,7 +139,7 @@ export class FormValidator {
     // Если это простой домен (например ya.ru, google.com)
     if (cleanValue.match(/^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}[^\s]*$/)) {
       // Проверяем что это реальный домен
-      if (this.isValidDomain(cleanValue)) {
+      if (this.isValidDomain(cleanValue.split('/')[0])) {
         return `https://${cleanValue}`
       }
     }
@@ -123,33 +157,39 @@ export class FormValidator {
     return cleanValue
   }
 
-    /**
+  /**
    * Специальная санитизация для поля интервьюера
    */
   sanitizeInterviewer(value) {
     if (!value) return ''
-    
+
     // Если это похоже на URL
     if (value.match(/^(https?:\/\/|www\.)/i)) {
       return this.sanitizeUrl(value)
     }
-    
+
     // Обычный текст
-    return this.sanitizeText(value)
+    return this.sanitizeText(value).substring(0, 100) // Ограничиваем 100 символами
   }
 
-  
   /**
    * Проверка валидности домена
    */
   isValidDomain(domain) {
+    if (!domain || typeof domain !== 'string') return false
+
     // Убираем путь после домена для проверки
     const domainOnly = domain.split('/')[0]
-    
+
     // Базовые правила для домена
-    return /^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/.test(domainOnly)
+    return /^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/.test(
+      domainOnly
+    )
   }
 
+  /**
+   * Инициализация валидатора
+   */
   init(formSelector = '#interview-form') {
     const form = document.querySelector(formSelector)
     if (!form) {
@@ -161,12 +201,16 @@ export class FormValidator {
       this.setupFieldValidation(field)
     })
 
+    // Инициализация валютного селектора
+    this.currencyValidator.initCurrencySelector()
+
     // Защита от автозаполнения потенциально опасных данных
     form.addEventListener('paste', (e) => {
       setTimeout(() => {
-        form.querySelectorAll('input').forEach(field => {
-          if (this.validators[field.id]) {
-            const sanitized = this.validators[field.id].sanitize(field.value)
+        form.querySelectorAll('input').forEach((field) => {
+          const validator = this.validators[field.id]
+          if (validator) {
+            const sanitized = validator.sanitize(field.value)
             if (field.value !== sanitized) {
               field.value = sanitized
               this.validateField(field)
@@ -177,6 +221,9 @@ export class FormValidator {
     })
   }
 
+  /**
+   * Настройка валидации для конкретного поля
+   */
   setupFieldValidation(field) {
     const fieldName = field.id
     const validator = this.validators[fieldName]
@@ -188,33 +235,31 @@ export class FormValidator {
     field.setAttribute('autocomplete', 'off')
     field.setAttribute('spellcheck', 'false')
 
+    // События для показа/скрытия подсказок
     field.addEventListener('focus', () => this.showHint(field))
     field.addEventListener('blur', () => this.hideHint(field))
-    field.addEventListener('input', (e) => {
-      // Санитизация в реальном времени
+
+    // Обработка ввода с санитизацией в реальном времени
+    field.addEventListener('input', () => {
       const originalValue = field.value
       const sanitizedValue = validator.sanitize(originalValue)
-      
+
       if (originalValue !== sanitizedValue) {
+        // Сохраняем позицию курсора
+        const cursorPos = field.selectionStart
         field.value = sanitizedValue
         // Восстанавливаем позицию курсора
-        const cursorPos = Math.min(field.selectionStart, sanitizedValue.length)
-        field.setSelectionRange(cursorPos, cursorPos)
+        const newPos = Math.min(cursorPos, sanitizedValue.length)
+        field.setSelectionRange(newPos, newPos)
       }
-      
-      this.validateField(field)
-    })
 
-    // Дополнительная защита от специальных клавиш
-    field.addEventListener('keydown', (e) => {
-      // Блокируем потенциально опасные комбинации
-      if (e.ctrlKey && (e.key === 'v' || e.key === 'V')) {
-        // Позволяем вставку, но потом очистим через санитизацию
-        return
-      }
+      this.validateField(field)
     })
   }
 
+  /**
+   * Создание контейнера для подсказки
+   */
   createHintContainer(field, validator) {
     if (field.parentElement.querySelector('.validation-hint')) return
 
@@ -227,6 +272,9 @@ export class FormValidator {
     field.insertAdjacentElement('afterend', hint)
   }
 
+  /**
+   * Показать подсказку
+   */
   showHint(field) {
     const hint = field.parentElement.querySelector('.validation-hint')
     if (hint) {
@@ -235,6 +283,9 @@ export class FormValidator {
     }
   }
 
+  /**
+   * Скрыть подсказку
+   */
   hideHint(field) {
     setTimeout(() => {
       const hint = field.parentElement.querySelector('.validation-hint')
@@ -245,6 +296,9 @@ export class FormValidator {
     }, 200)
   }
 
+  /**
+   * Валидация конкретного поля
+   */
   validateField(field) {
     const fieldName = field.id
     const validator = this.validators[fieldName]
@@ -293,8 +347,8 @@ export class FormValidator {
    * Проверка на потенциально опасное содержимое
    */
   containsDangerousContent(value) {
-    if (!value) return false
-    
+    if (!value || typeof value !== 'string') return false
+
     const dangerousPatterns = [
       /<script[^>]*>/i,
       /javascript\s*:/i,
@@ -311,16 +365,24 @@ export class FormValidator {
       /eval\s*\(/i,
       /setTimeout\s*\(/i,
       /setInterval\s*\(/i,
+      /<svg[^>]*>/i,
+      /expression\s*\(/i,
     ]
 
-    return dangerousPatterns.some(pattern => pattern.test(value))
+    return dangerousPatterns.some((pattern) => pattern.test(value))
   }
 
+  /**
+   * Установка состояния поля
+   */
   setFieldState(field, state, message = '') {
     const hint = field.parentElement.querySelector('.validation-hint')
 
+    // Очищаем предыдущие состояния
     field.classList.remove('valid', 'invalid')
-    if (hint) hint.classList.remove('error', 'success')
+    if (hint) {
+      hint.classList.remove('error', 'success')
+    }
 
     switch (state) {
       case 'valid':
@@ -341,17 +403,24 @@ export class FormValidator {
 
       case 'normal':
         if (hint && this.activeFields.has(field.id)) {
+          const validator = this.validators[field.id]
           hint.textContent = this.requiredFields.has(field.id)
-            ? `${this.validators[field.id].errorMessage} (обязательное поле)`
-            : this.validators[field.id].errorMessage
+            ? `${validator.errorMessage} (обязательное поле)`
+            : validator.errorMessage
         }
         break
     }
   }
 
+  /**
+   * Валидация всей формы
+   */
   validateForm(formSelector = '#interview-form') {
     const form = document.querySelector(formSelector)
-    if (!form) return false
+    if (!form) {
+      console.error('Форма не найдена:', formSelector)
+      return false
+    }
 
     let isFormValid = true
     form.querySelectorAll('input').forEach((field) => {
@@ -363,12 +432,19 @@ export class FormValidator {
     return isFormValid
   }
 
+  /**
+   * Получение данных формы
+   */
   getFormData(formSelector = '#interview-form') {
     if (!this.validateForm(formSelector)) {
       return { valid: false, data: null }
     }
 
     const form = document.querySelector(formSelector)
+    if (!form) {
+      return { valid: false, data: null }
+    }
+
     const data = {}
 
     form.querySelectorAll('input').forEach((field) => {
@@ -379,12 +455,17 @@ export class FormValidator {
 
       // Дополнительная санитизация перед сохранением
       fieldValue = this.finalSanitize(fieldValue)
-      
-      data[field.id] = fieldValue
 
       // Пустые необязательные поля -> null
       if (!this.requiredFields.has(field.id) && fieldValue === '') {
         data[field.id] = null
+      } else {
+        data[field.id] = fieldValue
+      }
+
+      // Добавляем валюту для поля зарплаты
+      if (field.id === 'salary' && fieldValue) {
+        data['salary-currency'] = this.currencyValidator.currentCurrency.code
       }
     })
 
@@ -396,16 +477,22 @@ export class FormValidator {
    */
   finalSanitize(value) {
     if (!value || typeof value !== 'string') return ''
-    
+
     // Последняя проверка на опасное содержимое
     if (this.containsDangerousContent(value)) {
-      console.warn('Обнаружено и удалено потенциально опасное содержимое:', value)
+      console.warn(
+        'Обнаружено и удалено потенциально опасное содержимое:',
+        value
+      )
       return ''
     }
-    
+
     return value
   }
 
+  /**
+   * Очистка формы
+   */
   clearForm(formSelector = '#interview-form') {
     const form = document.querySelector(formSelector)
     if (!form) return
@@ -414,12 +501,21 @@ export class FormValidator {
       field.value = ''
       this.setFieldState(field, 'normal')
     })
+
+    // Очищаем активные поля
+    this.activeFields.clear()
   }
 
+  /**
+   * Уничтожение валидатора
+   */
   destroy() {
     this.activeFields.clear()
     document
       .querySelectorAll('.validation-hint')
       .forEach((hint) => hint.remove())
+
+    // Уничтожаем валидатор валют
+    this.currencyValidator = null
   }
 }

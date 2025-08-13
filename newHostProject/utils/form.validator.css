@@ -1,0 +1,279 @@
+:root {
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --secondary-gradient: linear-gradient(135deg, #8bd7d5 0%, #91ebf5 100%);
+  --accent-color: #667eea;
+  --text-primary: #2d3748;
+  --text-secondary: #4a5568;
+  --bg-light: #f8fafc;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+  --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ------------------------------------------------------ Базовые стили */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background: var(--secondary-gradient);
+  min-height: 100vh;
+  padding: 20px;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* ------------------------------------------------------ Главный контейнер */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  transform: translateY(0);
+  transition: var(--transition);
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ------------------------------------------------------ Шапка */
+.interviews-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  background: var(--bg-light);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.interviews-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--primary-gradient);
+}
+
+.interviews-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  position: relative;
+  padding-left: 1rem;
+}
+
+.interviews-header h1::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 1rem;
+  width: 50px;
+  height: 3px;
+  background: var(--accent-color);
+  border-radius: 3px;
+}
+
+/* ------------------------------------------------------ Кнопки */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem 1.8rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  border: none;
+  outline: none;
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.2);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.btn:hover::after {
+  transform: translateX(0);
+}
+
+.btn--primary {
+  background: var(--primary-gradient);
+  color: white;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn--primary:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.btn--secondary {
+  background: white;
+  color: var(--accent-color);
+  border: 1px solid var(--accent-color);
+}
+
+.btn--secondary:hover {
+  background: rgba(102, 126, 234, 0.1);
+}
+
+/* ------------------------------------------------------ Сетка интервью */
+.interviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.interview-card {
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: var(--transition);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.interview-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.interview-header {
+  padding: 1.5rem;
+  background: var(--bg-light);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.interview-company {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  color: var(--text-primary);
+}
+
+.interview-position {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.interview-meta {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background: white;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.interview-salary {
+  font-weight: 600;
+  color: var(--accent-color);
+}
+
+.interview-date {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.interview-content {
+  padding: 1.5rem;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* ------------------------------------------------------ Анимации */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+/* ------------------------------------------------------ Адаптивность */
+@media (max-width: 1024px) {
+  .container {
+    border-radius: 0;
+  }
+  
+  .interviews-header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+    padding: 1.5rem;
+  }
+  
+  .interviews-header h1::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 0;
+    background: white;
+  }
+  
+  .interviews-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+  
+  .interview-card:hover {
+    transform: none;
+    box-shadow: var(--shadow-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .interviews-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .btn {
+    padding: 0.7rem 1.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .interview-content {
+    padding: 1rem;
+  }
+}

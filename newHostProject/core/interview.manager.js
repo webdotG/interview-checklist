@@ -3,23 +3,42 @@ import { QuestionsRenderer } from '../ui/questions.renderer.js'
 
 export class InterviewManager {
   constructor() {
-    // Создаем экземпляры новых классов
+    this.DEFAULT_CURRENCY = 'RUB' // Установите код валюты по умолчанию
+    this.VALID_CURRENCIES = new Set([
+      'RUB',
+      'USD',
+      'EUR',
+      'GBP',
+      'JPY',
+      'CNY',
+      'BTC',
+      'ETH',
+      'USDT',
+      'TON',
+    ])
+
     this.questionsRenderer = new QuestionsRenderer()
     this.questionsUtils = this.questionsRenderer.getQuestionsUtils()
+    this.formValidator = null
     this.initElements()
     this.listenersSetup = false
   }
 
+  setFormValidator(formValidator) {
+    this.formValidator = formValidator
+    // Устанавливаем дефолтную валюту при связывании
+    if (this.formValidator && this.formValidator.currencyValidator) {
+      this.formValidator.currencyValidator.setCurrency(this.DEFAULT_CURRENCY)
+    }
+  }
+
   initElements() {
-    // Основные поля формы
     this.companyInput = document.getElementById('company')
     this.positionInput = document.getElementById('position')
     this.salaryInput = document.getElementById('salary')
     this.companyUrlInput = document.getElementById('company-url')
     this.vacancyUrlInput = document.getElementById('vacancy-url')
     this.interviewerInput = document.getElementById('interviewer')
-
-    // Элементы UI
     this.submitBtn = document.getElementById('submit-btn')
     this.successMessage = document.getElementById('success-message')
     this.errorMessage = document.getElementById('error-message')
@@ -28,22 +47,19 @@ export class InterviewManager {
 
   async init() {
     try {
-      console.log('🔍 Проверка уникальности ID вопросов...')
-      // Используем метод класса вместо глобальной функции
       this.questionsUtils.checkIdUniqueness()
-      // Используем метод класса вместо функции
-      await this.questionsRenderer.renderQuestions() // Сначала создаем элементы
-      await this.setupEventListeners() // Потом устанавливаем слушатели
-      this.loadFromURL() // Затем загружаем данные
+      await this.questionsRenderer.renderQuestions()
+      await this.setupEventListeners()
+      this.loadFromURL()
     } catch (error) {
       console.error('Ошибка инициализации InterviewManager:', error)
+      this.showError('Ошибка инициализации формы')
     }
   }
 
   loadFromURL() {
     try {
       const params = new URLSearchParams(window.location.search)
-      console.log('📥 Загружаем данные из URL:', params.toString())
 
       // Загрузка основных полей
       this.companyInput.value = params.get('company') || ''
@@ -53,7 +69,17 @@ export class InterviewManager {
       this.vacancyUrlInput.value = params.get('vacancy-url') || ''
       this.interviewerInput.value = params.get('interviewer') || ''
 
-      // Используем метод класса вместо глобальной функции
+      // Загрузка и валидация валюты
+      const currency = params.get('salary-currency')
+      if (
+        currency &&
+        this.VALID_CURRENCIES.has(currency) &&
+        this.formValidator
+      ) {
+        this.formValidator.currencyValidator.setCurrency(currency)
+      }
+
+      // Загрузка вопросов
       this.questionsUtils.forEachQuestion(
         (sectionTitle, subsectionTitle, question, questionId) => {
           const checked = params.get(`check-${questionId}`) === 'true'
@@ -77,7 +103,7 @@ export class InterviewManager {
     try {
       const params = new URLSearchParams()
 
-      // Сохранение основных полей
+      // Основные поля
       params.set('company', this.companyInput.value)
       params.set('position', this.positionInput.value)
       params.set('salary', this.salaryInput.value)
@@ -85,7 +111,15 @@ export class InterviewManager {
       params.set('vacancy-url', this.vacancyUrlInput.value)
       params.set('interviewer', this.interviewerInput.value)
 
-      // Используем метод класса вместо глобальной функции
+      // Сохранение валюты
+      if (this.formValidator?.currencyValidator?.currentCurrency?.code) {
+        params.set(
+          'salary-currency',
+          this.formValidator.currencyValidator.currentCurrency.code
+        )
+      }
+
+      // Сохранение вопросов
       this.questionsUtils.forEachQuestion(
         (sectionTitle, subsectionTitle, question, questionId) => {
           const checkbox = document.getElementById(`check-${questionId}`)
@@ -108,7 +142,7 @@ export class InterviewManager {
     try {
       window.history.replaceState({}, '', window.location.pathname)
 
-      // Очистка основных полей
+      // Очистка полей
       this.companyInput.value = ''
       this.positionInput.value = ''
       this.salaryInput.value = ''
@@ -116,7 +150,12 @@ export class InterviewManager {
       this.vacancyUrlInput.value = ''
       this.interviewerInput.value = ''
 
-      // Используем метод класса вместо глобальной функции
+      // Сброс валюты
+      if (this.formValidator?.currencyValidator) {
+        this.formValidator.currencyValidator.setCurrency(this.DEFAULT_CURRENCY)
+      }
+
+      // Очистка вопросов
       this.questionsUtils.forEachQuestion(
         (sectionTitle, subsectionTitle, question, questionId) => {
           const checkbox = document.getElementById(`check-${questionId}`)
@@ -134,85 +173,79 @@ export class InterviewManager {
   }
 
   async setupEventListeners() {
-    try {
-      // Проверяем, не установлены ли уже слушатели
-      if (this.listenersSetup) {
-        return
-      }
-      // Слушатели изменений для сохранения в URL
-      const fieldsToWatch = [
-        this.companyInput,
-        this.positionInput,
-        this.salaryInput,
-        this.companyUrlInput,
-        this.vacancyUrlInput,
-        this.interviewerInput,
-      ]
+    if (this.listenersSetup) return
 
-      fieldsToWatch.forEach((field) => {
-        if (field) {
-          field.addEventListener('input', () => this.saveToURL())
-        } else {
-          console.warn('Отсутствует поле для отслеживания изменений:', field)
+    // Слушатели полей формы
+    const fieldsToWatch = [
+      this.companyInput,
+      this.positionInput,
+      this.salaryInput,
+      this.companyUrlInput,
+      this.vacancyUrlInput,
+      this.interviewerInput,
+    ]
+
+    fieldsToWatch.forEach((field) => {
+      if (field) {
+        field.addEventListener('input', () => this.saveToURL())
+      }
+    })
+
+    // Слушатели вопросов
+    this.questionsUtils.forEachQuestion(
+      (sectionTitle, subsectionTitle, question, questionId) => {
+        const checkbox = document.getElementById(`check-${questionId}`)
+        const input = document.getElementById(`input-${questionId}`)
+
+        if (checkbox && input) {
+          checkbox.addEventListener('change', () => this.saveToURL())
+          input.addEventListener('input', () => this.saveToURL())
         }
+      }
+    )
+
+    // Обработчик отправки
+    if (this.submitBtn) {
+      this.submitBtn.addEventListener('click', async (e) => {
+        e.preventDefault()
+        await this.saveToDatabase()
       })
-
-      // Используем метод класса вместо глобальной функции
-      this.questionsUtils.forEachQuestion(
-        (sectionTitle, subsectionTitle, question, questionId) => {
-          const checkbox = document.getElementById(`check-${questionId}`)
-          const input = document.getElementById(`input-${questionId}`)
-
-          if (checkbox && input) {
-            checkbox.addEventListener('change', () => this.saveToURL())
-            input.addEventListener('input', () => this.saveToURL())
-          } else {
-            console.warn(`Не найдены элементы для вопроса ${questionId}`)
-          }
-        }
-      )
-
-      // Обработчик отправки формы
-      if (this.submitBtn) {
-        this.submitBtn.addEventListener('click', async (e) => {
-          e.preventDefault()
-          await this.saveToDatabase()
-        })
-      } else {
-        console.warn('Кнопка отправки не найдена')
-      }
-
-      // Помечаем, что слушатели установлены
-      this.listenersSetup = true
-    } catch (error) {
-      console.error('Ошибка установки слушателей:', error)
     }
+
+    this.listenersSetup = true
   }
 
   async saveToDatabase() {
+    if (!this.formValidator) {
+      this.showError('Системная ошибка валидации')
+      return
+    }
+
+    const formData = this.formValidator.getFormData()
+    if (!formData.valid) {
+      this.showError('Пожалуйста, заполните все обязательные поля правильно')
+      return
+    }
+
     try {
-      // Валидация обязательных полей перед сохранением
-      if (
-        !this.companyInput.value.trim() ||
-        !this.positionInput.value.trim() ||
-        !this.salaryInput.value.trim()
-      ) {
-        this.showError('Заполните все обязательные поля')
-        return
-      }
-
       const interviewData = {
-        company: this.companyInput.value.trim(),
-        position: this.positionInput.value.trim(),
-        salary: this.salaryInput.value.trim(),
-        companyUrl: this.companyUrlInput.value.trim() || null,
-        vacancyUrl: this.vacancyUrlInput.value.trim() || null,
-        interviewer: this.interviewerInput.value.trim() || null,
+        company: formData.data.company,
+        position: formData.data.position,
+        salary: formData.data.salary,
+        salaryCurrency:
+          this.formValidator.currencyValidator?.currentCurrency?.code ||
+          this.DEFAULT_CURRENCY,
+        companyUrl: formData.data['company-url'] || null,
+        vacancyUrl: formData.data['vacancy-url'] || null,
+        interviewer: formData.data.interviewer || null,
         answers: this.prepareAnswers(),
-        // не передаем timestamp, его ставит сервер
+        createdAt: new Date().toISOString(),
       }
 
-      console.log('Попытка сохранения интервью:', interviewData)
+      console.log('Сохранение интервью:', {
+        ...interviewData,
+        salary: `${interviewData.salary} ${interviewData.salaryCurrency}`,
+      })
 
       const success = await db.saveInterview(interviewData)
 
@@ -220,17 +253,16 @@ export class InterviewManager {
         this.showSuccessMessage()
         this.clearData()
       } else {
-        this.showError('Не удалось сохранить интервью')
+        this.showError('Не удалось сохранить данные')
       }
     } catch (error) {
-      console.error('Ошибка при сохранении в БД:', error)
-      this.showError(error.message || 'Ошибка при сохранении')
+      console.error('Ошибка сохранения:', error)
+      this.showError(error.message || 'Ошибка при сохранении в базу данных')
     }
   }
 
   prepareAnswers() {
     const answers = {}
-    // Используем метод класса вместо глобальной функции
     this.questionsUtils.forEachQuestion(
       (sectionTitle, subsectionTitle, question, questionId) => {
         const checkbox = document.getElementById(`check-${questionId}`)
@@ -246,10 +278,6 @@ export class InterviewManager {
             checked: checkbox.checked,
             note: input.value.trim() || null,
           }
-        } else {
-          console.warn(
-            `Элементы вопроса не найдены при подготовке ответов: ${questionId}`
-          )
         }
       }
     )
@@ -268,11 +296,9 @@ export class InterviewManager {
 
   showError(message) {
     if (!this.errorMessage) return
-
     this.errorMessage.textContent = message
     this.errorMessage.classList.remove('hidden')
     this.successMessage?.classList.add('hidden')
-
     setTimeout(() => {
       this.errorMessage.classList.add('hidden')
     }, 5000)

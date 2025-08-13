@@ -55,11 +55,13 @@
     <title>чеклист собеса</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="./ui/auth.ui.css" />
+    <link rel="stylesheet" href="./utils/form.validator.css" />
+    <link rel="stylesheet" href="./utils/form.currency.validator.css" />
   </head>
   <body>
     <main class="container">
       <div class="header-nav">
-        <h1>Идут тех работы программа  не стабильна </h1>
+        <h1>Идут тех работы не всегда стабильно </h1>
         <h1>Чек-лист собеседования</h1>
 
         <div id="auth-container">
@@ -86,22 +88,30 @@
           <input type="text" id="position" placeholder="Позиция" />
         </div>
 
-        <div class="input-group">
-          <label for="salary">Зарплата:*</label>
-          <input
-            type="text"
-            id="salary"
-            name="salary"
-            placeholder="Ожидаемая зарплата"
-            aria-describedby="salary-hint"
-            inputmode="numeric"
-            style="
-              -webkit-appearance: none;
-              -moz-appearance: textfield;
-              margin: 0;
-            "
-          />
-        </div>
+<div class="input-group">
+  <label for="salary">Оклад:*</label>
+  <div class="salary-input-container">
+    <input
+      type="text"
+      id="salary"
+      name="salary"
+      placeholder="Например: 100 000"
+      aria-describedby="salary-hint"
+      inputmode="numeric"
+      style="
+        -webkit-appearance: none;
+        -moz-appearance: textfield;
+        margin: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      "
+    />
+    <div class="currency-selector">
+      <button type="button" class="currency-toggle">₽</button>
+      <div class="currency-dropdown"></div>
+    </div>
+  </div>
+</div>
         
   <div class="input-group">
     <label for="company-url">Ссылка на компанию:</label>
