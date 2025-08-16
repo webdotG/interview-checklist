@@ -1,50 +1,89 @@
+@import "../variables.css";
+
+/* ---------------------------Общие стили для ввода зарплаты */
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.input-group input,
+.input-group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--input-border-color);
+  border-radius: var(--radius-sm);
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s ease;
+  background: var(--card-bg);
+  color: var(--text-primary);
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+  border-color: var(--focus-border-color);
+  box-shadow: var(--focus-shadow);
+}
+/* ------------------------------------------------------ Поле ввода зарплаты */
+
 .salary-input-container {
   display: flex;
   align-items: stretch;
   width: 100%;
   position: relative;
+  
 }
-.validation-hint {
+.currency-selector{
   position: absolute;
-  bottom: -35px;
+  right: 0;
 }
 
-/* Поле ввода зарплаты */
+/* Фокус на всем контейнере при фокусе на input или toggle */
+.salary-input-container:focus-within {
+  border-color: var(--focus-border-color);
+  box-shadow: var(--focus-shadow);
+  border-radius: var(--radius-sm);
+}
+
+/* Основной input в контейнере */
 .salary-input-container input {
   flex: 1;
   height: 100%;
-  padding: 0 16px;
-  border: 1px solid #e2e8f0;
+  padding: 12px;
+  border: 1px solid var(--input-border-color);
   border-right: none;
-  border-radius: 8px 0 0 8px;
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
   font-size: 16px;
   outline: none;
   transition: border-color 0.3s ease;
+  color: var(--text-primary);
+  background: var(--card-bg);
 }
 
-.salary-input-container input:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+/* Сброс стилей фокуса, так как их берет родительский контейнер */
+.salary-input-container input:focus,
+.currency-toggle:focus {
+  border-color: var(--input-border-color);
+  box-shadow: none;
 }
 
-/* Валютный селектор */
-.currency-selector {
-  position: relative;
-  display: flex;
-  height: 100%;
-  flex-shrink: 0;
-}
-
+/* Валютный селектор-кнопка */
 .currency-toggle {
   height: 100%;
-  padding: 0 12px;
-  background: #f8f9fa;
-  border: 1px solid #e2e8f0;
+  padding: 12px;
+  background: var(--card-bg);
+  border: 1px solid var(--input-border-color);
   border-left: none;
-  border-radius: 0 8px 8px 0;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   cursor: pointer;
   font-size: 16px;
-  color: #2d3748;
+  color: var(--text-primary);
   transition: all 0.3s ease;
   min-width: 60px;
   display: flex;
@@ -55,44 +94,18 @@
 }
 
 .currency-toggle:hover {
-  background: #edf2f7;
+  background: var(--bg-light);
 }
 
-.currency-toggle:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
-.currency-toggle-flag {
-  width: 20px;
-  height: 15px;
-  object-fit: cover;
-  border-radius: 2px;
-  flex-shrink: 0;
-}
-
-.currency-toggle-placeholder {
-  width: 20px;
-  height: 15px;
-  background: #e2e8f0;
-  border-radius: 2px;
-  flex-shrink: 0;
-}
-
-.currency-toggle-symbol {
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-/* -------------------------------------- Dropdown */
+/* --------------------------------------------------- Dropdown */
 .currency-dropdown {
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
-  background: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  background: var(--card-bg);
+  border: 1px solid var(--input-border-color);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg);
   z-index: 1000;
   width: 280px;
   max-height: 400px;
@@ -105,10 +118,9 @@
   display: block;
 }
 
-/* Группы валют */
 .currency-group {
   padding: 4px 0;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: var(--dropdown-border);
 }
 
 .currency-group:last-child {
@@ -118,11 +130,11 @@
 .currency-group-title {
   padding: 8px 16px;
   font-size: 12px;
-  color: #64748b;
+  color: var(--muted-text-color);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  background-color: #f8fafc;
+  background-color: var(--bg-light);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -131,7 +143,7 @@
 }
 
 .currency-group-title:hover {
-  background-color: #f1f5f9;
+  background-color: var(--dropdown-hover-bg);
 }
 
 .dropdown-arrow {
@@ -143,7 +155,6 @@
   transform: rotate(180deg);
 }
 
-/* --------------------------------------------------- опции валют */
 .currency-option {
   display: flex;
   align-items: center;
@@ -154,7 +165,7 @@
 }
 
 .currency-option:hover {
-  background: #f1f5f9;
+  background: var(--dropdown-hover-bg);
 }
 
 .currency-flag {
@@ -176,7 +187,7 @@
 .currency-flag-placeholder {
   width: 24px;
   height: 16px;
-  background: #e2e8f0;
+  background: var(--placeholder-bg);
   border-radius: 2px;
   flex-shrink: 0;
 }
@@ -185,25 +196,25 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: #f1f5f9;
+  background: var(--dropdown-hover-bg);
 }
 
 .currency-code {
   font-weight: 500;
-  color: #2d3748;
+  color: var(--text-primary);
   min-width: 40px;
   flex-shrink: 0;
 }
 
 .currency-symbol {
-  color: #64748b;
+  color: var(--muted-text-color);
   font-size: 0.9em;
   min-width: 30px;
   flex-shrink: 0;
 }
 
 .currency-name {
-  color: #64748b;
+  color: var(--muted-text-color);
   font-size: 0.8em;
   white-space: nowrap;
   overflow: hidden;
@@ -212,21 +223,19 @@
   text-align: right;
 }
 
-/* Специальные опции */
 .add-option {
-  color: #3b82f6;
+  color: var(--link-color);
   font-weight: 500;
 }
 
 .add-option:hover {
-  background: #dbeafe !important;
+  background: var(--add-option-hover-bg) !important;
 }
 
-/* Подменю криптовалют */
 .crypto-submenu {
   display: none;
   padding-left: 12px;
-  background: #f8fafc;
+  background: var(--bg-light);
 }
 
 .crypto-submenu.active {
@@ -234,130 +243,7 @@
   animation: slideDown 0.2s ease-out;
 }
 
-/* Анимации */
-@keyframes fadeIn {
-  from { 
-    opacity: 0; 
-    transform: translateY(-10px); 
-  }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
-  }
-}
-
-@keyframes slideDown {
-  from { 
-    opacity: 0; 
-    max-height: 0; 
-  }
-  to { 
-    opacity: 1; 
-    max-height: 500px; 
-  }
-}
-
-/* ---------------------------------------------- адаптивность */
-@media (max-width: 768px) {
-  .salary-input-container {
-    height: 44px;
-  }
-  
-  .currency-dropdown {
-    width: 260px;
-  }
-  
-  .currency-option {
-    padding: 8px 12px;
-    gap: 8px;
-  }
-  
-  .currency-flag,
-  .currency-flag-placeholder {
-    width: 20px;
-    height: 14px;
-  }
-  
-  .crypto-flag,
-  .crypto-placeholder {
-    width: 18px;
-    height: 18px;
-  }
-  
-  .currency-toggle {
-    padding: 0 10px;
-    min-width: 55px;
-    gap: 6px;
-  }
-  
-  .currency-toggle-flag {
-    width: 18px;
-    height: 13px;
-  }
-  
-  .currency-toggle-placeholder {
-    width: 18px;
-    height: 13px;
-  }
-}
-
-/* Дополнительные стили для лучшей совместимости */
-.input-group {
-  margin-bottom: 20px;
-}
-
-.input-group label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 500;
-  color: #2d3748;
-}
-
-/* Фокус на всем контейнере при фокусе на input */
-.salary-input-container:focus-within {
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-  border-radius: 8px;
-}
-
-.salary-input-container:focus-within input {
-  border-color: #3b82f6;
-  box-shadow: none;
-}
-
-.salary-input-container:focus-within .currency-toggle {
-  border-color: #3b82f6;
-  box-shadow: none;
-}
-
-
-.currency-toggle {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0 12px;
-  min-width: 80px;
-}
-
-.currency-toggle-content {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.currency-flag {
-  width: 20px;
-  height: 15px;
-  object-fit: contain;
-  border-radius: 2px;
-}
-
-.crypto-flag {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-}
-
-.currency-toggle-symbol {
-  font-weight: 500;
-  white-space: nowrap;
+.validation-hint {
+  position: absolute;
+  bottom: -35px;
 }

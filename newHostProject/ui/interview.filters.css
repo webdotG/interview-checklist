@@ -1,4 +1,4 @@
-@import "variables.css";
+@import "../variables.css";
 
 .filters-container {
   padding: 20px 30px;

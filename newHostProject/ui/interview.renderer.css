@@ -1,3 +1,5 @@
+@import "../variables.css";
+
 /* ------------------------------------------------------ сетка интервью */
 .interviews-grid {
   display: grid;
@@ -8,22 +10,22 @@
 
 /* ------------------------------------------------------ карточка интервью */
 .interview-card {
-  background: white;
-  border: 1px solid #e9ecef;
+  background: var(--card-bg);
+  border: var(--card-border);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--card-shadow);
   transition: all 0.3s ease;
 }
 
 .interview-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--card-hover-shadow);
 }
 
 /* ------------------------------------------------------ заголовок карточки */
 .interview-header {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: var(--card-header-bg);
   color: white;
   padding: 1.5rem;
 }
@@ -68,31 +70,31 @@
 
 /* ------------------------------------------------------ мета информация */
 .interview-meta {
-  background: #f8f9fa;
+  background: var(--card-meta-bg);
   padding: 1rem 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: var(--card-meta-border);
   flex-wrap: wrap;
   gap: 0.5rem;
 }
 
 .interview-salary {
   font-weight: 600;
-  color: #28a745;
+  color: var(--salary-color);
   word-break: break-word;
 }
 
 .interview-date {
   font-size: 0.9rem;
-  color: #6c757d;
+  color: var(--meta-text-color);
   white-space: nowrap;
 }
 
 .interview-interviewer {
   font-size: 0.9rem;
-  color: #6c757d;
+  color: var(--meta-text-color);
   font-style: italic;
   white-space: nowrap;
 }
@@ -105,8 +107,8 @@
 /* ------------------------------------------------------ информация о пользователе */
 .interview-user {
   padding: 0.8rem 1.5rem;
-  border-bottom: 1px solid #f1f3f4;
-  background: #fafbfc;
+  border-bottom: var(--user-section-border);
+  background: var(--user-section-bg);
 }
 
 /* GitHub пользователь */
@@ -120,14 +122,14 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #24292e;
+  color: var(--github-link-color);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s ease;
 }
 
 .github-link:hover {
-  color: #0366d6;
+  color: var(--github-link-hover-color);
   text-decoration: underline;
 }
 
@@ -135,7 +137,7 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  border: 2px solid #e1e4e8;
+  border: var(--github-avatar-border);
 }
 
 .github-username {
@@ -147,7 +149,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #6c757d;
+  color: var(--local-user-color);
   font-size: 0.9rem;
   font-style: italic;
 }
@@ -160,19 +162,19 @@
 
 .user-name {
   font-weight: 500;
-  color: #495057;
+  color: var(--local-username-color);
   font-style: normal;
 }
 
 .user-email {
   font-size: 0.8rem;
-  color: #6c757d;
+  color: var(--local-user-color);
   opacity: 0.8;
 }
 
 /* Анонимный пользователь */
 .user-anonymous {
-  color: #6c757d;
+  color: var(--anonymous-color);
   font-size: 0.9rem;
   font-style: italic;
   opacity: 0.8;
@@ -180,7 +182,7 @@
 
 /* Локальное сохранение */
 .user-local-save {
-  color: #28a745;
+  color: var(--local-save-color);
   font-size: 0.9rem;
   font-weight: 500;
 }
@@ -215,17 +217,17 @@
 .section-title {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #495057;
+  color: var(--content-section-title-color);
   margin: 1rem 0 0.5rem 0;
   padding-bottom: 0.3rem;
-  border-bottom: 2px solid #667eea;
+  border-bottom: var(--content-section-title-border);
   word-break: break-word;
 }
 
 .subsection-title {
   font-size: 1rem;
   font-weight: 500;
-  color: #6c757d;
+  color: var(--content-subsection-title-color);
   margin: 0.8rem 0 0.4rem 0;
   word-break: break-word;
 }
@@ -233,31 +235,31 @@
 .question-item {
   margin-bottom: 0.8rem;
   padding: 0.5rem 0;
-  border-bottom: 1px solid #f1f3f4;
+  border-bottom: 1px solid var(--user-section-border);
 }
 
 .question-text {
   font-size: 0.9rem;
-  color: #495057;
+  color: var(--question-text-color);
   margin-bottom: 0.3rem;
   word-break: break-word;
   line-height: 1.4;
 }
 
 .question-checked {
-  color: #28a745;
+  color: var(--question-checked-color);
   font-weight: 500;
 }
 
 .question-unchecked {
-  color: #6c757d;
+  color: var(--content-subsection-title-color);
 }
 
 .question-note {
   font-size: 0.8rem;
-  color: #764ba2;
+  color: var(--question-note-color);
   font-style: italic;
-  background: #f8f9fa;
+  background: var(--question-note-bg);
   padding: 0.3rem 0.6rem;
   border-radius: 4px;
   margin-top: 0.3rem;
@@ -268,7 +270,7 @@
 /* ------------------------------------------------------ кнопки действий */
 .interview-actions {
   padding: 1rem 1.5rem;
-  border-top: 1px solid #e9ecef;
+  border-top: var(--interview-actions-border-top);
   display: flex;
   gap: 0.5rem;
   justify-content: flex-end;
@@ -296,23 +298,23 @@ opacity: 0.75;
 }
 
 .btn--secondary {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: var(--btn-secondary-bg);
   color: white;
 }
 
 .btn--secondary:hover {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: var(--btn-secondary-bg);
   transform: translateY(-1px);
     color: white;
 }
 
 .btn:not(.btn--secondary) {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: var(--btn-primary-bg);
   color: white;
 }
 
 .btn:not(.btn--secondary):hover {
-  background: linear-gradient(135deg, #5a67d8, #6b46c1);
+  background: var(--btn-primary-hover-bg);
   transform: translateY(-1px);
 }
 
@@ -322,16 +324,16 @@ opacity: 0.75;
 }
 
 .interview-content::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--scrollbar-track-bg);
 }
 
 .interview-content::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: var(--scrollbar-thumb-bg);
   border-radius: 3px;
 }
 
 .interview-content::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #5a67d8, #6b46c1);
+  background: var(--scrollbar-thumb-hover-bg);
 }
 
 /* ------------------------------------------------------ адаптивность */

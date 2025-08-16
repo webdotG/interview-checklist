@@ -3,19 +3,18 @@ import { QuestionsRenderer } from '../ui/questions.renderer.js'
 
 export class InterviewManager {
   constructor() {
-    this.DEFAULT_CURRENCY = 'RUB' // Установите код валюты по умолчанию
-    this.VALID_CURRENCIES = new Set([
-      'RUB',
-      'USD',
-      'EUR',
-      'GBP',
-      'JPY',
-      'CNY',
-      'BTC',
-      'ETH',
-      'USDT',
-      'TON',
-    ])
+    this.DEFAULT_CURRENCY = 'RUB' 
+const VALID_CURRENCIES = new Set([
+  'RUB',
+  'USD',
+  'EUR',
+  'GBP',
+  'CNY',
+  'BTC',
+  'ETH',
+  'USDT',
+  'TON',
+])
 
     this.questionsRenderer = new QuestionsRenderer()
     this.questionsUtils = this.questionsRenderer.getQuestionsUtils()

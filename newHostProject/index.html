@@ -1,1 +1,149 @@
-<!DOCTYPE html><html lang="ru">  <head>    <meta charset="UTF-8" />    <meta name="viewport" content="width=device-width, initial-scale=1.0" />    <title>      Чек-лист для собеседования разработчика | Вопросы работодателю | Оценка      компании    </title>    <!-- отображается под заголовком в результатах поиска Google -->    <meta      name="description"      content="Полный интерактивный чек-лист вопросов для разработчика на собеседовании. Узнайте, что спросить у работодателя, чтобы оценить команду, процессы и избежать 'красных флагов'."    />    <meta      name="keywords"      content="собеседование разработчика, вопросы работодателю, чек-лист, IT-собеседование, оценка компании, красные флаги, поиск работы, developer interview, interview questions, tech interview"    />    <!-- для Facebook, LinkedIn, Telegram и т.д. -->    <meta      property="og:title"      content="Чек-лист для собеседования разработчика: Собеседуй работодателя!"    />    <meta      property="og:description"      content="Чек-лист с вопросами для разработчика, чтобы задавать их работодателю на собеседовании и делать осознанный выбор."    />    <meta property="og:type" content="website" />    <meta      property="og:url"      content="https://webdotG.github.io/interview-checklist/"    />    <!--  будет отображаться при репосте в соцсетях -->    <meta      property="og:image"      content="https://webdotG.github.io/interview-checklist/KirillGrant.png"    />    <meta property="og:locale" content="ru_RU" />    <!-- Twitter Card мета-теги (для X) -->    <meta name="twitter:card" content="summary_large_image" />    <meta      name="twitter:title"      content="Чек-лист для собеседования разработчика: Собеседуй работодателя!"    />    <meta      name="twitter:description"      content="Чек-лист с вопросами для разработчика, чтобы задавать их работодателю на собеседовании и делать осознанный выбор."    />    <link      rel="icon"      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50%' y='50%' font-size='75' font-family='Arial, sans-serif' dominant-baseline='middle' text-anchor='middle' fill='%23333'>G \</text><style>text{font-weight:bold;} @media (prefers-color-scheme:dark){text{fill:%23fff}}</style></svg>"    />    <title>чек-лист собеса</title>    <link rel="stylesheet" href="style.css" />    <link rel="stylesheet" href="./ui/auth.ui.css" />    <link rel="stylesheet" href="./utils/form.validator.css" />    <link rel="stylesheet" href="./utils/form.currency.validator.css" />  </head>  <body>    <main class="container">      <div class="header-nav">        <h1>Идут тех работы не всегда стабильно </h1>        <h1>Чек-лист собеседования</h1>        <select id="theme-selector">          <option value="new-light">Новая светлая</option>          <option value="new-dark">Новая темная</option>          <option value="old-light">Старая светлая</option>          <option value="old-dark">Старая темная</option>        </select>        <div id="auth-container">          <div id="auth-warning" class="hidden">            <p>              Чтобы сохранить ответы в общей базе и сделать их доступными для              всех            </p>            <button id="github-login-btn">Войти через GitHub</button>          </div>          <button id="github-logout-btn" class="hidden">Выйти из GitHub</button>        </div>        <a href="interviews.html" class="nav-link">Посмотреть все интервью</a>      </div>      <form id="interview-form" class="company-info">        <div class="input-group">          <label for="company">Компания:*</label>          <input type="text" id="company" placeholder="Название компании" />        </div>        <div class="input-group">          <label for="position">Должность:*</label>          <input type="text" id="position" placeholder="Позиция" />        </div><div class="input-group">  <label for="salary">Оклад:*</label>  <div class="salary-input-container">    <input      type="text"      id="salary"      name="salary"      placeholder="Например: 100"      aria-describedby="salary-hint"      inputmode="numeric"    />    <div class="currency-selector">      <button type="button" class="currency-toggle">₽</button>      <div class="currency-dropdown"></div>    </div>  </div></div>          <div class="input-group">    <label for="company-url">Ссылка на компанию:</label>    <input type="text" id="company-url" placeholder="https://example.com" />  </div>  <div class="input-group">    <label for="vacancy-url">Ссылка на вакансию:</label>    <input type="text" id="vacancy-url" placeholder="https://hh.ru/vacancy/..." />  </div>  <div class="input-group">    <label for="interviewer">Имя/URL интервьюера:</label>    <input type="text" id="interviewer" placeholder="Иван Петров или https://linkedin.com/in/..." />  </div>      </form>      <div id="questions-container"></div>      <button id="submit-btn">Отправить ответы</button>      <div id="success-message" class="hidden">Ответы успешно сохранены!</div>    </main>    <script type="module">      import { initializeCurrentPage } from './core/appInitializer.js'      document.addEventListener('DOMContentLoaded', async () => {        await initializeCurrentPage()      })    </script>  </body></html>
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Чек-лист для собеседования разработчика | Вопросы работодателю | Оценка
+      компании
+    </title>
+    <!-- отображается под заголовком в результатах поиска Google -->
+    <meta
+      name="description"
+      content="Полный интерактивный чек-лист вопросов для разработчика на собеседовании. Узнайте, что спросить у работодателя, чтобы оценить команду, процессы и избежать 'красных флагов'."
+    />
+    <meta
+      name="keywords"
+      content="собеседование разработчика, вопросы работодателю, чек-лист, IT-собеседование, оценка компании, красные флаги, поиск работы, developer interview, interview questions, tech interview"
+    />
+    <!-- для Facebook, LinkedIn, Telegram и т.д. -->
+    <meta
+      property="og:title"
+      content="Чек-лист для собеседования разработчика: Собеседуй работодателя!"
+    />
+    <meta
+      property="og:description"
+      content="Чек-лист с вопросами для разработчика, чтобы задавать их работодателю на собеседовании и делать осознанный выбор."
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://webdotG.github.io/interview-checklist/"
+    />
+    <!--  будет отображаться при репосте в соцсетях -->
+    <meta
+      property="og:image"
+      content="https://webdotG.github.io/interview-checklist/KirillGrant.png"
+    />
+    <meta property="og:locale" content="ru_RU" />
+    <!-- Twitter Card мета-теги (для X) -->
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <meta
+      name="twitter:title"
+      content="Чек-лист для собеседования разработчика: Собеседуй работодателя!"
+    />
+    <meta
+      name="twitter:description"
+      content="Чек-лист с вопросами для разработчика, чтобы задавать их работодателю на собеседовании и делать осознанный выбор."
+    />
+
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50%' y='50%' font-size='75' font-family='Arial, sans-serif' dominant-baseline='middle' text-anchor='middle' fill='%23333'>G \</text><style>text{font-weight:bold;} @media (prefers-color-scheme:dark){text{fill:%23fff}}</style></svg>"
+    />
+    <title>чек-лист собеса</title>
+    <link rel="stylesheet" href="./variables.css">
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./ui/auth.ui.css" />
+    <!-- <link rel="stylesheet" href="./utils/form.validator.css" /> -->
+    <link rel="stylesheet" href="./utils/form.currency.validator.css" />
+
+  </head>
+  <body>
+    <main class="container">
+      <div class="header-nav">
+        <h1>Идут тех работы не всегда стабильно </h1>
+        <h1>Чек-лист собеседования</h1>
+
+        <select id="theme-selector">
+          <option value="new-light">Новая светлая</option>
+          <option value="new-dark">Новая темная</option>
+          <option value="old-light">Старая светлая</option>
+          <option value="old-dark">Старая темная</option>
+        </select>
+
+        <div id="auth-container">
+          <div id="auth-warning" class="hidden">
+            <p>
+              Чтобы сохранить ответы в общей базе и сделать их доступными для
+              всех
+            </p>
+            <button id="github-login-btn">Войти через GitHub</button>
+          </div>
+          <button id="github-logout-btn" class="hidden">Выйти из GitHub</button>
+        </div>
+        <a href="interviews.html" class="nav-link">Посмотреть все интервью</a>
+      </div>
+
+      <form id="interview-form" class="company-info">
+        <div class="input-group">
+          <label for="company">Компания:*</label>
+          <input type="text" id="company" placeholder="Название компании" />
+        </div>
+
+        <div class="input-group">
+          <label for="position">Должность:*</label>
+          <input type="text" id="position" placeholder="Позиция" />
+        </div>
+
+<div class="input-group">
+  <label for="salary">Оклад:*</label>
+  <div class="salary-input-container">
+    <input
+      type="text"
+      id="salary"
+      name="salary"
+      placeholder="Например: 100"
+      aria-describedby="salary-hint"
+      inputmode="numeric"
+    />
+    <div class="currency-selector">
+      <button type="button" class="currency-toggle">₽</button>
+      <div class="currency-dropdown"></div>
+    </div>
+  </div>
+</div>
+        
+  <div class="input-group">
+    <label for="company-url">Ссылка на компанию:</label>
+    <input type="text" id="company-url" placeholder="https://example.com" />
+  </div>
+
+  <div class="input-group">
+    <label for="vacancy-url">Ссылка на вакансию:</label>
+    <input type="text" id="vacancy-url" placeholder="https://hh.ru/vacancy/..." />
+  </div>
+
+  <div class="input-group">
+    <label for="interviewer">Имя/URL интервьюера:</label>
+    <input type="text" id="interviewer" placeholder="Иван Петров или https://linkedin.com/in/..." />
+  </div>
+
+      </form>
+
+      <div id="questions-container"></div>
+
+      <button id="submit-btn">Отправить ответы</button>
+      <div id="success-message" class="hidden">Ответы успешно сохранены!</div>
+    </main>
+
+    <script type="module">
+      import { initializeCurrentPage } from './core/appInitializer.js'
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        await initializeCurrentPage()
+      })
+    </script>
+  </body>
+</html>

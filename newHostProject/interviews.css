@@ -1,8 +1,10 @@
+@import "./variables.css";
+
 body {
   font-family: -apple-system, Roboto, sans-serif;
   line-height: 1.6;
-  color: #333;
-  background: linear-gradient(135deg, #8bd7d5 0%, #91ebf5 100%);
+  color: var(--text-primary);
+  background: var(--secondary-gradient);
   min-height: 100vh;
   padding: 20px;
 }
@@ -11,8 +13,8 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-md);
+  box-shadow: var(--container-shadow);
   overflow: hidden;
 }
 
@@ -22,55 +24,81 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 2rem;
-  background: #f8f9fa;
-  border-bottom: 1px solid #e9ecef;
-  border-radius: 8px;
+  background: var(--bg-light);
+  border-bottom: var(--header-border);
+  border-radius: var(--radius-sm);
   flex-wrap: wrap;
   gap: 1rem;
 }
 
+#theme-selector {
+  padding: 8px 12px;
+  border: 1px solid var(--input-border-color);
+  border-radius: var(--radius-sm);
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+#theme-selector:hover {
+  border-color: var(--focus-border-color);
+}
+
+#theme-selector:focus {
+  border-color: var(--focus-border-color);
+  box-shadow: var(--focus-shadow);
+}
+
+#theme-selector option {
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+}
+
 .back-link {
-  color: #667eea;
+  color: var(--accent-color);
   text-decoration: none;
   font-weight: 600;
   padding: 0.5rem 1rem;
-  border: 2px solid #667eea;
-  border-radius: 6px;
-  transition: all 0.3s ease;
+  border: 2px solid var(--accent-color);
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 .back-link:hover {
-  background: #667eea;
+  background: var(--accent-color);
   color: white;
 }
 
 .interviews-header h1 {
   margin: 0;
-  color: #495057;
+  color: var(--text-secondary);
   font-size: 1.8rem;
   text-align: center;
   flex-grow: 1;
 }
 
 .load-btn {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: var(--primary-gradient);
   color: white;
   border: none;
   padding: 0.8rem 1.5rem;
   font-size: 1rem;
   font-weight: 600;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: var(--transition);
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 .load-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  box-shadow: var(--load-btn-hover-shadow);
 }
 
 .load-btn:disabled {
@@ -97,9 +125,9 @@ body {
   font-weight: 600;
   text-align: center;
   text-decoration: none;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: var(--transition);
   white-space: nowrap;
   flex-shrink: 0;
   border: 2px solid transparent;
@@ -107,7 +135,7 @@ body {
 
 .btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--btn-hover-shadow);
 }
 
 .btn:disabled {
@@ -123,31 +151,31 @@ body {
   justify-content: flex-end;
   gap: 1rem;
   padding: 1.5rem;
-  background: #f8f9fa;
-  border-top: 1px solid #e9ecef;
+  background: var(--bg-light);
+  border-top: var(--header-border);
 }
 
 /* ------------------------------------------------------ Основная кнопка */
 .btn--primary {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: var(--primary-gradient);
   color: white;
 }
 
 .btn--primary:hover {
-  background: linear-gradient(135deg, #5a67d8, #6b46c1);
+  background: var(--primary-gradient-hover);
 }
 
 /* ------------------------------------------------------ второстепенная кнопка */
 .btn--secondary {
   background: transparent;
-  color: #6c757d;
-  border-color: #dee2e6;
+  color: var(--btn-secondary-color);
+  border-color: var(--btn-secondary-border);
 }
 
 .btn--secondary:hover {
-  background: #f1f3f4;
-  color: #495057;
-  border-color: #ced4da;
+  background: var(--btn-secondary-hover-bg);
+  color: var(--text-primary);
+  border-color: var(--btn-secondary-hover-border);
 }
 
 /* ------------------------------------------------------ кнопки меньшего размера */
@@ -158,13 +186,13 @@ body {
 
 /* ------------------------------------------------------ кнопки в модальном окне */
 .modal-footer .btn--secondary {
-  background: #28a745;
+  background: var(--modal-btn-bg);
   color: white;
   border: none;
 }
 
 .modal-footer .btn--secondary:hover {
-  background: #218838;
+  background: var(--modal-btn-hover-bg);
 }
 
 /* Адаптивность для мобильных устройств */
@@ -392,5 +420,3 @@ body {
     font-size: 0.75rem;
   }
 }
-
-

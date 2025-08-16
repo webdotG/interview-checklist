@@ -1,22 +1,24 @@
+@import "../variables.css";
+
 /* ------------------------------------------------------ шапка интервью */
 .interviews-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 2rem;
-  background: #f8f9fa;
-  border-bottom: 1px solid #e9ecef;
+  background: var(--interviews-header-bg);
+  border-bottom: var(--interviews-header-border);
   border-radius: 8px;
   flex-wrap: wrap;
   gap: 1rem;
 }
 
 .back-link {
-  color: #667eea;
+  color: var(--back-link-color);
   text-decoration: none;
   font-weight: 600;
   padding: 0.5rem 1rem;
-  border: 2px solid #667eea;
+  border: var(--back-link-border);
   border-radius: 6px;
   transition: all 0.3s ease;
   white-space: nowrap;
@@ -24,20 +26,20 @@
 }
 
 .back-link:hover {
-  background: #667eea;
-  color: white;
+  background: var(--back-link-hover-bg);
+  color: var(--back-link-hover-color);
 }
 
 .interviews-header h1 {
   margin: 0;
-  color: #495057;
+  color: var(--interviews-h1-color);
   font-size: 1.8rem;
   text-align: center;
   flex-grow: 1;
 }
 
 .load-btn {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: var(--load-btn-bg);
   color: white;
   border: none;
   padding: 0.8rem 1.5rem;
@@ -52,7 +54,7 @@
 
 .load-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  box-shadow: var(--load-btn-hover-shadow);
 }
 
 .load-btn:disabled {
@@ -65,43 +67,43 @@
 .loading {
   text-align: center;
   padding: 3rem;
-  color: #6c757d;
+  color: var(--loading-text-color);
 }
 
 .no-interviews {
   text-align: center;
   padding: 3rem;
-  color: #6c757d;
+  color: var(--loading-text-color);
 }
 
 .error-message {
-  background: #f8d7da;
-  color: #721c24;
+  background: var(--error-message-bg);
+  color: var(--error-message-color);
   padding: 1rem;
   border-radius: 8px;
   margin: 2rem;
-  border: 1px solid #f1aeb5;
+  border: var(--error-message-border);
   word-break: break-word;
 }
 
 /* ------------------------------------------------------ предупреждения */
 .warning-banner {
-  background: #fff3cd;
-  border-left: 5px solid #ffc107;
+  background: var(--warning-banner-bg);
+  border-left: var(--warning-banner-border);
   padding: 1.5rem;
   margin: 2rem;
   border-radius: 4px;
-  color: #856404;
+  color: var(--warning-banner-color);
 }
 
 .warning-banner h3 {
   margin-top: 0;
-  color: #856404;
+  color: var(--warning-banner-color);
   word-break: break-word;
 }
 
 .warning-banner a {
-  color: #0056b3;
+  color: var(--warning-banner-link-color);
   text-decoration: underline;
   word-break: break-word;
 }
@@ -112,24 +114,24 @@
 }
 
 .offline-warning-banner {
-  background: linear-gradient(135deg, #ffeaa7, #fab1a0);
-  border: 2px solid #e17055;
+  background: var(--offline-warning-bg);
+  border: var(--offline-warning-border);
   border-radius: 12px;
   padding: 24px;
   margin: 20px 0;
   text-align: center;
-  box-shadow: 0 4px 12px rgba(225, 112, 85, 0.3);
+  box-shadow: var(--offline-warning-shadow);
 }
 
 .offline-warning-banner h3 {
-  color: #d63031;
+  color: var(--offline-warning-color);
   margin-bottom: 16px;
   font-size: 24px;
 }
 
 .offline-details {
   text-align: left;
-  background: rgba(255, 255, 255, 0.7);
+  background: var(--offline-details-bg);
   padding: 16px;
   border-radius: 8px;
   margin: 16px 0;
@@ -141,7 +143,7 @@
 
 .offline-details li {
   margin: 4px 0;
-  color: #2d3436;
+  color: var(--offline-details-color);
 }
 
 /* ------------------------------------------------------ утилитарные стили */
@@ -239,7 +241,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--modal-backdrop-bg);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -248,10 +250,10 @@
 }
 
 .modal-content {
-  background-color: white;
+  background-color: var(--modal-content-bg);
   padding: 2rem;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--modal-content-shadow);
   width: 90%;
   max-width: 800px;
   max-height: 90vh;
@@ -264,7 +266,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: var(--modal-header-border);
   padding-bottom: 1rem;
   margin-bottom: 1rem;
 }
@@ -281,7 +283,7 @@
   font-size: 2rem;
   font-weight: 300;
   cursor: pointer;
-  color: #adb5bd;
+  color: var(--modal-close-btn-color);
   transition: all 0.3s ease;
   padding: 0.5rem;
   border-radius: 50%;
@@ -293,16 +295,13 @@
   line-height: 1;
 }
 .modal-close-btn:hover {
-  background-color: #e9ecef;
-  color: #495057;
+  background-color: var(--modal-close-btn-hover-bg);
+  color: var(--modal-close-btn-hover-color);
 }
 
 .modal-close-btn:active {
-  background-color: #dee2e6;
+  background-color: var(--modal-close-btn-active-bg);
   transform: translateY(1px);
-}
-.modal-close-btn:hover {
-  color: #333;
 }
 
 .modal-body {
@@ -312,7 +311,7 @@
 
 .modal-footer {
   padding-top: 1rem;
-  border-top: 1px solid #e9ecef;
+  border-top: var(--modal-footer-border);
   margin-top: 1rem;
   text-align: right;
 }

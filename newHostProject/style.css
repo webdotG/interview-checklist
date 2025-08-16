@@ -1,4 +1,4 @@
-@import "variables.css";
+@import "./variables.css";
 
 * {
   box-sizing: border-box;
@@ -14,6 +14,33 @@ body {
   min-height: 100vh;
   padding: 20px;
 }
+
+#theme-selector {
+  padding: 8px 12px;
+  border: 1px solid var(--input-border-color);
+  border-radius: var(--radius-sm);
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+#theme-selector:hover {
+  border-color: var(--focus-border-color);
+}
+
+#theme-selector:focus {
+  border-color: var(--focus-border-color);
+  box-shadow: var(--focus-shadow);
+}
+
+#theme-selector option {
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+}
+
 
 .header-nav {
   background: var(--header-bg);

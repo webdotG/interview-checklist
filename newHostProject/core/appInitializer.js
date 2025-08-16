@@ -114,9 +114,9 @@ export async function initializeInterviewsPage() {
   }
 }
 
+initializeTheme()
+
 export async function initializeCurrentPage() {
-  // будет работать на всех страницах.
-  initializeTheme()
 
   const currentPage = window.location.pathname
   if (currentPage.includes('interviews.html')) {

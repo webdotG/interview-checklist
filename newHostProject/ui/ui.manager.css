@@ -1,23 +1,24 @@
+@import "../variables.css";
 /* ------------------------------------------------------ Состояния загрузки, ошибок и пустых данных */
 .loading {
   text-align: center;
   padding: 3rem;
-  color: #6c757d;
+  color: var(--loading-text-color);
 }
 
 .no-interviews {
   text-align: center;
   padding: 3rem;
-  color: #6c757d;
+  color: var(--loading-text-color);
 }
 
 .error-message {
-  background: #f8d7da;
-  color: #721c24;
+  background: var(--error-message-bg);
+  color: var(--error-message-color);
   padding: 1rem;
   border-radius: 8px;
   margin: 2rem;
-  border: 1px solid #f1aeb5;
+  border: var(--error-message-border);
   word-break: break-word;
 }
 
@@ -27,22 +28,22 @@
 
 /* ------------------------------------------------------ Предупреждения (локальный и оффлайн режимы) */
 .warning-banner {
-  background: #fff3cd;
-  border-left: 5px solid #ffc107;
+  background: var(--warning-banner-bg);
+  border-left: var(--warning-banner-border);
   padding: 1.5rem;
   margin: 2rem;
   border-radius: 4px;
-  color: #856404;
+  color: var(--warning-banner-color);
 }
 
 .warning-banner h3 {
   margin-top: 0;
-  color: #856404;
+  color: var(--warning-banner-color);
   word-break: break-word;
 }
 
 .warning-banner a {
-  color: #0056b3;
+  color: var(--warning-banner-link-color);
   text-decoration: underline;
   word-break: break-word;
 }
@@ -53,24 +54,24 @@
 }
 
 .offline-warning-banner {
-  background: linear-gradient(135deg, #ffeaa7, #fab1a0);
-  border: 2px solid #e17055;
+  background: var(--offline-warning-bg);
+  border: var(--offline-warning-border);
   border-radius: 12px;
   padding: 24px;
   margin: 20px 0;
   text-align: center;
-  box-shadow: 0 4px 12px rgba(225, 112, 85, 0.3);
+  box-shadow: var(--offline-warning-shadow);
 }
 
 .offline-warning-banner h3 {
-  color: #d63031;
+  color: var(--offline-warning-color);
   margin-bottom: 16px;
   font-size: 24px;
 }
 
 .offline-details {
   text-align: left;
-  background: rgba(255, 255, 255, 0.7);
+  background: var(--offline-details-bg);
   padding: 16px;
   border-radius: 8px;
   margin: 16px 0;
@@ -82,5 +83,5 @@
 
 .offline-details li {
   margin: 4px 0;
-  color: #2d3436;
+  color: var(--offline-details-color);
 }
