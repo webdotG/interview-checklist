@@ -1,0 +1,5 @@
+{
+  "files.autoSave": "onFocusChange",
+  "workbench.editor.enablePreview": false,
+  "editor.minimap.enabled": false
+}

@@ -1,3 +1,5 @@
+@import "variables.css";
+
 #auth-container {
   display: flex;
   align-items: center;
@@ -16,8 +18,8 @@
   display: flex;
   align-items: center;
   padding: 0.5rem 1rem;
-  background: #e9f5e9;
-  color: #387038;
+  background: var(--user-info-bg);
+  color: var(--user-info-color);
   border-radius: 8px;
   font-weight: 500;
   white-space: nowrap;
@@ -25,16 +27,16 @@
 
 .user-info strong {
   margin-left: 0.5rem;
-  color: #215c21;
+  color: var(--user-info-strong-color);
 }
 
-/* ------------------------------------------------------  необходимость входа */
+/* ------------------------------------------------------ необходимость входа */
 #auth-warning {
-  background: #fff3cd;
-  color: #856404;
+  background: var(--auth-warning-bg);
+  color: var(--auth-warning-color);
   padding: 0.5rem 1rem;
   border-radius: 8px;
-  border: 1px solid #ffeeba;
+  border: 1px solid var(--auth-warning-border-color);
   align-items: center;
   gap: 1rem;
   /* animation: pulse-border 3s infinite ease-out; */
@@ -58,11 +60,14 @@
 }
 
 #auth-warning a {
+  /* Пока оставим как есть, так как это системный цвет */
   color: #007bff;
   text-decoration: underline;
 }
 
 .auth-warning--highlighted {
+  /* Примечание: Для этой анимации можно добавить переменную
+     для цвета свечения, например, --auth-highlight-color */
   animation: highlight 1s ease-in-out;
 }
 
@@ -80,25 +85,25 @@
 }
 
 #github-login-btn {
-  background: #24292e;
-  color: white;
+  background: var(--github-login-btn-bg);
+  color: var(--github-login-btn-color);
   border: none;
 }
 
 #github-login-btn:hover {
-  background: #33383d;
+  background: var(--github-login-btn-hover-bg);
   transform: translateY(-1px);
 }
 
 #github-logout-btn {
-  background: transparent;
-  color: #dc3545;
-  border: 2px solid #dc3545;
+  background: var(--github-logout-btn-bg);
+  color: var(--github-logout-btn-color);
+  border: 2px solid var(--github-logout-btn-border-color);
 }
 
 #github-logout-btn:hover {
-  background: #dc3545;
-  color: white;
+  background: var(--github-logout-btn-hover-bg);
+  color: var(--github-logout-btn-hover-color);
   transform: translateY(-1px);
 }
 

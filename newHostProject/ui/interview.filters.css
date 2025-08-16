@@ -1,7 +1,9 @@
+@import "variables.css";
+
 .filters-container {
   padding: 20px 30px;
-  background: #f8f9fa;
-  border-bottom: 1px solid #e9ecef;
+  background: var(--filter-container-bg);
+  border-bottom: 1px solid var(--filter-container-border);
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
@@ -26,7 +28,7 @@
 
 .filter-label {
   font-weight: 600;
-  color: #495057;
+  color: var(--filter-label-color);
   font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -34,30 +36,30 @@
 
 .filter-select {
   padding: 10px 14px;
-  border: 1px solid #dee2e6;
+  border: 1px solid var(--filter-select-border);
   border-radius: 8px;
-  background: white;
+  background: var(--filter-select-bg);
   font-size: 14px;
-  color: #495057;
+  color: var(--filter-select-color);
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--filter-select-shadow);
 }
 
 .filter-select:hover {
-  border-color: #667eea;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+  border-color: var(--filter-select-hover-border);
+  box-shadow: var(--filter-select-hover-shadow);
 }
 
 .filter-select:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+  border-color: var(--filter-select-focus-border);
+  box-shadow: var(--filter-select-focus-shadow);
 }
 
 .filter-select option {
   padding: 8px;
-  color: #495057;
+  color: var(--filter-select-color);
 }
 
 .filters-actions {
@@ -68,7 +70,7 @@
 }
 
 .clear-filters-btn {
-  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  background: var(--clear-filters-btn-bg);
   color: white;
   border: none;
   padding: 10px 18px;
@@ -77,24 +79,24 @@
   font-size: 14px;
   font-weight: 600;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3);
+  box-shadow: var(--clear-filters-btn-shadow);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .clear-filters-btn:hover {
-  background: linear-gradient(135deg, #c82333 0%, #a71e2a 100%);
+  background: var(--clear-filters-btn-hover-bg);
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.4);
+  box-shadow: var(--clear-filters-btn-hover-shadow);
 }
 
 .clear-filters-btn:active {
   transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3);
+  box-shadow: var(--clear-filters-btn-shadow);
 }
 
 .toggle-filters-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--toggle-filters-btn-bg);
   color: white;
   border: none;
   padding: 10px 18px;
@@ -103,37 +105,37 @@
   font-size: 14px;
   font-weight: 600;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+  box-shadow: var(--toggle-filters-btn-shadow);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .toggle-filters-btn:hover {
-  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+  background: var(--toggle-filters-btn-hover-bg);
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.4);
+  box-shadow: var(--toggle-filters-btn-shadow);
 }
 
 .filters-summary {
-  background: #e3f2fd;
-  border: 1px solid #bbdefb;
+  background: var(--filters-summary-bg);
+  border: 1px solid var(--filters-summary-border);
   border-radius: 6px;
   padding: 8px 12px;
   font-size: 13px;
-  color: #1565c0;
+  color: var(--filters-summary-color);
   font-weight: 500;
   margin-left: auto;
 }
 
 .filters-summary.active {
-  background: #e8f5e8;
-  border-color: #c8e6c9;
-  color: #2e7d32;
+  background: var(--filters-summary-active-bg);
+  border-color: var(--filters-summary-active-border);
+  color: var(--filters-summary-active-color);
 }
 
 /* ------------------------------------------------------ анимация для счетчика результатов */
 .results-counter {
-  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  background: var(--results-counter-bg);
   color: white;
   padding: 8px 16px;
   border-radius: 20px;
@@ -141,7 +143,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  box-shadow: 0 2px 4px rgba(40, 167, 69, 0.3);
+  box-shadow: var(--results-counter-shadow);
   transition: all 0.3s ease;
 }
 
@@ -239,7 +241,7 @@
   left: 50%;
   width: 20px;
   height: 20px;
-  border: 2px solid #667eea;
+  border: 2px solid var(--loading-border-color);
   border-top: 2px solid transparent;
   border-radius: 50%;
   animation: spin 1s linear infinite;

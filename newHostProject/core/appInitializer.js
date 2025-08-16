@@ -7,6 +7,7 @@ import { FormValidator } from '../utils/form.validator.js'
 import { questionStats } from '../utils/questions.utils.js'
 import { InterviewsViewer } from '../ui/interviews.viewer.js'
 import { InterviewFilters } from '../ui/interview.filters.js'
+import { initializeTheme } from './toggle.theme.js'
 
 const isGitHubPages = window.location.hostname.includes('github.io')
 
@@ -16,19 +17,19 @@ export async function initializeApp() {
     const authService = new AuthService(auth)
     const notificationService = new NotificationService()
 
-    // 1. Создаем FormValidator ПЕРВЫМ
+    // 1. FormValidator ПЕРВЫМ
     const formValidator = new FormValidator()
     // formValidator.init('#interview-form')
     formValidator.init()
-    // 2. Создаем InterviewManager и связываем с FormValidator
+    // 2. InterviewManager и связываем с FormValidator
     const manager = new InterviewManager()
     manager.setFormValidator(formValidator) // ← Связываем ПЕРЕД инициализацией
 
-    // 3. Инициализируем manager (теперь у него есть FormValidator)
+    // 3. manager теперь у него есть FormValidator
     await manager.init()
     manager.loadFromURL()
 
-    // 4. Остальная инициализация
+    // 4. остальное
     const authUI = new AuthUI(
       authService,
       notificationService,
@@ -114,6 +115,9 @@ export async function initializeInterviewsPage() {
 }
 
 export async function initializeCurrentPage() {
+  // будет работать на всех страницах.
+  initializeTheme()
+
   const currentPage = window.location.pathname
   if (currentPage.includes('interviews.html')) {
     await initializeInterviewsPage()
