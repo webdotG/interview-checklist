@@ -12,10 +12,12 @@
 .interview-card {
   background: var(--card-bg);
   border: var(--card-border);
-  border-radius: 12px;
+  /* Используем переменную для радиуса */
+  border-radius: var(--style-new-radius-lg);
   overflow: hidden;
   box-shadow: var(--card-shadow);
-  transition: all 0.3s ease;
+  /* Используем переменную для перехода */
+  transition: var(--style-new-transition);
 }
 
 .interview-card:hover {
@@ -60,7 +62,8 @@
   color: white;
   text-decoration: none;
   opacity: 0.9;
-  transition: opacity 0.3s ease;
+  /* Используем переменную для перехода */
+  transition: var(--style-new-transition);
 }
 
 .vacancy-url:hover {
@@ -125,7 +128,8 @@
   color: var(--github-link-color);
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.3s ease;
+  /* Используем переменную для перехода */
+  transition: var(--style-new-transition);
 }
 
 .github-link:hover {
@@ -136,6 +140,7 @@
 .github-avatar {
   width: 24px;
   height: 24px;
+  /* Используем переменную для радиуса */
   border-radius: 50%;
   border: var(--github-avatar-border);
 }
@@ -192,7 +197,8 @@
   color: white;
   text-decoration: none;
   font-weight: 600;
-  transition: text-decoration 0.3s ease;
+  /* Используем переменную для перехода */
+  transition: var(--style-new-transition);
 }
 
 .company-link:hover {
@@ -260,8 +266,9 @@
   color: var(--question-note-color);
   font-style: italic;
   background: var(--question-note-bg);
+  /* Используем переменную для радиуса */
+  border-radius: var(--style-new-radius-sm);
   padding: 0.3rem 0.6rem;
-  border-radius: 4px;
   margin-top: 0.3rem;
   word-break: break-word;
   line-height: 1.3;
@@ -279,11 +286,13 @@
 .btn {
   padding: 0.5rem 1rem;
   border: none;
-  border-radius: 6px;
+  /* Используем переменную для радиуса */
+  border-radius: var(--style-new-radius-sm);
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
+  /* Используем переменную для перехода */
+  transition: var(--style-new-transition);
   text-decoration: none;
   display: inline-block;
 }
@@ -329,7 +338,8 @@ opacity: 0.75;
 
 .interview-content::-webkit-scrollbar-thumb {
   background: var(--scrollbar-thumb-bg);
-  border-radius: 3px;
+  /* Используем переменную для радиуса */
+  border-radius: var(--style-new-radius-sm);
 }
 
 .interview-content::-webkit-scrollbar-thumb:hover {

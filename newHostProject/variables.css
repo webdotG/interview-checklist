@@ -1,49 +1,198 @@
+/*
+ * ==========================================================
+ * Файл разделен на две части:
+ * 1. БАЗОВЫЕ ТОКЕНЫ: основные (цвета, тени, радиусы).
+ * 2. ТЕМАТИЧЕСКИЕ ПЕРЕМЕННЫЕ: переменные, определяющие вид каждого компонента
+ * на основе базовых токенов.
+ * ==========================================================
+ */
+
+/* ========================================================== */
+/* 1. БАЗОВЫЕ ТОКЕНЫ                                          */
+/* ========================================================== */
+
 :root {
-  /* ==================== НОВАЯ СВЕТЛАЯ ТЕМА ==================== */
-  --body-bg: #f5f6f8;
-  --text-color: #333;
-  --header-bg: #fff;
-  --header-h1-color: #333;
-  --nav-link-color: #667eea;
-  --nav-link-border: 2px solid #667eea;
-  --nav-link-hover-bg: #667eea;
+  /* -- Цветовая палитра -- */
+  --color-brand-blue: #667eea;
+  --color-brand-blue-hover: #5a67d8;
+  --color-brand-purple: #764ba2;
+  --color-brand-purple-hover: #6b46c1;
+  --color-brand-cyan: #66fcf1;
+  --color-brand-cyan-hover: #45a29e;
+  --color-brand-green: #28a745;
+  --color-brand-green-hover: #20c997;
+  --color-brand-red: #dc3545;
+  --color-brand-red-hover: #c82333;
+  --color-brand-yellow: #f59e0b;
+  --color-brand-yellow-hover: #d97706;
+
+  --color-gray-50: #fafbfc;
+  --color-gray-100: #f5f6f8;
+  --color-gray-200: #e9ecef;
+  --color-gray-300: #dee2e6;
+  --color-gray-400: #adb5bd;
+  --color-gray-500: #6c757d;
+  --color-gray-600: #495057;
+  --color-gray-700: #333;
+  --color-gray-900: #111827;
+  --color-gray-alpha-100: rgba(0, 0, 0, 0.05);
+  --color-gray-alpha-200: rgba(0, 0, 0, 0.1);
+  --color-gray-alpha-300: rgba(0, 0, 0, 0.15);
+
+  --color-dark-surface: #1f2833;
+  --color-dark-body: #0b0c10;
+  --color-dark-text: #c5c6c7;
+  --color-dark-text-secondary: #858586;
+  --color-dark-border: #28303a;
+
+  /* -- БАЗОВЫЕ ТОКЕНЫ: НОВАЯ СТИЛИСТИКА -- */
+  --style-new-shadow-sm: 0 4px 12px var(--color-gray-alpha-200);
+  --style-new-shadow-md: 0 6px 16px var(--color-gray-alpha-200);
+  --style-new-shadow-lg: 0 8px 25px var(--color-gray-alpha-300);
+  --style-new-radius-sm: 6px;
+  --style-new-radius-md: 8px;
+  --style-new-radius-lg: 12px;
+  --style-new-gradient-primary: linear-gradient(135deg, var(--color-brand-blue), var(--color-brand-purple));
+  --style-new-gradient-primary-hover: linear-gradient(135deg, var(--color-brand-blue-hover), var(--color-brand-purple-hover));
+  --style-new-gradient-secondary: linear-gradient(135deg, var(--color-brand-green), var(--color-brand-green-hover));
+  --style-new-transition: all 0.3s ease;
+
+  /* -- БАЗОВЫЕ ТОКЕНЫ: СТАРАЯ СТИЛИСТИКА (Windows 3.1) -- */
+  --style-old-bg: #c0c0c0;
+  --style-old-bg-dark: #808080;
+  --style-old-text: #000;
+  --style-old-text-light: #fff;
+  --style-old-text-accent: #000080;
+  --style-old-border: 2px solid var(--style-old-text);
+  --style-old-border-accent: 2px solid var(--style-old-text-accent);
+  --style-old-shadow: none;
+  --style-old-radius: 0;
+  --style-old-gradient: none;
+  --style-old-transition: none;
+}
+
+/* ========================================================== */
+/* 2. ТЕМАТИЧЕСКИЕ ПЕРЕМЕННЫЕ                                 */
+/* ========================================================== */
+
+/* ==================== НОВАЯ СВЕТЛАЯ ТЕМА ==================== */
+:root {
+  /* -- Общие -- */
+  --body-bg: var(--color-gray-100);
+  --text-color: var(--color-gray-700);
+  --success-color: var(--color-brand-green);
+  --error-color: var(--color-brand-red);
+  --success-shadow: 0 4px 12px color-mix(in srgb, var(--success-color) 40%, transparent);
+  --error-shadow: 0 0 0 2px color-mix(in srgb, var(--error-color) 25%, transparent);
+
+  /* --- Компоненты --- */
+  --header-bg: var(--color-gray-50);
+  --header-h1-color: var(--text-color);
+  --nav-link-color: var(--color-brand-blue);
+  --nav-link-border: 2px solid var(--nav-link-color);
+  --nav-link-hover-bg: var(--nav-link-color);
   --nav-link-hover-border: transparent;
-  --questions-counter-color: #6c757d;
-  --container-bg: #fff;
-  --container-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  --info-section-bg: #fafbfc;
-  --info-border-color: #e9ecef;
-  --input-label-color: #495057;
-  --input-border: 1px solid #dee2e6;
-  --input-focus-border: #667eea;
-  --input-focus-shadow: 0 0 0 3px rgba(102, 126, 234, 0.25);
-  --input-placeholder-color: #adb5bd;
-  --section-h2-color: #495057;
-  --section-h2-border: 2px solid #667eea;
-  --section-h3-color: #6c757d;
+  --questions-counter-color: var(--color-gray-500);
+
+  --container-bg: var(--color-gray-50);
+  --container-shadow: var(--style-new-shadow-md);
+
+  --info-section-bg: var(--color-gray-50);
+  --info-border-color: var(--color-gray-200);
+
+  --input-label-color: var(--color-gray-600);
+  --input-border: 1px solid var(--color-gray-300);
+  --input-focus-border: var(--color-brand-blue);
+  --input-focus-shadow: 0 0 0 3px color-mix(in srgb, var(--input-focus-border) 25%, transparent);
+  --input-placeholder-color: var(--color-gray-400);
+
+  --section-h2-color: var(--color-gray-600);
+  --section-h2-border: 2px solid var(--color-brand-blue);
+  --section-h3-color: var(--color-gray-500);
+
   --question-bg: #fff;
-  --question-border: 1px solid #e9ecef;
-  --question-hover-bg: #f8f9fa;
-  --question-hover-border: #dee2e6;
-  --input-text-border: 1px solid #dee2e6;
-  --input-text-focus-border: #667eea;
-  --input-text-focus-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
-  --input-text-placeholder-color: #adb5bd;
+  --question-border: 1px solid var(--color-gray-200);
+  --question-hover-bg: var(--color-gray-50);
+  --question-hover-border: var(--color-gray-300);
+  --question-label-color: var(--color-gray-600);
+  --question-checked-color: var(--color-brand-green);
+  --question-unchecked-color: var(--color-gray-500);
+  --question-note-color: var(--color-brand-purple);
+  --question-note-bg: var(--color-gray-50);
+
   --warnings-bg: #f8d7da;
   --warnings-h2-color: #721c24;
   --warnings-border-color: #f1aeb5;
   --warnings-li-bg: #f9e6e8;
   --warnings-li-hover-bg: #fcebeb;
-  --warnings-li-border-left: 5px solid #dc3545;
-  --submit-btn-bg: #667eea;
-  --submit-btn-hover-bg: #5a67d8;
-  --submit-btn-hover-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-  --success-msg-bg: #28a745;
-  --success-msg-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
-  --error-border: #ef4444;
-  --error-shadow: 0 0 0 2px rgba(239, 68, 68, 0.25);
+  --warnings-li-border-left: 5px solid var(--error-color);
 
-  /* --- Auth --- */
+  --submit-btn-bg: var(--style-new-gradient-primary);
+  --submit-btn-hover-bg: var(--style-new-gradient-primary-hover);
+  --submit-btn-hover-shadow: 0 4px 12px color-mix(in srgb, var(--color-brand-blue) 40%, transparent);
+
+  --success-msg-bg: var(--success-color);
+  --success-msg-shadow: var(--success-shadow);
+  --error-border: var(--error-color);
+
+  --card-bg: white;
+  --card-border: 1px solid var(--color-gray-200);
+  --card-shadow: var(--style-new-shadow-md);
+  --card-hover-shadow: var(--style-new-shadow-lg);
+  --card-header-bg: var(--style-new-gradient-primary);
+  --card-meta-bg: var(--color-gray-50);
+  --card-meta-border: 1px solid var(--color-gray-200);
+  --salary-color: var(--color-brand-green);
+  --meta-text-color: var(--color-gray-500);
+  --user-section-bg: var(--color-gray-50);
+  --user-section-border: 1px solid var(--color-gray-100);
+  --github-link-color: #24292e;
+  --github-link-hover-color: #0366d6;
+  --github-avatar-border: 2px solid #e1e4e8;
+  --local-user-color: var(--color-gray-500);
+  --local-username-color: var(--color-gray-600);
+  --anonymous-color: var(--color-gray-500);
+  --local-save-color: var(--color-brand-green);
+  --content-section-title-color: var(--color-gray-600);
+  --content-section-title-border: 2px solid var(--color-brand-blue);
+  --content-subsection-title-color: var(--color-gray-500);
+  --question-text-color: var(--color-gray-600);
+  --interview-actions-border-top: 1px solid var(--color-gray-200);
+  --btn-secondary-bg: var(--style-new-gradient-primary);
+  --btn-primary-bg: var(--style-new-gradient-primary);
+  --btn-primary-hover-bg: var(--style-new-gradient-primary-hover);
+  --scrollbar-track-bg: var(--color-gray-200);
+  --scrollbar-thumb-bg: var(--style-new-gradient-primary);
+  --scrollbar-thumb-hover-bg: var(--style-new-gradient-primary-hover);
+
+  --filter-container-bg: var(--color-gray-50);
+  --filter-container-border: var(--color-gray-200);
+  --filter-label-color: var(--color-gray-600);
+  --filter-select-bg: white;
+  --filter-select-border: 1px solid var(--color-gray-300);
+  --filter-select-color: var(--color-gray-600);
+  --filter-select-shadow: 0 2px 4px var(--color-gray-alpha-100);
+  --filter-select-hover-border: var(--color-brand-blue);
+  --filter-select-hover-shadow: 0 2px 8px color-mix(in srgb, var(--color-brand-blue) 15%, transparent);
+  --filter-select-focus-border: var(--color-brand-blue);
+  --filter-select-focus-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand-blue) 20%, transparent);
+  --clear-filters-btn-bg: linear-gradient(135deg, var(--color-brand-red), var(--color-brand-red-hover));
+  --clear-filters-btn-hover-bg: linear-gradient(135deg, var(--color-brand-red-hover), #a71e2a);
+  --clear-filters-btn-shadow: 0 2px 4px color-mix(in srgb, var(--color-brand-red) 30%, transparent);
+  --clear-filters-btn-hover-shadow: 0 4px 8px color-mix(in srgb, var(--color-brand-red) 40%, transparent);
+  --toggle-filters-btn-bg: var(--style-new-gradient-primary);
+  --toggle-filters-btn-hover-bg: var(--style-new-gradient-primary-hover);
+  --toggle-filters-btn-shadow: 0 2px 4px color-mix(in srgb, var(--color-brand-blue) 30%, transparent);
+  --filters-summary-bg: #e3f2fd;
+  --filters-summary-border: #bbdefb;
+  --filters-summary-color: #1565c0;
+  --filters-summary-active-bg: #e8f5e8;
+  --filters-summary-active-border: #c8e6c9;
+  --filters-summary-active-color: #2e7d32;
+  --results-counter-bg: var(--style-new-gradient-secondary);
+  --results-counter-shadow: 0 2px 4px color-mix(in srgb, var(--color-brand-green) 30%, transparent);
+  --loading-border-color: var(--color-brand-blue);
+
   --user-info-bg: #e9f5e9;
   --user-info-color: #387038;
   --user-info-strong-color: #215c21;
@@ -54,85 +203,21 @@
   --github-login-btn-color: white;
   --github-login-btn-hover-bg: #33383d;
   --github-logout-btn-bg: transparent;
-  --github-logout-btn-color: #dc3545;
-  --github-logout-btn-border-color: #dc3545;
-  --github-logout-btn-hover-bg: #dc3545;
+  --github-logout-btn-color: var(--color-brand-red);
+  --github-logout-btn-border-color: var(--color-brand-red);
+  --github-logout-btn-hover-bg: var(--color-brand-red);
   --github-logout-btn-hover-color: white;
 
-  /* --- Filters --- */
-  --filter-container-bg: #f8f9fa;
-  --filter-container-border: #e9ecef;
-  --filter-label-color: #495057;
-  --filter-select-bg: white;
-  --filter-select-border: 1px solid #dee2e6;
-  --filter-select-color: #495057;
-  --filter-select-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  --filter-select-hover-border: #667eea;
-  --filter-select-hover-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
-  --filter-select-focus-border: #667eea;
-  --filter-select-focus-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
-  --clear-filters-btn-bg: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-  --clear-filters-btn-hover-bg: linear-gradient(135deg, #c82333 0%, #a71e2a 100%);
-  --clear-filters-btn-shadow: 0 2px 4px rgba(220, 53, 69, 0.3);
-  --clear-filters-btn-hover-shadow: 0 4px 8px rgba(220, 53, 69, 0.4);
-  --toggle-filters-btn-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --toggle-filters-btn-hover-bg: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
-  --toggle-filters-btn-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
-  --filters-summary-bg: #e3f2fd;
-  --filters-summary-border: #bbdefb;
-  --filters-summary-color: #1565c0;
-  --filters-summary-active-bg: #e8f5e8;
-  --filters-summary-active-border: #c8e6c9;
-  --filters-summary-active-color: #2e7d32;
-  --results-counter-bg: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-  --results-counter-shadow: 0 2px 4px rgba(40, 167, 69, 0.3);
-  --loading-border-color: #667eea;
-
-  /* --- Cards --- */
-  --card-bg: white;
-  --card-border: 1px solid #e9ecef;
-  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  --card-hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  --card-header-bg: linear-gradient(135deg, #667eea, #764ba2);
-  --card-meta-bg: #f8f9fa;
-  --card-meta-border: 1px solid #e9ecef;
-  --salary-color: #28a745;
-  --meta-text-color: #6c757d;
-  --user-section-bg: #fafbfc;
-  --user-section-border: 1px solid #f1f3f4;
-  --github-link-color: #24292e;
-  --github-link-hover-color: #0366d6;
-  --github-avatar-border: 2px solid #e1e4e8;
-  --local-user-color: #6c757d;
-  --local-username-color: #495057;
-  --anonymous-color: #6c757d;
-  --local-save-color: #28a745;
-  --content-section-title-color: #495057;
-  --content-section-title-border: 2px solid #667eea;
-  --content-subsection-title-color: #6c757d;
-  --question-text-color: #495057;
-  --question-checked-color: #28a745;
-  --question-note-color: #764ba2;
-  --question-note-bg: #f8f9fa;
-  --interview-actions-border-top: 1px solid #e9ecef;
-  --btn-secondary-bg: linear-gradient(135deg, #667eea, #764ba2);
-  --btn-primary-bg: linear-gradient(135deg, #667eea, #764ba2);
-  --btn-primary-hover-bg: linear-gradient(135deg, #5a67d8, #6b46c1);
-  --scrollbar-track-bg: #f1f1f1;
-  --scrollbar-thumb-bg: linear-gradient(135deg, #667eea, #764ba2);
-  --scrollbar-thumb-hover-bg: linear-gradient(135deg, #5a67d8, #6b46c1);
-
-  /* --- Interviews Page --- */
-  --interviews-header-bg: #f8f9fa;
-  --interviews-header-border: 1px solid #e9ecef;
-  --back-link-color: #667eea;
-  --back-link-border: 2px solid #667eea;
-  --back-link-hover-bg: #667eea;
+  --interviews-header-bg: var(--color-gray-50);
+  --interviews-header-border: 1px solid var(--color-gray-200);
+  --back-link-color: var(--color-brand-blue);
+  --back-link-border: 2px solid var(--color-brand-blue);
+  --back-link-hover-bg: var(--color-brand-blue);
   --back-link-hover-color: white;
-  --interviews-h1-color: #495057;
-  --load-btn-bg: linear-gradient(135deg, #667eea, #764ba2);
-  --load-btn-hover-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-  --loading-text-color: #6c757d;
+  --interviews-h1-color: var(--color-gray-600);
+  --load-btn-bg: var(--style-new-gradient-primary);
+  --load-btn-hover-shadow: 0 8px 25px color-mix(in srgb, var(--color-brand-blue) 30%, transparent);
+  --loading-text-color: var(--color-gray-500);
   --error-message-bg: #f8d7da;
   --error-message-color: #721c24;
   --error-message-border: 1px solid #f1aeb5;
@@ -143,420 +228,345 @@
   --offline-warning-bg: linear-gradient(135deg, #ffeaa7, #fab1a0);
   --offline-warning-border: 2px solid #e17055;
   --offline-warning-color: #d63031;
+  --offline-warning-shadow: 0 4px 12px color-mix(in srgb, #e17055 30%, transparent);
   --offline-details-bg: rgba(255, 255, 255, 0.7);
   --offline-details-color: #2d3436;
   --modal-backdrop-bg: rgba(0, 0, 0, 0.5);
   --modal-content-bg: white;
-  --modal-content-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  --modal-header-border: 1px solid #e9ecef;
-  --modal-close-btn-color: #adb5bd;
-  --modal-close-btn-hover-bg: #e9ecef;
-  --modal-close-btn-hover-color: #495057;
-  --modal-close-btn-active-bg: #dee2e6;
-  --modal-footer-border: 1px solid #e9ecef;
- 
-  /* ------------------------------------  СОСТОЯНИЯ ПРЕДУПРЕЖДЕНИЙ */
-  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --secondary-gradient: linear-gradient(135deg, #8bd7d5 0%, #91ebf5 100%);
-  --accent-color: #667eea;
-  --text-primary: #2d3748;
-  --text-secondary: #4a5568;
-  --bg-light: #f8fafc;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
-  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-  --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
-  --radius-sm: 6px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-  --loading-text-color: #6c757d;
-  --error-message-bg: #f8d7da;
-  --error-message-color: #721c24;
-  --error-message-border: 1px solid #f1aeb5;
-  --warning-banner-bg: #fff3cd;
-  --warning-banner-border: 5px solid #ffc107;
-  --warning-banner-color: #856404;
-  --warning-banner-link-color: #0056b3;
-  --offline-warning-bg: linear-gradient(135deg, #ffeaa7, #fab1a0);
-  --offline-warning-border: 2px solid #e17055;
-  --offline-warning-color: #d63031;
-  --offline-warning-shadow: 0 4px 12px rgba(225, 112, 85, 0.3);
-  --offline-details-bg: rgba(255, 255, 255, 0.7);
-  --offline-details-color: #2d3436;
+  --modal-content-shadow: 0 4px 12px var(--color-gray-alpha-200);
+  --modal-header-border: 1px solid var(--color-gray-200);
+  --modal-close-btn-color: var(--color-gray-400);
+  --modal-close-btn-hover-bg: var(--color-gray-200);
+  --modal-close-btn-hover-color: var(--color-gray-600);
+  --modal-close-btn-active-bg: var(--color-gray-300);
+  --modal-footer-border: 1px solid var(--color-gray-200);
 }
 
+/* ==================== НОВАЯ ТЁМНАЯ ТЕМА ==================== */
 .new-dark-theme {
-  /* ==================== НОВАЯ ТЁМНАЯ ТЕМА ==================== */
-  --body-bg: #0b0c10;
-  --text-color: #c5c6c7;
-  --header-bg: #1f2833;
-  --header-h1-color: #66fcf1;
-  --nav-link-color: #66fcf1;
-  --nav-link-border: 2px solid #66fcf1;
-  --nav-link-hover-bg: #66fcf1;
-  --nav-link-hover-border: transparent;
-  --questions-counter-color: #c5c6c7;
-  --container-bg: #1f2833;
+  /* -- Общие -- */
+  --body-bg: var(--color-dark-body);
+  --text-color: var(--color-dark-text);
+  --header-bg: var(--color-dark-surface);
+  --header-h1-color: var(--color-brand-cyan);
+  --questions-counter-color: var(--text-color);
+  --success-color: var(--color-brand-green);
+  --error-color: var(--color-brand-red);
+  --success-shadow: 0 4px 12px color-mix(in srgb, var(--success-color) 40%, transparent);
+  --error-shadow: 0 0 0 2px color-mix(in srgb, var(--error-color) 25%, transparent);
+
+  /* --- Компоненты --- */
+  --container-bg: var(--color-dark-surface);
   --container-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-  --info-section-bg: #28303a;
+
+  --info-section-bg: var(--color-dark-border);
   --info-border-color: #2f3844;
-  --input-label-color: #c5c6c7;
-  --input-border: 1px solid #45a29e;
-  --input-focus-border: #66fcf1;
-  --input-focus-shadow: 0 0 0 3px rgba(102, 252, 241, 0.25);
-  --input-placeholder-color: #45a29e;
-  --section-h2-color: #66fcf1;
-  --section-h2-border: 2px solid #66fcf1;
-  --section-h3-color: #c5c6c7;
-  --question-bg: #1f2833;
-  --question-border: 1px solid #28303a;
+
+  --input-label-color: var(--text-color);
+  --input-border: 1px solid var(--color-brand-cyan-hover);
+  --input-focus-border: var(--color-brand-cyan);
+  --input-focus-shadow: 0 0 0 3px color-mix(in srgb, var(--input-focus-border) 25%, transparent);
+  --input-placeholder-color: var(--color-brand-cyan-hover);
+
+  --section-h2-color: var(--color-brand-cyan);
+  --section-h2-border: 2px solid var(--color-brand-cyan);
+  --section-h3-color: var(--text-color);
+
+  --question-bg: var(--color-dark-surface);
+  --question-border: 1px solid var(--color-dark-border);
   --question-hover-bg: #2f3844;
-  --question-hover-border: #45a29e;
-  --input-text-border: 1px solid #45a29e;
-  --input-text-focus-border: #66fcf1;
-  --input-text-focus-shadow: 0 0 0 2px rgba(102, 252, 241, 0.2);
-  --input-text-placeholder-color: #45a29e;
+  --question-hover-border: var(--color-brand-cyan-hover);
+  --question-label-color: var(--text-color);
+  --question-checked-color: var(--color-brand-cyan);
+  --question-unchecked-color: var(--text-color);
+  --question-note-color: var(--color-brand-cyan-hover);
+  --question-note-bg: var(--color-dark-body);
+
   --warnings-bg: #ef4444;
   --warnings-h2-color: white;
   --warnings-border-color: #f1aeb5;
   --warnings-li-bg: #dc2626;
   --warnings-li-hover-bg: #ef4444;
   --warnings-li-border-left: 5px solid white;
-  --submit-btn-bg: #66fcf1;
-  --submit-btn-hover-bg: #45a29e;
-  --submit-btn-hover-shadow: 0 4px 12px rgba(102, 252, 241, 0.4);
-  --success-msg-bg: #10b981;
-  --success-msg-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
-  --error-border: #ef4444;
-  --error-shadow: 0 0 0 2px rgba(239, 68, 68, 0.25);
 
-  /* --- Auth --- */
-  --user-info-bg: #1f2833;
-  --user-info-color: #66fcf1;
-  --user-info-strong-color: #45a29e;
-  --auth-warning-bg: #28303a;
-  --auth-warning-color: #f59e0b;
-  --auth-warning-border-color: #555c65;
-  --github-login-btn-bg: #66fcf1;
-  --github-login-btn-color: #0b0c10;
-  --github-login-btn-hover-bg: #45a29e;
-  --github-logout-btn-bg: transparent;
-  --github-logout-btn-color: #66fcf1;
-  --github-logout-btn-border-color: #66fcf1;
-  --github-logout-btn-hover-bg: #66fcf1;
-  --github-logout-btn-hover-color: #0b0c10;
+  --submit-btn-bg: linear-gradient(135deg, var(--color-brand-cyan), var(--color-brand-cyan-hover));
+  --submit-btn-hover-bg: linear-gradient(135deg, var(--color-brand-cyan-hover), #28303a);
+  --submit-btn-hover-shadow: 0 4px 12px color-mix(in srgb, var(--color-brand-cyan) 40%, transparent);
 
-  /* --- Filters --- */
-  --filter-container-bg: #1f2833;
-  --filter-container-border: #28303a;
-  --filter-label-color: #c5c6c7;
-  --filter-select-bg: #0b0c10;
-  --filter-select-border: 1px solid #28303a;
-  --filter-select-color: #66fcf1;
-  --filter-select-shadow: none;
-  --filter-select-hover-border: 1px solid #66fcf1;
-  --filter-select-hover-shadow: none;
-  --filter-select-focus-border: 1px solid #66fcf1;
-  --filter-select-focus-shadow: 0 0 0 3px rgba(102, 252, 241, 0.2);
-  --clear-filters-btn-bg: #dc3545;
-  --clear-filters-btn-hover-bg: #c82333;
-  --clear-filters-btn-shadow: none;
-  --clear-filters-btn-hover-shadow: none;
-  --toggle-filters-btn-bg: #45a29e;
-  --toggle-filters-btn-hover-bg: #28303a;
-  --toggle-filters-btn-shadow: none;
-  --filters-summary-bg: #0b0c10;
-  --filters-summary-border: 1px solid #28303a;
-  --filters-summary-color: #c5c6c7;
-  --filters-summary-active-bg: #1f2833;
-  --filters-summary-active-border: 1px solid #45a29e;
-  --filters-summary-active-color: #66fcf1;
-  --results-counter-bg: #66fcf1;
-  --results-counter-shadow: none;
-  --loading-border-color: #66fcf1;
-
-  /* --- Cards --- */
-  --card-bg: #1f2833;
-  --card-border: 1px solid #28303a;
+  --success-msg-bg: var(--success-color);
+  --success-msg-shadow: var(--success-shadow);
+  --error-border: var(--error-color);
+  
+  --card-bg: var(--color-dark-surface);
+  --card-border: 1px solid var(--color-dark-border);
   --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   --card-hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
-  --card-header-bg: #1f2833;
-  --card-meta-bg: #28303a;
+  --card-header-bg: var(--color-dark-surface);
+  --card-meta-bg: var(--color-dark-border);
   --card-meta-border: 1px solid #2f3844;
-  --salary-color: #66fcf1;
-  --meta-text-color: #c5c6c7;
-  --user-section-bg: #28303a;
+  --salary-color: var(--color-brand-cyan);
+  --meta-text-color: var(--text-color);
+  --user-section-bg: var(--color-dark-border);
   --user-section-border: 1px solid #2f3844;
-  --github-link-color: #66fcf1;
-  --github-link-hover-color: #45a29e;
-  --github-avatar-border: 2px solid #66fcf1;
-  --local-user-color: #c5c6c7;
-  --local-username-color: #66fcf1;
-  --anonymous-color: #c5c6c7;
-  --local-save-color: #66fcf1;
-  --content-section-title-color: #66fcf1;
-  --content-section-title-border: 2px solid #66fcf1;
-  --content-subsection-title-color: #c5c6c7;
-  --question-text-color: #c5c6c7;
-  --question-checked-color: #66fcf1;
-  --question-note-color: #45a29e;
-  --question-note-bg: #0b0c10;
+  --github-link-color: var(--color-brand-cyan);
+  --github-link-hover-color: var(--color-brand-cyan-hover);
+  --github-avatar-border: 2px solid var(--color-brand-cyan);
+  --local-user-color: var(--text-color);
+  --local-username-color: var(--color-brand-cyan);
+  --anonymous-color: var(--text-color);
+  --local-save-color: var(--color-brand-cyan);
+  --content-section-title-color: var(--color-brand-cyan);
+  --content-section-title-border: 2px solid var(--color-brand-cyan);
+  --content-subsection-title-color: var(--text-color);
+  --question-text-color: var(--text-color);
   --interview-actions-border-top: 1px solid #2f3844;
-  --btn-secondary-bg: #66fcf1;
-  --btn-primary-bg: #45a29e;
-  --btn-primary-hover-bg: #28303a;
-  --scrollbar-track-bg: #0b0c10;
-  --scrollbar-thumb-bg: #66fcf1;
-  --scrollbar-thumb-hover-bg: #45a29e;
-
-  /* --- Interviews Page --- */
-  --interviews-header-bg: #1f2833;
-  --interviews-header-border: 1px solid #28303a;
-  --back-link-color: #66fcf1;
-  --back-link-border: 2px solid #66fcf1;
-  --back-link-hover-bg: #66fcf1;
-  --back-link-hover-color: #0b0c10;
-  --interviews-h1-color: #c5c6c7;
-  --load-btn-bg: #45a29e;
-  --load-btn-hover-shadow: 0 8px 25px rgba(102, 252, 241, 0.3);
-  --loading-text-color: #c5c6c7;
+  --btn-secondary-bg: var(--color-brand-cyan);
+  --btn-primary-bg: var(--color-brand-cyan-hover);
+  --btn-primary-hover-bg: var(--color-dark-border);
+  --scrollbar-track-bg: var(--color-dark-body);
+  --scrollbar-thumb-bg: var(--color-brand-cyan);
+  --scrollbar-thumb-hover-bg: var(--color-brand-cyan-hover);
+  
+  --filter-container-bg: var(--color-dark-surface);
+  --filter-container-border: var(--color-dark-border);
+  --filter-label-color: var(--text-color);
+  --filter-select-bg: var(--color-dark-body);
+  --filter-select-border: 1px solid var(--color-dark-border);
+  --filter-select-color: var(--color-brand-cyan);
+  --filter-select-shadow: none;
+  --filter-select-hover-border: 1px solid var(--color-brand-cyan);
+  --filter-select-hover-shadow: none;
+  --filter-select-focus-border: 1px solid var(--color-brand-cyan);
+  --filter-select-focus-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand-cyan) 20%, transparent);
+  --clear-filters-btn-bg: var(--color-brand-red);
+  --clear-filters-btn-hover-bg: var(--color-brand-red-hover);
+  --clear-filters-btn-shadow: none;
+  --clear-filters-btn-hover-shadow: none;
+  --toggle-filters-btn-bg: var(--color-brand-cyan-hover);
+  --toggle-filters-btn-hover-bg: var(--color-dark-border);
+  --toggle-filters-btn-shadow: none;
+  --filters-summary-bg: var(--color-dark-body);
+  --filters-summary-border: 1px solid var(--color-dark-border);
+  --filters-summary-color: var(--text-color);
+  --filters-summary-active-bg: var(--color-dark-surface);
+  --filters-summary-active-border: 1px solid var(--color-brand-cyan-hover);
+  --filters-summary-active-color: var(--color-brand-cyan);
+  --results-counter-bg: var(--color-brand-cyan);
+  --results-counter-shadow: none;
+  --loading-border-color: var(--color-brand-cyan);
+  
+  --user-info-bg: var(--color-dark-surface);
+  --user-info-color: var(--color-brand-cyan);
+  --user-info-strong-color: var(--color-brand-cyan-hover);
+  --auth-warning-bg: var(--color-dark-border);
+  --auth-warning-color: var(--color-brand-yellow);
+  --auth-warning-border-color: #555c65;
+  --github-login-btn-bg: var(--color-brand-cyan);
+  --github-login-btn-color: var(--color-dark-body);
+  --github-login-btn-hover-bg: var(--color-brand-cyan-hover);
+  --github-logout-btn-bg: transparent;
+  --github-logout-btn-color: var(--color-brand-cyan);
+  --github-logout-btn-border-color: var(--color-brand-cyan);
+  --github-logout-btn-hover-bg: var(--color-brand-cyan);
+  --github-logout-btn-hover-color: var(--color-dark-body);
+  
+  --interviews-header-bg: var(--color-dark-surface);
+  --interviews-header-border: 1px solid var(--color-dark-border);
+  --back-link-color: var(--color-brand-cyan);
+  --back-link-border: 2px solid var(--color-brand-cyan);
+  --back-link-hover-bg: var(--color-brand-cyan);
+  --back-link-hover-color: var(--color-dark-body);
+  --interviews-h1-color: var(--text-color);
+  --load-btn-bg: var(--color-brand-cyan-hover);
+  --load-btn-hover-shadow: 0 8px 25px color-mix(in srgb, var(--color-brand-cyan) 30%, transparent);
+  --loading-text-color: var(--text-color);
   --error-message-bg: #dc2626;
   --error-message-color: white;
   --error-message-border: 1px solid #ef4444;
-  --warning-banner-bg: #f59e0b;
+  --warning-banner-bg: var(--color-brand-yellow);
   --warning-banner-border: 5px solid #fff;
   --warning-banner-color: white;
   --warning-banner-link-color: #fff;
-  --offline-warning-bg: #45a29e;
-  --offline-warning-border: 2px solid #28303a;
-  --offline-warning-color: white;
-  --offline-details-bg: rgba(0, 0, 0, 0.7);
-  --offline-details-color: #fff;
-  --modal-backdrop-bg: rgba(0, 0, 0, 0.8);
-  --modal-content-bg: #1f2833;
-  --modal-content-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-  --modal-header-border: 1px solid #28303a;
-  --modal-close-btn-color: #c5c6c7;
-  --modal-close-btn-hover-bg: #28303a;
-  --modal-close-btn-hover-color: #fff;
-  --modal-close-btn-active-bg: #2f3844;
-  --modal-footer-border: 1px solid #28303a;
-   
-/* ------------------------------------  СОСТОЯНИЯ ПРЕДУПРЕЖДЕНИЙ */
-    --primary-gradient: linear-gradient(135deg, #45a29e 0%, #66fcf1 100%);
-  --secondary-gradient: linear-gradient(135deg, #0b0c10 0%, #1f2833 100%);
-  --accent-color: #66fcf1;
-  --text-primary: #c5c6c7;
-  --text-secondary: #858586;
-  --bg-light: #1f2833;
-  --shadow-sm: 0 1px 3px rgba(102, 252, 241, 0.12);
-  --shadow-md: 0 4px 6px rgba(102, 252, 241, 0.1);
-  --shadow-lg: 0 10px 25px rgba(102, 252, 241, 0.1);
-
-  --loading-text-color: #c5c6c7;
-  --error-message-bg: #dc2626;
-  --error-message-color: white;
-  --error-message-border: 1px solid #ef4444;
-  --warning-banner-bg: #f59e0b;
-  --warning-banner-border: 5px solid #fff;
-  --warning-banner-color: white;
-  --warning-banner-link-color: #fff;
-  --offline-warning-bg: #45a29e;
-  --offline-warning-border: 2px solid #28303a;
+  --offline-warning-bg: var(--color-brand-cyan-hover);
+  --offline-warning-border: 2px solid var(--color-dark-border);
   --offline-warning-color: white;
   --offline-warning-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   --offline-details-bg: rgba(0, 0, 0, 0.7);
-  --offline-details-color: #fff
+  --offline-details-color: #fff;
+  --modal-backdrop-bg: rgba(0, 0, 0, 0.8);
+  --modal-content-bg: var(--color-dark-surface);
+  --modal-content-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --modal-header-border: 1px solid var(--color-dark-border);
+  --modal-close-btn-color: var(--text-color);
+  --modal-close-btn-hover-bg: var(--color-dark-border);
+  --modal-close-btn-hover-color: #fff;
+  --modal-close-btn-active-bg: #2f3844;
+  --modal-footer-border: 1px solid var(--color-dark-border);
 }
 
+/* ==================== СТАРАЯ СВЕТЛАЯ ТЕМА ==================== */
 .old-light-theme {
-  /* ==================== СТАРАЯ СВЕТЛАЯ ТЕМА ==================== */
-  --body-bg: #c0c0c0;
-  --text-color: #000;
-  --header-bg: #808080;
-  --header-h1-color: #000;
-  --nav-link-color: #000;
-  --nav-link-border: 2px solid #000;
-  --nav-link-hover-bg: #000;
+  --body-bg: var(--style-old-bg);
+  --text-color: var(--style-old-text);
+  --header-bg: var(--style-old-bg-dark);
+  --header-h1-color: var(--style-old-text);
+  --nav-link-color: var(--style-old-text);
+  --nav-link-border: var(--style-old-border);
+  --nav-link-hover-bg: var(--style-old-text);
   --nav-link-hover-border: transparent;
-  --questions-counter-color: #000;
-  --container-bg: #c0c0c0;
-  --container-shadow: none;
-  --info-section-bg: #808080;
-  --info-border-color: #000;
-  --input-label-color: #000;
-  --input-border: 2px solid #000;
-  --input-focus-border: 2px solid #000080;
-  --input-focus-shadow: none;
+  --questions-counter-color: var(--style-old-text);
+
+  --container-bg: var(--style-old-bg);
+  --container-shadow: var(--style-old-shadow);
+
+  --info-section-bg: var(--style-old-bg-dark);
+  --info-border-color: var(--style-old-text);
+
+  --input-label-color: var(--style-old-text);
+  --input-border: var(--style-old-border);
+  --input-focus-border: var(--style-old-border-accent);
+  --input-focus-shadow: var(--style-old-shadow);
   --input-placeholder-color: #404040;
-  --section-h2-color: #000;
-  --section-h2-border: 2px solid #000080;
-  --section-h3-color: #000;
-  --question-bg: #c0c0c0;
-  --question-border: 2px solid #000;
-  --question-hover-bg: #808080;
-  --question-hover-border: #000;
-  --input-text-border: 2px solid #000;
-  --input-text-focus-border: 2px solid #000080;
-  --input-text-focus-shadow: none;
-  --input-text-placeholder-color: #404040;
+
+  --section-h2-color: var(--style-old-text);
+  --section-h2-border: var(--style-old-border-accent);
+  --section-h3-color: var(--style-old-text);
+
+  --question-bg: var(--style-old-bg);
+  --question-border: var(--style-old-border);
+  --question-hover-bg: var(--style-old-bg-dark);
+  --question-hover-border: var(--style-old-text);
+  --question-label-color: var(--style-old-text);
+  --question-checked-color: var(--style-old-text-accent);
+  --question-unchecked-color: var(--style-old-text);
+  --question-note-color: #800080;
+  --question-note-bg: var(--style-old-bg);
+
   --warnings-bg: #800000;
-  --warnings-h2-color: #fff;
-  --warnings-border-color: #fff;
+  --warnings-h2-color: var(--style-old-text-light);
+  --warnings-border-color: var(--style-old-text-light);
   --warnings-li-bg: #404040;
   --warnings-li-hover-bg: #800000;
-  --warnings-li-border-left: 5px solid #fff;
-  --submit-btn-bg: #000080;
+  --warnings-li-border-left: 5px solid var(--style-old-text-light);
+
+  --submit-btn-bg: var(--style-old-text-accent);
   --submit-btn-hover-bg: #000040;
-  --submit-btn-hover-shadow: none;
+  --submit-btn-hover-shadow: var(--style-old-shadow);
+
   --success-msg-bg: #008000;
-  --success-msg-shadow: none;
+  --success-msg-shadow: var(--style-old-shadow);
   --error-border: 2px solid #ff0000;
-  --error-shadow: none;
-
-  /* --- Auth --- */
-  --user-info-bg: #c0c0c0;
-  --user-info-color: #000;
-  --user-info-strong-color: #000;
-  --auth-warning-bg: #c0c0c0;
-  --auth-warning-color: #000;
-  --auth-warning-border-color: #808080;
-  --github-login-btn-bg: #000;
-  --github-login-btn-color: #fff;
-  --github-login-btn-hover-bg: #404040;
-  --github-logout-btn-bg: transparent;
-  --github-logout-btn-color: #000;
-  --github-logout-btn-border-color: #000;
-  --github-logout-btn-hover-bg: #000;
-  --github-logout-btn-hover-color: #fff;
-
-  /* --- Filters --- */
-  --filter-container-bg: #c0c0c0;
-  --filter-container-border: 2px solid #000;
-  --filter-label-color: #000;
-  --filter-select-bg: #c0c0c0;
-  --filter-select-border: 2px solid #000;
-  --filter-select-color: #000;
-  --filter-select-shadow: none;
-  --filter-select-hover-border: 2px solid #000;
-  --filter-select-hover-shadow: none;
-  --filter-select-focus-border: 2px solid #000080;
-  --filter-select-focus-shadow: none;
-  --clear-filters-btn-bg: #808080;
+  --error-shadow: var(--style-old-shadow);
+  
+  --card-bg: var(--style-old-bg);
+  --card-border: var(--style-old-border);
+  --card-shadow: var(--style-old-shadow);
+  --card-hover-shadow: var(--style-old-shadow);
+  --card-header-bg: var(--style-old-bg-dark);
+  --card-meta-bg: var(--style-old-bg-dark);
+  --card-meta-border: var(--style-old-border);
+  --salary-color: #008000;
+  --meta-text-color: var(--style-old-text);
+  --user-section-bg: var(--style-old-bg);
+  --user-section-border: var(--style-old-border);
+  --github-link-color: var(--style-old-text);
+  --github-link-hover-color: var(--style-old-text);
+  --github-avatar-border: var(--style-old-border);
+  --local-user-color: var(--style-old-text);
+  --local-username-color: var(--style-old-text);
+  --anonymous-color: var(--style-old-text);
+  --local-save-color: #008000;
+  --content-section-title-color: var(--style-old-text);
+  --content-section-title-border: var(--style-old-border);
+  --content-subsection-title-color: var(--style-old-text);
+  --question-text-color: var(--style-old-text);
+  --interview-actions-border-top: var(--style-old-border);
+  --btn-secondary-bg: var(--style-old-text-accent);
+  --btn-primary-bg: var(--style-old-text-accent);
+  --btn-primary-hover-bg: #000040;
+  --scrollbar-track-bg: var(--style-old-bg);
+  --scrollbar-thumb-bg: var(--style-old-text);
+  --scrollbar-thumb-hover-bg: #404040;
+  
+  --filter-container-bg: var(--style-old-bg);
+  --filter-container-border: var(--style-old-border);
+  --filter-label-color: var(--style-old-text);
+  --filter-select-bg: var(--style-old-bg);
+  --filter-select-border: var(--style-old-border);
+  --filter-select-color: var(--style-old-text);
+  --filter-select-shadow: var(--style-old-shadow);
+  --filter-select-hover-border: var(--style-old-border);
+  --filter-select-hover-shadow: var(--style-old-shadow);
+  --filter-select-focus-border: var(--style-old-border-accent);
+  --filter-select-focus-shadow: var(--style-old-shadow);
+  --clear-filters-btn-bg: var(--style-old-bg-dark);
   --clear-filters-btn-hover-bg: #404040;
-  --clear-filters-btn-shadow: none;
-  --clear-filters-btn-hover-shadow: none;
-  --toggle-filters-btn-bg: #000080;
+  --clear-filters-btn-shadow: var(--style-old-shadow);
+  --clear-filters-btn-hover-shadow: var(--style-old-shadow);
+  --toggle-filters-btn-bg: var(--style-old-text-accent);
   --toggle-filters-btn-hover-bg: #000040;
-  --toggle-filters-btn-shadow: none;
-  --filters-summary-bg: #c0c0c0;
-  --filters-summary-border: 2px solid #000;
-  --filters-summary-color: #000;
-  --filters-summary-active-bg: #c0c0c0;
-  --filters-summary-active-border: 2px solid #000;
+  --toggle-filters-btn-shadow: var(--style-old-shadow);
+  --filters-summary-bg: var(--style-old-bg);
+  --filters-summary-border: var(--style-old-border);
+  --filters-summary-color: var(--style-old-text);
+  --filters-summary-active-bg: var(--style-old-bg);
+  --filters-summary-active-border: var(--style-old-border);
   --filters-summary-active-color: #008000;
   --results-counter-bg: #008000;
-  --results-counter-shadow: none;
-  --loading-border-color: #000080;
-
-  /* --- Cards --- */
-  --card-bg: #c0c0c0;
-  --card-border: 2px solid #000;
-  --card-shadow: none;
-  --card-hover-shadow: none;
-  --card-header-bg: #808080;
-  --card-meta-bg: #808080;
-  --card-meta-border: 2px solid #000;
-  --salary-color: #008000;
-  --meta-text-color: #000;
-  --user-section-bg: #c0c0c0;
-  --user-section-border: 2px solid #000;
-  --github-link-color: #000;
-  --github-link-hover-color: #000;
-  --github-avatar-border: 2px solid #000;
-  --local-user-color: #000;
-  --local-username-color: #000;
-  --anonymous-color: #000;
-  --local-save-color: #008000;
-  --content-section-title-color: #000;
-  --content-section-title-border: 2px solid #000;
-  --content-subsection-title-color: #000;
-  --question-text-color: #000;
-  --question-checked-color: #008000;
-  --question-note-color: #800080;
-  --question-note-bg: #c0c0c0;
-  --interview-actions-border-top: 2px solid #000;
-  --btn-secondary-bg: #000080;
-  --btn-primary-bg: #000080;
-  --btn-primary-hover-bg: #000040;
-  --scrollbar-track-bg: #c0c0c0;
-  --scrollbar-thumb-bg: #000;
-  --scrollbar-thumb-hover-bg: #404040;
-
-  /* --- Interviews Page --- */
-  --interviews-header-bg: #808080;
-  --interviews-header-border: 2px solid #000;
-  --back-link-color: #000080;
-  --back-link-border: 2px solid #000080;
-  --back-link-hover-bg: #000080;
-  --back-link-hover-color: #fff;
-  --interviews-h1-color: #000;
-  --load-btn-bg: #000080;
-  --load-btn-hover-shadow: none;
-  --loading-text-color: #000;
+  --results-counter-shadow: var(--style-old-shadow);
+  --loading-border-color: var(--style-old-text-accent);
+  
+  --user-info-bg: var(--style-old-bg);
+  --user-info-color: var(--style-old-text);
+  --user-info-strong-color: var(--style-old-text);
+  --auth-warning-bg: var(--style-old-bg);
+  --auth-warning-color: var(--style-old-text);
+  --auth-warning-border-color: var(--style-old-bg-dark);
+  --github-login-btn-bg: var(--style-old-text);
+  --github-login-btn-color: var(--style-old-text-light);
+  --github-login-btn-hover-bg: #404040;
+  --github-logout-btn-bg: transparent;
+  --github-logout-btn-color: var(--style-old-text);
+  --github-logout-btn-border-color: var(--style-old-text);
+  --github-logout-btn-hover-bg: var(--style-old-text);
+  --github-logout-btn-hover-color: var(--style-old-text-light);
+  
+  --interviews-header-bg: var(--style-old-bg-dark);
+  --interviews-header-border: var(--style-old-border);
+  --back-link-color: var(--style-old-text-accent);
+  --back-link-border: var(--style-old-border-accent);
+  --back-link-hover-bg: var(--style-old-text-accent);
+  --back-link-hover-color: var(--style-old-text-light);
+  --interviews-h1-color: var(--style-old-text);
+  --load-btn-bg: var(--style-old-text-accent);
+  --load-btn-hover-shadow: var(--style-old-shadow);
+  --loading-text-color: var(--style-old-text);
   --error-message-bg: #800000;
-  --error-message-color: #fff;
-  --error-message-border: 2px solid #fff;
-  --warning-banner-bg: #c0c0c0;
+  --error-message-color: var(--style-old-text-light);
+  --error-message-border: 2px solid var(--style-old-text-light);
+  --warning-banner-bg: var(--style-old-bg);
   --warning-banner-border: 5px solid #ff0;
-  --warning-banner-color: #000;
-  --warning-banner-link-color: #000080;
-  --offline-warning-bg: #808080;
-  --offline-warning-border: 2px solid #000;
-  --offline-warning-color: #000;
+  --warning-banner-color: var(--style-old-text);
+  --warning-banner-link-color: var(--style-old-text-accent);
+  --offline-warning-bg: var(--style-old-bg-dark);
+  --offline-warning-border: var(--style-old-border);
+  --offline-warning-color: var(--style-old-text);
+  --offline-warning-shadow: var(--style-old-shadow);
   --offline-details-bg: rgba(128, 128, 128, 0.7);
-  --offline-details-color: #000;
+  --offline-details-color: var(--style-old-text);
   --modal-backdrop-bg: rgba(0, 0, 0, 0.5);
-  --modal-content-bg: #c0c0c0;
-  --modal-content-shadow: none;
-  --modal-header-border: 2px solid #000;
+  --modal-content-bg: var(--style-old-bg);
+  --modal-content-shadow: var(--style-old-shadow);
+  --modal-header-border: var(--style-old-border);
   --modal-close-btn-color: #404040;
-  --modal-close-btn-hover-bg: #808080;
-  --modal-close-btn-hover-color: #000;
-  --modal-close-btn-active-bg: #c0c0c0;
-  --modal-footer-border: 2px solid #000;
-
-
-  /* ------------------------------------  СОСТОЯНИЯ ПРЕДУПРЕЖДЕНИЙ */
-  --primary-gradient: linear-gradient(135deg, #c0c0c0 0%, #808080 100%);
-  --secondary-gradient: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
-  --accent-color: #000000;
-  --text-primary: #000000;
-  --text-secondary: #333333;
-  --bg-light: #e0e0e0;
-  --shadow-sm: none;
-  --shadow-md: none;
-  --shadow-lg: none;
-
-  --loading-text-color: #000;
-  --error-message-bg: #800000;
-  --error-message-color: #fff;
-  --error-message-border: 2px solid #fff;
-  --warning-banner-bg: #c0c0c0;
-  --warning-banner-border: 5px solid #ff0;
-  --warning-banner-color: #000;
-  --warning-banner-link-color: #000080;
-  --offline-warning-bg: #808080;
-  --offline-warning-border: 2px solid #000;
-  --offline-warning-color: #000;
-  --offline-warning-shadow: none;
-  --offline-details-bg: rgba(128, 128, 128, 0.7);
-  --offline-details-color: #000;
+  --modal-close-btn-hover-bg: var(--style-old-bg-dark);
+  --modal-close-btn-hover-color: var(--style-old-text);
+  --modal-close-btn-active-bg: var(--style-old-bg);
+  --modal-footer-border: var(--style-old-border);
 }
 
+/* ==================== СТАРАЯ ТЁМНАЯ ТЕМА ==================== */
 .old-dark-theme {
-  /* ==================== СТАРАЯ ТЁМНАЯ ТЕМА ==================== */
   --body-bg: #000;
   --text-color: #fff;
   --header-bg: #404040;
@@ -566,57 +576,79 @@
   --nav-link-hover-bg: #fff;
   --nav-link-hover-border: transparent;
   --questions-counter-color: #fff;
+
   --container-bg: #000;
   --container-shadow: none;
+
   --info-section-bg: #404040;
   --info-border-color: #fff;
+
   --input-label-color: #fff;
   --input-border: 2px solid #fff;
   --input-focus-border: 2px solid #fff;
   --input-focus-shadow: none;
   --input-placeholder-color: #c0c0c0;
+
   --section-h2-color: #fff;
   --section-h2-border: 2px solid #fff;
   --section-h3-color: #fff;
+
   --question-bg: #000;
   --question-border: 2px solid #fff;
   --question-hover-bg: #404040;
   --question-hover-border: #fff;
-  --input-text-border: 2px solid #fff;
-  --input-text-focus-border: 2px solid #fff;
-  --input-text-focus-shadow: none;
-  --input-text-placeholder-color: #c0c0c0;
+  --question-label-color: #fff;
+  --question-checked-color: #00ff00;
+  --question-unchecked-color: #fff;
+  --question-note-color: #ff00ff;
+  --question-note-bg: #000;
+
   --warnings-bg: #800000;
   --warnings-h2-color: #fff;
   --warnings-border-color: #fff;
   --warnings-li-bg: #404040;
   --warnings-li-hover-bg: #800000;
   --warnings-li-border-left: 5px solid #fff;
+
   --submit-btn-bg: #fff;
   --submit-btn-hover-bg: #c0c0c0;
   --submit-btn-hover-shadow: none;
+
   --success-msg-bg: #008000;
   --success-msg-shadow: none;
   --error-border: 2px solid #ff0000;
   --error-shadow: none;
-
-  /* --- Auth --- */
-  --user-info-bg: #000;
-  --user-info-color: #fff;
-  --user-info-strong-color: #fff;
-  --auth-warning-bg: #000;
-  --auth-warning-color: #fff;
-  --auth-warning-border-color: #fff;
-  --github-login-btn-bg: #fff;
-  --github-login-btn-color: #000;
-  --github-login-btn-hover-bg: #c0c0c0;
-  --github-logout-btn-bg: transparent;
-  --github-logout-btn-color: #fff;
-  --github-logout-btn-border-color: #fff;
-  --github-logout-btn-hover-bg: #fff;
-  --github-logout-btn-hover-color: #000;
-
-  /* --- Filters --- */
+  
+  --card-bg: #000;
+  --card-border: 2px solid #fff;
+  --card-shadow: none;
+  --card-hover-shadow: none;
+  --card-header-bg: #404040;
+  --card-meta-bg: #404040;
+  --card-meta-border: 2px solid #fff;
+  --salary-color: #00ff00;
+  --meta-text-color: #fff;
+  --user-section-bg: #404040;
+  --user-section-border: 2px solid #fff;
+  --github-link-color: #fff;
+  --github-link-hover-color: #fff;
+  --github-avatar-border: 2px solid #fff;
+  --local-user-color: #fff;
+  --local-username-color: #fff;
+  --anonymous-color: #fff;
+  --local-save-color: #00ff00;
+  --content-section-title-color: #fff;
+  --content-section-title-border: 2px solid #fff;
+  --content-subsection-title-color: #fff;
+  --question-text-color: #fff;
+  --interview-actions-border-top: 2px solid #fff;
+  --btn-secondary-bg: #fff;
+  --btn-primary-bg: #fff;
+  --btn-primary-hover-bg: #c0c0c0;
+  --scrollbar-track-bg: #000;
+  --scrollbar-thumb-bg: #fff;
+  --scrollbar-thumb-hover-bg: #c0c0c0;
+  
   --filter-container-bg: #000;
   --filter-container-border: 2px solid #fff;
   --filter-label-color: #fff;
@@ -644,42 +676,22 @@
   --results-counter-bg: #00ff00;
   --results-counter-shadow: none;
   --loading-border-color: #fff;
-
-  /* --- Cards --- */
-  --card-bg: #000;
-  --card-border: 2px solid #fff;
-  --card-shadow: none;
-  --card-hover-shadow: none;
-  --card-header-bg: #404040;
-  --card-meta-bg: #404040;
-  --card-meta-border: 2px solid #fff;
-  --salary-color: #00ff00;
-  --meta-text-color: #fff;
-  --user-section-bg: #404040;
-  --user-section-border: 2px solid #fff;
-  --github-link-color: #fff;
-  --github-link-hover-color: #fff;
-  --github-avatar-border: 2px solid #fff;
-  --local-user-color: #fff;
-  --local-username-color: #fff;
-  --anonymous-color: #fff;
-  --local-save-color: #00ff00;
-  --content-section-title-color: #fff;
-  --content-section-title-border: 2px solid #fff;
-  --content-subsection-title-color: #fff;
-  --question-text-color: #fff;
-  --question-checked-color: #00ff00;
-  --question-note-color: #ff00ff;
-  --question-note-bg: #000;
-  --interview-actions-border-top: 2px solid #fff;
-  --btn-secondary-bg: #fff;
-  --btn-primary-bg: #fff;
-  --btn-primary-hover-bg: #c0c0c0;
-  --scrollbar-track-bg: #000;
-  --scrollbar-thumb-bg: #fff;
-  --scrollbar-thumb-hover-bg: #c0c0c0;
   
-  /* --- Interviews Page --- */
+  --user-info-bg: #000;
+  --user-info-color: #fff;
+  --user-info-strong-color: #fff;
+  --auth-warning-bg: #000;
+  --auth-warning-color: #fff;
+  --auth-warning-border-color: #fff;
+  --github-login-btn-bg: #fff;
+  --github-login-btn-color: #000;
+  --github-login-btn-hover-bg: #c0c0c0;
+  --github-logout-btn-bg: transparent;
+  --github-logout-btn-color: #fff;
+  --github-logout-btn-border-color: #fff;
+  --github-logout-btn-hover-bg: #fff;
+  --github-logout-btn-hover-color: #000;
+  
   --interviews-header-bg: #404040;
   --interviews-header-border: 2px solid #fff;
   --back-link-color: #fff;
@@ -700,6 +712,7 @@
   --offline-warning-bg: #000;
   --offline-warning-border: 2px solid #fff;
   --offline-warning-color: #fff;
+  --offline-warning-shadow: none;
   --offline-details-bg: rgba(64, 64, 64, 0.7);
   --offline-details-color: #fff;
   --modal-backdrop-bg: rgba(0, 0, 0, 0.8);
@@ -711,30 +724,4 @@
   --modal-close-btn-hover-color: #fff;
   --modal-close-btn-active-bg: #404040;
   --modal-footer-border: 2px solid #fff;
-
-  /* ------------------------------------  СОСТОЯНИЯ ПРЕДУПРЕЖДЕНИЙ */
-  --primary-gradient: linear-gradient(135deg, #000000 0%, #333333 100%);
-  --secondary-gradient: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
-  --accent-color: #ffffff;
-  --text-primary: #ffffff;
-  --text-secondary: #cccccc;
-  --bg-light: #0d0d0d;
-  --shadow-sm: none;
-  --shadow-md: none;
-  --shadow-lg: none;
-
-  --loading-text-color: #fff;
-  --error-message-bg: #800000;
-  --error-message-color: #fff;
-  --error-message-border: 2px solid #fff;
-  --warning-banner-bg: #000;
-  --warning-banner-border: 5px solid #ff0;
-  --warning-banner-color: #fff;
-  --warning-banner-link-color: #fff;
-  --offline-warning-bg: #000;
-  --offline-warning-border: 2px solid #fff;
-  --offline-warning-color: #fff;
-  --offline-warning-shadow: none;
-  --offline-details-bg: rgba(64, 64, 64, 0.7);
-  --offline-details-color: #fff;
 }

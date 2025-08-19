@@ -1,4 +1,5 @@
 @import "../variables.css";
+
 /* ------------------------------------------------------ Состояния загрузки, ошибок и пустых данных */
 .loading {
   text-align: center;
@@ -16,7 +17,8 @@
   background: var(--error-message-bg);
   color: var(--error-message-color);
   padding: 1rem;
-  border-radius: 8px;
+  /* Используем переменную для радиуса */
+  border-radius: var(--style-new-radius-md);
   margin: 2rem;
   border: var(--error-message-border);
   word-break: break-word;
@@ -32,7 +34,8 @@
   border-left: var(--warning-banner-border);
   padding: 1.5rem;
   margin: 2rem;
-  border-radius: 4px;
+  /* Используем переменную для радиуса */
+  border-radius: var(--style-new-radius-sm);
   color: var(--warning-banner-color);
 }
 
@@ -56,7 +59,8 @@
 .offline-warning-banner {
   background: var(--offline-warning-bg);
   border: var(--offline-warning-border);
-  border-radius: 12px;
+  /* Используем переменную для радиуса */
+  border-radius: var(--style-new-radius-lg);
   padding: 24px;
   margin: 20px 0;
   text-align: center;
@@ -73,7 +77,8 @@
   text-align: left;
   background: var(--offline-details-bg);
   padding: 16px;
-  border-radius: 8px;
+  /* Используем переменную для радиуса */
+  border-radius: var(--style-new-radius-md);
   margin: 16px 0;
 }
 

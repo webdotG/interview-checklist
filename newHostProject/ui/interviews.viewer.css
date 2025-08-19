@@ -8,7 +8,8 @@
   padding: 2rem;
   background: var(--interviews-header-bg);
   border-bottom: var(--interviews-header-border);
-  border-radius: 8px;
+  /* Используем переменную для радиуса */
+  border-radius: var(--style-new-radius-md);
   flex-wrap: wrap;
   gap: 1rem;
 }
@@ -19,8 +20,10 @@
   font-weight: 600;
   padding: 0.5rem 1rem;
   border: var(--back-link-border);
-  border-radius: 6px;
-  transition: all 0.3s ease;
+  /* Используем переменную для радиуса */
+  border-radius: var(--style-new-radius-sm);
+  /* Используем переменную для перехода */
+  transition: var(--style-new-transition);
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -45,9 +48,11 @@
   padding: 0.8rem 1.5rem;
   font-size: 1rem;
   font-weight: 600;
-  border-radius: 8px;
+  /* Используем переменную для радиуса */
+  border-radius: var(--style-new-radius-md);
   cursor: pointer;
-  transition: all 0.3s ease;
+  /* Используем переменную для перехода */
+  transition: var(--style-new-transition);
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -80,7 +85,8 @@
   background: var(--error-message-bg);
   color: var(--error-message-color);
   padding: 1rem;
-  border-radius: 8px;
+  /* Используем переменную для радиуса */
+  border-radius: var(--style-new-radius-md);
   margin: 2rem;
   border: var(--error-message-border);
   word-break: break-word;
@@ -92,7 +98,8 @@
   border-left: var(--warning-banner-border);
   padding: 1.5rem;
   margin: 2rem;
-  border-radius: 4px;
+  /* Используем переменную для радиуса */
+  border-radius: var(--style-new-radius-sm);
   color: var(--warning-banner-color);
 }
 
@@ -116,7 +123,8 @@
 .offline-warning-banner {
   background: var(--offline-warning-bg);
   border: var(--offline-warning-border);
-  border-radius: 12px;
+  /* Используем переменную для радиуса */
+  border-radius: var(--style-new-radius-lg);
   padding: 24px;
   margin: 20px 0;
   text-align: center;
@@ -133,7 +141,8 @@
   text-align: left;
   background: var(--offline-details-bg);
   padding: 16px;
-  border-radius: 8px;
+  /* Используем переменную для радиуса */
+  border-radius: var(--style-new-radius-md);
   margin: 16px 0;
 }
 
@@ -252,13 +261,15 @@
 .modal-content {
   background-color: var(--modal-content-bg);
   padding: 2rem;
-  border-radius: 8px;
+  /* Используем переменную для радиуса */
+  border-radius: var(--style-new-radius-md);
   box-shadow: var(--modal-content-shadow);
   width: 90%;
   max-width: 800px;
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
+  /* Используем переменную для перехода */
   animation: modal-fade-in 0.3s ease-out;
 }
 
@@ -284,8 +295,10 @@
   font-weight: 300;
   cursor: pointer;
   color: var(--modal-close-btn-color);
-  transition: all 0.3s ease;
+  /* Используем переменную для перехода */
+  transition: var(--style-new-transition);
   padding: 0.5rem;
+  /* Используем переменную для радиуса */
   border-radius: 50%;
   height: 40px;
   width: 40px;

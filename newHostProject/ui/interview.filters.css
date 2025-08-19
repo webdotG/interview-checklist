@@ -8,7 +8,8 @@
   gap: 20px;
   flex-wrap: wrap;
   align-items: center;
-  transition: all 0.3s ease;
+  /* Переход теперь определяется в переменных, чтобы темы могли его переопределять */
+  transition: var(--style-new-transition);
 }
 
 .filters-wrapper {
@@ -37,12 +38,14 @@
 .filter-select {
   padding: 10px 14px;
   border: 1px solid var(--filter-select-border);
-  border-radius: 8px;
+  /* Используем переменную для радиуса, чтобы он менялся в зависимости от темы */
+  border-radius: var(--style-new-radius-md);
   background: var(--filter-select-bg);
   font-size: 14px;
   color: var(--filter-select-color);
   cursor: pointer;
-  transition: all 0.3s ease;
+  /* Переход теперь определяется в переменных */
+  transition: var(--style-new-transition);
   box-shadow: var(--filter-select-shadow);
 }
 
@@ -74,11 +77,13 @@
   color: white;
   border: none;
   padding: 10px 18px;
-  border-radius: 8px;
+  /* Используем переменную для радиуса */
+  border-radius: var(--style-new-radius-md);
   cursor: pointer;
   font-size: 14px;
   font-weight: 600;
-  transition: all 0.3s ease;
+  /* Переход теперь определяется в переменных */
+  transition: var(--style-new-transition);
   box-shadow: var(--clear-filters-btn-shadow);
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -100,11 +105,13 @@
   color: white;
   border: none;
   padding: 10px 18px;
-  border-radius: 8px;
+  /* Используем переменную для радиуса */
+  border-radius: var(--style-new-radius-md);
   cursor: pointer;
   font-size: 14px;
   font-weight: 600;
-  transition: all 0.3s ease;
+  /* Переход теперь определяется в переменных */
+  transition: var(--style-new-transition);
   box-shadow: var(--toggle-filters-btn-shadow);
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -119,7 +126,8 @@
 .filters-summary {
   background: var(--filters-summary-bg);
   border: 1px solid var(--filters-summary-border);
-  border-radius: 6px;
+  /* Используем переменную для радиуса */
+  border-radius: var(--style-new-radius-sm);
   padding: 8px 12px;
   font-size: 13px;
   color: var(--filters-summary-color);
@@ -138,13 +146,15 @@
   background: var(--results-counter-bg);
   color: white;
   padding: 8px 16px;
+  /* Используем переменную для радиуса */
   border-radius: 20px;
   font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   box-shadow: var(--results-counter-shadow);
-  transition: all 0.3s ease;
+  /* Переход теперь определяется в переменных */
+  transition: var(--style-new-transition);
 }
 
 .results-counter.updating {

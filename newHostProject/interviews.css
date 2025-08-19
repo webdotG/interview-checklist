@@ -6,14 +6,14 @@ body {
   color: var(--text-primary);
   background: var(--secondary-gradient);
   min-height: 100vh;
-  padding: 20px;
+  padding: var(--style-new-spacing-md);
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  background: white;
-  border-radius: var(--radius-md);
+  background: var(--container-bg);
+  border-radius: var(--style-new-radius-md);
   box-shadow: var(--container-shadow);
   overflow: hidden;
 }
@@ -26,21 +26,21 @@ body {
   padding: 2rem;
   background: var(--bg-light);
   border-bottom: var(--header-border);
-  border-radius: var(--radius-sm);
+  border-radius: var(--style-new-radius-sm);
   flex-wrap: wrap;
   gap: 1rem;
 }
 
 #theme-selector {
-  padding: 8px 12px;
+  padding: var(--style-new-padding-sm);
   border: 1px solid var(--input-border-color);
-  border-radius: var(--radius-sm);
+  border-radius: var(--style-new-radius-sm);
   background-color: var(--card-bg);
   color: var(--text-primary);
   font-size: 14px;
   cursor: pointer;
   outline: none;
-  transition: all 0.3s ease;
+  transition: var(--style-new-transition);
 }
 
 #theme-selector:hover {
@@ -63,8 +63,8 @@ body {
   font-weight: 600;
   padding: 0.5rem 1rem;
   border: 2px solid var(--accent-color);
-  border-radius: var(--radius-sm);
-  transition: var(--transition);
+  border-radius: var(--style-new-radius-sm);
+  transition: var(--style-new-transition);
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -89,9 +89,9 @@ body {
   padding: 0.8rem 1.5rem;
   font-size: 1rem;
   font-weight: 600;
-  border-radius: var(--radius-sm);
+  border-radius: var(--style-new-radius-sm);
   cursor: pointer;
-  transition: var(--transition);
+  transition: var(--style-new-transition);
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -111,8 +111,8 @@ body {
 .interviews-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 2rem;
-  padding: 2rem;
+  gap: var(--style-new-spacing-lg);
+  padding: var(--style-new-spacing-lg);
 }
 
 /* button.css */
@@ -125,9 +125,9 @@ body {
   font-weight: 600;
   text-align: center;
   text-decoration: none;
-  border-radius: var(--radius-sm);
+  border-radius: var(--style-new-radius-sm);
   cursor: pointer;
-  transition: var(--transition);
+  transition: var(--style-new-transition);
   white-space: nowrap;
   flex-shrink: 0;
   border: 2px solid transparent;
@@ -149,8 +149,8 @@ body {
 .interview-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 1rem;
-  padding: 1.5rem;
+  gap: var(--style-new-spacing-md);
+  padding: var(--style-new-padding-lg);
   background: var(--bg-light);
   border-top: var(--header-border);
 }
@@ -206,7 +206,7 @@ body {
 /* ------------------------------------------------------ адаптивность */
 @media (max-width: 768px) {
   body {
-    padding: 10px;
+    padding: var(--style-new-spacing-sm);
   }
 
   .interviews-header {
@@ -293,7 +293,7 @@ body {
 /* ------------------------------------------------------ мобилки + */
 @media (max-width: 480px) {
   body {
-    padding: 5px;
+    padding: var(--style-new-spacing-xs);
   }
 
   .interviews-header {

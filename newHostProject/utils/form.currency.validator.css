@@ -17,10 +17,12 @@
   width: 100%;
   padding: 12px;
   border: 1px solid var(--input-border-color);
-  border-radius: var(--radius-sm);
+  /* Используем переменную для радиуса */
+  border-radius: var(--style-new-radius-sm);
   font-size: 16px;
   outline: none;
-  transition: border-color 0.3s ease;
+  /* Используем переменную для перехода */
+  transition: var(--style-new-transition);
   background: var(--card-bg);
   color: var(--text-primary);
 }
@@ -48,7 +50,8 @@
 .salary-input-container:focus-within {
   border-color: var(--focus-border-color);
   box-shadow: var(--focus-shadow);
-  border-radius: var(--radius-sm);
+  /* Используем переменную для радиуса */
+  border-radius: var(--style-new-radius-sm);
 }
 
 /* Основной input в контейнере */
@@ -58,10 +61,12 @@
   padding: 12px;
   border: 1px solid var(--input-border-color);
   border-right: none;
-  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+  /* Используем переменную для радиуса */
+  border-radius: var(--style-new-radius-sm) 0 0 var(--style-new-radius-sm);
   font-size: 16px;
   outline: none;
-  transition: border-color 0.3s ease;
+  /* Используем переменную для перехода */
+  transition: var(--style-new-transition);
   color: var(--text-primary);
   background: var(--card-bg);
 }
@@ -80,11 +85,13 @@
   background: var(--card-bg);
   border: 1px solid var(--input-border-color);
   border-left: none;
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  /* Используем переменную для радиуса */
+  border-radius: 0 var(--style-new-radius-sm) var(--style-new-radius-sm) 0;
   cursor: pointer;
   font-size: 16px;
   color: var(--text-primary);
-  transition: all 0.3s ease;
+  /* Используем переменную для перехода */
+  transition: var(--style-new-transition);
   min-width: 60px;
   display: flex;
   align-items: center;
@@ -104,13 +111,15 @@
   right: 0;
   background: var(--card-bg);
   border: 1px solid var(--input-border-color);
-  border-radius: var(--radius-sm);
+  /* Используем переменную для радиуса */
+  border-radius: var(--style-new-radius-sm);
   box-shadow: var(--shadow-lg);
   z-index: 1000;
   width: 280px;
   max-height: 400px;
   overflow-y: auto;
   display: none;
+  /* Используем переменную для перехода */
   animation: fadeIn 0.2s ease-out;
 }
 
@@ -148,6 +157,7 @@
 
 .dropdown-arrow {
   font-size: 10px;
+  /* Используем переменную для перехода */
   transition: transform 0.2s ease;
 }
 
@@ -161,7 +171,8 @@
   padding: 10px 16px;
   gap: 12px;
   cursor: pointer;
-  transition: background 0.2s;
+  /* Используем переменную для перехода */
+  transition: var(--style-new-transition);
 }
 
 .currency-option:hover {
@@ -172,7 +183,8 @@
   width: 24px;
   height: 16px;
   object-fit: cover;
-  border-radius: 2px;
+  /* Используем переменную для радиуса */
+  border-radius: var(--style-new-radius-xs);
   flex-shrink: 0;
   object-fit: contain;
 }
@@ -181,6 +193,7 @@
 .currency-flag.crypto {
   width: 24px;
   height: 24px;
+  /* Используем переменную для радиуса */
   border-radius: 50%;
 }
 
@@ -188,13 +201,15 @@
   width: 24px;
   height: 16px;
   background: var(--placeholder-bg);
-  border-radius: 2px;
+  /* Используем переменную для радиуса */
+  border-radius: var(--style-new-radius-xs);
   flex-shrink: 0;
 }
 
 .crypto-placeholder {
   width: 24px;
   height: 24px;
+  /* Используем переменную для радиуса */
   border-radius: 50%;
   background: var(--dropdown-hover-bg);
 }
@@ -240,6 +255,7 @@
 
 .crypto-submenu.active {
   display: block;
+  /* Используем переменную для перехода */
   animation: slideDown 0.2s ease-out;
 }
 

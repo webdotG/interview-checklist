@@ -1,5 +1,6 @@
 @import "./variables.css";
 
+/* Сброс стандартных отступов и установка box-sizing */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -9,22 +10,44 @@
 body {
   font-family: -apple-system, Roboto, sans-serif;
   line-height: 1.6;
-  color: var(--text-color);
-  background: var(--body-bg);
+  color: var(--text-primary);
+  background: var(--secondary-gradient);
   min-height: 100vh;
-  padding: 20px;
+  padding: var(--style-new-spacing-md);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: var(--container-bg);
+  border-radius: var(--style-new-radius-md);
+  box-shadow: var(--container-shadow);
+  overflow: hidden;
+}
+
+/* ------------------------------------------------------ шапка интервью */
+.interviews-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  background: var(--bg-light);
+  border-bottom: var(--header-border);
+  border-radius: var(--style-new-radius-sm);
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 #theme-selector {
-  padding: 8px 12px;
+  padding: var(--style-new-padding-sm);
   border: 1px solid var(--input-border-color);
-  border-radius: var(--radius-sm);
+  border-radius: var(--style-new-radius-sm);
   background-color: var(--card-bg);
   color: var(--text-primary);
   font-size: 14px;
   cursor: pointer;
   outline: none;
-  transition: all 0.3s ease;
+  transition: var(--style-new-transition);
 }
 
 #theme-selector:hover {
@@ -41,7 +64,145 @@ body {
   color: var(--text-primary);
 }
 
+.back-link {
+  color: var(--accent-color);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--accent-color);
+  border-radius: var(--style-new-radius-sm);
+  transition: var(--style-new-transition);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
 
+.back-link:hover {
+  background: var(--accent-color);
+  color: white;
+}
+
+.interviews-header h1 {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 1.8rem;
+  text-align: center;
+  flex-grow: 1;
+}
+
+.load-btn {
+  background: var(--primary-gradient);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: var(--style-new-radius-sm);
+  cursor: pointer;
+  transition: var(--style-new-transition);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.load-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--load-btn-hover-shadow);
+}
+
+.load-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ------------------------------------------------------ сетка интервью */
+.interviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--style-new-spacing-lg);
+  padding: var(--style-new-spacing-lg);
+}
+
+/* button.css */
+
+/* ------------------------------------------------------ Базовые стили для кнопок */
+.btn {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  border-radius: var(--style-new-radius-sm);
+  cursor: pointer;
+  transition: var(--style-new-transition);
+  white-space: nowrap;
+  flex-shrink: 0;
+  border: 2px solid transparent;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--btn-hover-shadow);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ------------------------------------------------------ Стили для кнопок в карточке */
+.interview-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--style-new-spacing-md);
+  padding: var(--style-new-padding-lg);
+  background: var(--bg-light);
+  border-top: var(--header-border);
+}
+
+/* ------------------------------------------------------ Основная кнопка */
+.btn--primary {
+  background: var(--primary-gradient);
+  color: white;
+}
+
+.btn--primary:hover {
+  background: var(--primary-gradient-hover);
+}
+
+/* ------------------------------------------------------ второстепенная кнопка */
+.btn--secondary {
+  background: transparent;
+  color: var(--btn-secondary-color);
+  border-color: var(--btn-secondary-border);
+}
+
+.btn--secondary:hover {
+  background: var(--btn-secondary-hover-bg);
+  color: var(--text-primary);
+  border-color: var(--btn-secondary-hover-border);
+}
+
+/* ------------------------------------------------------ кнопки меньшего размера */
+.btn--small {
+  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
+}
+
+/* ------------------------------------------------------ кнопки в модальном окне */
+.modal-footer .btn--secondary {
+  background: var(--modal-btn-bg);
+  color: white;
+  border: none;
+}
+
+.modal-footer .btn--secondary:hover {
+  background: var(--modal-btn-hover-bg);
+}
+
+/* ------------------------------------------------------ навигация шапки */
 .header-nav {
   background: var(--header-bg);
   padding: 1rem 2rem;
@@ -67,8 +228,8 @@ body {
   font-weight: 600;
   padding: 0.5rem 1rem;
   border: var(--nav-link-border);
-  border-radius: 6px;
-  transition: all 0.3s ease;
+  border-radius: var(--style-new-radius-sm);
+  transition: var(--style-new-transition);
   font-size: 0.9rem;
   white-space: nowrap;
 }
@@ -87,23 +248,15 @@ body {
   text-align: center;
   margin-top: 0.5rem;
   letter-spacing: 0.5px;
-  transition: all 0.3s ease;
+  transition: var(--style-new-transition);
 }
 
 .questions-counter:hover {
   color: rgba(255, 255, 255, 1);
   transform: translateY(-1px);
 }
-/* ------------------------------------------------------ мэйн */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  background: var(--container-bg);
-  border-radius: 12px;
-  box-shadow: var(--container-shadow);
-  overflow: hidden;
-}
 
+/* ------------------------------------------------------ мэйн */
 h1 {
   color: var(--header-h1-color);
   text-align: center;
@@ -141,9 +294,9 @@ h1 {
 .input-group input {
   padding: 12px 16px;
   border: var(--input-border);
-  border-radius: 8px;
+  border-radius: var(--style-new-radius-sm);
   font-size: 1.2rem;
-  transition: all 0.3s ease;
+  transition: var(--style-new-transition);
   background: var(--container-bg);
   width: 100%;
 }
@@ -193,10 +346,10 @@ h1 {
 .question {
   background: var(--question-bg);
   border: var(--question-border);
-  border-radius: 8px;
+  border-radius: var(--style-new-radius-sm);
   padding: 1rem;
   margin-bottom: 1rem;
-  transition: all 0.3s ease;
+  transition: var(--style-new-transition);
   position: relative;
 }
 
@@ -204,7 +357,7 @@ h1 {
   background: var(--question-hover-bg);
   border-color: var(--question-hover-border);
   transform: translateX(4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-sm);
 }
 
 .question label {
@@ -235,11 +388,12 @@ h1 {
   width: 100%;
   padding: 10px 14px;
   border: var(--input-text-border);
-  border-radius: 6px;
+  border-radius: var(--style-new-radius-xs);
   font-size: 1rem;
   line-height: 1.2rem;
-  background: white;
-  transition: all 0.2s ease;
+  background: var(--card-bg);
+  transition: var(--style-new-transition);
+  color: var(--text-primary);
 }
 
 .question input[type='text']:focus {
@@ -257,7 +411,7 @@ h1 {
   background: var(--warnings-bg);
   color: white;
   padding: 2rem;
-  border-radius: 12px;
+  border-radius: var(--style-new-radius-md);
   margin-top: 2rem;
 }
 
@@ -266,6 +420,7 @@ h1 {
   border-bottom-color: var(--warnings-border-color) !important;
   font-size: 1.6rem;
   margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 .warnings-list {
@@ -277,10 +432,10 @@ h1 {
   background: var(--warnings-li-bg);
   padding: 1rem 1.5rem;
   margin-bottom: 0.8rem;
-  border-radius: 8px;
+  border-radius: var(--style-new-radius-sm);
   border-left: var(--warnings-li-border-left);
   font-weight: 500;
-  transition: all 0.3s ease;
+  transition: var(--style-new-transition);
   position: relative;
   word-break: break-word;
 }
@@ -304,12 +459,12 @@ h1 {
   padding: 1rem 2rem;
   font-size: 1.1rem;
   font-weight: 600;
-  border-radius: 8px;
+  border-radius: var(--style-new-radius-sm);
   cursor: pointer;
-  transition: all 0.3s ease;
-  margin: 2rem;
+  transition: var(--style-new-transition);
+  margin: var(--style-new-spacing-lg);
   display: block;
-  width: calc(100% - 4rem);
+  width: calc(100% - var(--style-new-spacing-xxl));
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -329,12 +484,12 @@ h1 {
   background: var(--success-msg-bg);
   color: white;
   padding: 1rem 2rem;
-  margin: 1rem 2rem;
-  border-radius: 8px;
+  margin: 1rem var(--style-new-spacing-lg);
+  border-radius: var(--style-new-radius-sm);
   text-align: center;
   font-weight: 600;
   opacity: 1;
-  transition: all 0.3s ease;
+  transition: var(--style-new-transition);
   box-shadow: var(--success-msg-shadow);
 }
 
@@ -347,7 +502,7 @@ h1 {
 /* ------------------------------------------------------ адаптивность */
 @media (max-width: 768px) {
   body {
-    padding: 10px;
+    padding: var(--style-new-spacing-sm);
   }
 
   .header-nav {
@@ -436,7 +591,7 @@ h1 {
 
 @media (max-width: 480px) {
   body {
-    padding: 5px;
+    padding: var(--style-new-spacing-xs);
   }
 
   .header-nav {
@@ -444,7 +599,7 @@ h1 {
   }
 
   .header-nav h1 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
 
   .nav-link {
@@ -595,18 +750,17 @@ h1 {
 }
 
 /* ---------------------------------------------------------- валид форм инпут */
-
 .validation-hint {
   font-size: 12px;
   margin-top: 4px;
   padding: 6px 8px;
   border-radius: 4px;
-  background: #f8f9fa;
-  border: 1px solid #dee2e6;
-  color: #6c757d;
+  background: var(--validation-hint-bg);
+  border: 1px solid var(--validation-hint-border);
+  color: var(--validation-hint-color);
   opacity: 0;
   transform: translateY(-5px);
-  transition: all 0.3s ease;
+  transition: var(--style-new-transition);
   pointer-events: none;
 }
 
@@ -616,20 +770,20 @@ h1 {
 }
 
 .validation-hint.error {
-  background: #f8d7da;
-  border-color: #f5c6cb;
-  color: #721c24;
+  background: var(--validation-hint-error-bg);
+  border-color: var(--validation-hint-error-border);
+  color: var(--validation-hint-error-color);
 }
 
 .validation-hint.success {
-  background: #d4edda;
-  border-color: #c3e6cb;
-  color: #155724;
+  background: var(--validation-hint-success-bg);
+  border-color: var(--validation-hint-success-border);
+  color: var(--validation-hint-success-color);
 }
 
 input.valid {
-  border-color: #28a745 !important;
-  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+  border-color: var(--valid-input-border) !important;
+  box-shadow: var(--valid-input-shadow);
 }
 
 input.invalid {
@@ -642,19 +796,18 @@ input.invalid:focus {
 }
 
 /* ---------------------------------------------------------- уведомления  */
-
 .notification {
   position: fixed;
   top: 20px;
   right: 20px;
   padding: 12px 24px;
-  border-radius: 6px;
+  border-radius: var(--style-new-radius-xs);
   color: white;
   font-weight: 500;
   z-index: 1000;
   transform: translateX(400px);
   opacity: 0;
-  transition: all 0.3s ease;
+  transition: var(--style-new-transition);
 }
 
 .notification--show {
@@ -668,16 +821,16 @@ input.invalid:focus {
 }
 
 .notification--success {
-  background: #10b981;
+  background: var(--notification-success);
 }
 .notification--error {
-  background: #ef4444;
+  background: var(--notification-error);
 }
 .notification--warning {
-  background: #f59e0b;
+  background: var(--notification-warning);
 }
 .notification--info {
-  background: #3b82f6;
+  background: var(--notification-info);
 }
 
 .auth-warning--highlighted {
@@ -699,8 +852,8 @@ input.invalid:focus {
   align-items: center;
   gap: 12px;
   padding: 8px 12px;
-  background: #f3f4f6;
-  border-radius: 6px;
+  background: var(--user-info-bg);
+  border-radius: var(--style-new-radius-xs);
   font-size: 14px;
 }
 
@@ -710,10 +863,10 @@ input.invalid:focus {
 }
 
 .error {
-  border-color: #ef4444 !important;
-  background-color: #fef2f2;
+  border-color: var(--error-border) !important;
+  background-color: var(--error-bg);
 }
 
 .error:focus {
-  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+  box-shadow: var(--error-focus-shadow);
 }
